@@ -98,6 +98,7 @@
 
     <!-- Insert demo user -->
     <changeSet id="2" author="martin">
+        <validCheckSum>9:d856c9246ad7e4ac60ad8545b785f169</validCheckSum>
         <insert tableName="users">
             <column name="id" value="550e8400-e29b-41d4-a716-446655440000"/>
             <column name="username" value="admin"/>
