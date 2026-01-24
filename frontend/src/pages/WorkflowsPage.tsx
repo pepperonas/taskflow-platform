@@ -124,7 +124,7 @@ const WorkflowsPage: React.FC = () => {
             <Button
               variant="contained"
               startIcon={<AddIcon />}
-              onClick={() => alert('Workflow Builder coming soon! Backend is ready.')}
+              onClick={() => navigate('/workflows/new')}
             >
               Create Workflow
             </Button>
