@@ -9,6 +9,7 @@ import DashboardPage from './pages/DashboardPage';
 import TaskDetailPage from './pages/TaskDetailPage';
 import WorkflowsPage from './pages/WorkflowsPage';
 import CreateWorkflowPage from './pages/CreateWorkflowPage';
+import WorkflowEditorPage from './pages/WorkflowEditorPage';
 import PrivateRoute from './components/common/PrivateRoute';
 
 const theme = createTheme({
@@ -49,10 +50,18 @@ function App() {
               }
             />
             <Route
+              path="/workflows/:id/edit"
+              element={
+                <PrivateRoute>
+                  <WorkflowEditorPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
               path="/workflows/new"
               element={
                 <PrivateRoute>
-                  <CreateWorkflowPage />
+                  <WorkflowEditorPage />
                 </PrivateRoute>
               }
             />

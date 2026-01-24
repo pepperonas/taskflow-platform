@@ -20,6 +20,7 @@ import {
   Add as AddIcon,
   ArrowBack as ArrowBackIcon,
   PlayArrow as PlayIcon,
+  Edit as EditIcon,
 } from '@mui/icons-material';
 import axios from 'axios';
 
@@ -160,14 +161,28 @@ const WorkflowsPage: React.FC = () => {
                   key={workflow.id}
                   disablePadding
                   secondaryAction={
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      startIcon={<PlayIcon />}
-                      onClick={(e) => handleExecuteWorkflow(workflow.id, e)}
-                    >
-                      Execute
-                    </Button>
+                    <>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<EditIcon />}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/workflows/${workflow.id}/edit`);
+                        }}
+                        sx={{ mr: 1 }}
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        startIcon={<PlayIcon />}
+                        onClick={(e) => handleExecuteWorkflow(workflow.id, e)}
+                      >
+                        Execute
+                      </Button>
+                    </>
                   }
                 >
                   <ListItemButton>
