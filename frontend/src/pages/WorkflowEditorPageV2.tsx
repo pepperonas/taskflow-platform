@@ -13,6 +13,8 @@ import ReactFlow, {
   BackgroundVariant,
   NodeTypes,
   MarkerType,
+  Handle,
+  Position,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import {
@@ -48,6 +50,7 @@ const TriggerNode = ({ data }: any) => (
       <span style={{ fontSize: '20px' }}>⚡</span>
       <span style={{ fontWeight: 600, fontSize: '14px' }}>{data.label || 'Trigger'}</span>
     </div>
+    <Handle type="source" position={Position.Bottom} style={{ background: '#10b981' }} />
   </div>
 );
 
@@ -62,6 +65,7 @@ const CreateTaskNode = ({ data }: any) => (
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
     }}
   >
+    <Handle type="target" position={Position.Top} style={{ background: '#3b82f6' }} />
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <span style={{ fontSize: '20px' }}>📝</span>
       <span style={{ fontWeight: 600, fontSize: '14px' }}>{data.label || 'Create Task'}</span>
@@ -71,6 +75,7 @@ const CreateTaskNode = ({ data }: any) => (
         <div style={{ fontSize: '12px', color: '#6b7280' }}>{data.title}</div>
       </div>
     )}
+    <Handle type="source" position={Position.Bottom} style={{ background: '#3b82f6' }} />
   </div>
 );
 
@@ -85,10 +90,13 @@ const ConditionNode = ({ data }: any) => (
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
     }}
   >
+    <Handle type="target" position={Position.Top} style={{ background: '#f59e0b' }} />
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <span style={{ fontSize: '20px' }}>🔀</span>
       <span style={{ fontWeight: 600, fontSize: '14px' }}>{data.label || 'Condition'}</span>
     </div>
+    <Handle type="source" position={Position.Bottom} id="true" style={{ left: '30%', background: '#10b981' }} />
+    <Handle type="source" position={Position.Bottom} id="false" style={{ left: '70%', background: '#ef4444' }} />
   </div>
 );
 
@@ -103,10 +111,12 @@ const DelayNode = ({ data }: any) => (
       boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
     }}
   >
+    <Handle type="target" position={Position.Top} style={{ background: '#8b5cf6' }} />
     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
       <span style={{ fontSize: '20px' }}>⏱️</span>
       <span style={{ fontWeight: 600, fontSize: '14px' }}>{data.label || 'Delay'}</span>
     </div>
+    <Handle type="source" position={Position.Bottom} style={{ background: '#8b5cf6' }} />
   </div>
 );
 
