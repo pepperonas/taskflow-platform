@@ -92,12 +92,6 @@ import UpdateTaskNode from './nodes/UpdateTaskNode.vue';
 import ConditionNode from './nodes/ConditionNode.vue';
 import DelayNode from './nodes/DelayNode.vue';
 
-// Styles
-import '@vue-flow/core/dist/style.css';
-import '@vue-flow/core/dist/theme-default.css';
-import '@vue-flow/controls/dist/style.css';
-import '@vue-flow/minimap/dist/style.css';
-
 const workflowStore = useWorkflowStore();
 const { project, screenToFlowCoordinate } = useVueFlow();
 
