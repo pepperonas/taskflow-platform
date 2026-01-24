@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="taskflow-logo.png" alt="TaskFlow Platform" width="600"/>
+<img src="https://raw.githubusercontent.com/pepperonas/taskflow-platform/main/taskflow-logo.png" alt="TaskFlow Platform" width="600"/>
 
 **Modern Event-Driven Task Management System**
 
