@@ -19,7 +19,7 @@ import { AppDispatch } from '../../store';
 interface TaskListProps {
   tasks: Task[];
   loading: boolean;
-  error?: string;
+  error?: string | null;
 }
 
 const TaskList: React.FC<TaskListProps> = ({ tasks, loading, error }) => {
