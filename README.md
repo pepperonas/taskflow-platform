@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![TaskFlow Logo](https://via.placeholder.com/150x150/1976d2/ffffff?text=TaskFlow)
+<img src="taskflow-logo.png" alt="TaskFlow Platform" width="600"/>
 
 **Modern Event-Driven Task Management System**
 

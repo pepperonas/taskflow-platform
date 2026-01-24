@@ -8,6 +8,7 @@ import {
   CircularProgress,
   Box,
   Typography,
+  Alert,
 } from '@mui/material';
 import { Delete as DeleteIcon, Edit as EditIcon } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
@@ -18,9 +19,10 @@ import { AppDispatch } from '../../store';
 interface TaskListProps {
   tasks: Task[];
   loading: boolean;
+  error?: string;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, loading }) => {
+const TaskList: React.FC<TaskListProps> = ({ tasks, loading, error }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleDelete = (id: string) => {
@@ -58,6 +60,14 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, loading }) => {
       <Box display="flex" justifyContent="center" p={4}>
         <CircularProgress />
       </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert severity="error" sx={{ mb: 2 }}>
+        {error}
+      </Alert>
     );
   }
 

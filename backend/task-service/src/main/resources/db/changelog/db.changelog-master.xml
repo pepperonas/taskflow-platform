@@ -124,4 +124,204 @@
             <column name="created_at" valueDate="now()"/>
         </insert>
     </changeSet>
+
+    <!-- Insert demo tasks -->
+    <changeSet id="3" author="martin">
+        <insert tableName="tasks">
+            <column name="id" value="770e8400-e29b-41d4-a716-446655440001"/>
+            <column name="title" value="Setup CI/CD Pipeline"/>
+            <column name="description" value="Configure GitHub Actions for automated testing and deployment"/>
+            <column name="status" value="IN_PROGRESS"/>
+            <column name="priority" value="HIGH"/>
+            <column name="category" value="DEVELOPMENT"/>
+            <column name="assignee_id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="due_date" valueDate="2026-02-01"/>
+            <column name="created_at" valueDate="2026-01-20"/>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="id" value="770e8400-e29b-41d4-a716-446655440002"/>
+            <column name="title" value="Review Pull Request #42"/>
+            <column name="description" value="Code review for new authentication module"/>
+            <column name="status" value="OPEN"/>
+            <column name="priority" value="MEDIUM"/>
+            <column name="category" value="CODE_REVIEW"/>
+            <column name="assignee_id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="due_date" valueDate="2026-01-26"/>
+            <column name="created_at" valueDate="2026-01-22"/>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="id" value="770e8400-e29b-41d4-a716-446655440003"/>
+            <column name="title" value="Update Project Documentation"/>
+            <column name="description" value="Add API documentation and deployment guide"/>
+            <column name="status" value="OPEN"/>
+            <column name="priority" value="LOW"/>
+            <column name="category" value="DOCUMENTATION"/>
+            <column name="assignee_id" value="660e8400-e29b-41d4-a716-446655440000"/>
+            <column name="due_date" valueDate="2026-02-10"/>
+            <column name="created_at" valueDate="2026-01-23"/>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="id" value="770e8400-e29b-41d4-a716-446655440004"/>
+            <column name="title" value="Fix Memory Leak in Worker Service"/>
+            <column name="description" value="Investigate and fix memory leak causing OOM errors in production"/>
+            <column name="status" value="IN_PROGRESS"/>
+            <column name="priority" value="CRITICAL"/>
+            <column name="category" value="BUG"/>
+            <column name="assignee_id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="due_date" valueDate="2026-01-25"/>
+            <column name="created_at" valueDate="2026-01-24"/>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="id" value="770e8400-e29b-41d4-a716-446655440005"/>
+            <column name="title" value="Deploy to Staging Environment"/>
+            <column name="description" value="Deploy latest changes to staging for QA testing"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="priority" value="HIGH"/>
+            <column name="category" value="DEPLOYMENT"/>
+            <column name="assignee_id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="due_date" valueDate="2026-01-23"/>
+            <column name="created_at" valueDate="2026-01-20"/>
+            <column name="completed_at" valueDate="2026-01-23"/>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="id" value="770e8400-e29b-41d4-a716-446655440006"/>
+            <column name="title" value="Design Database Schema for Workflows"/>
+            <column name="description" value="Create ERD and define tables for workflow automation feature"/>
+            <column name="status" value="OPEN"/>
+            <column name="priority" value="HIGH"/>
+            <column name="category" value="DESIGN"/>
+            <column name="assignee_id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="due_date" valueDate="2026-01-28"/>
+            <column name="created_at" valueDate="2026-01-21"/>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="id" value="770e8400-e29b-41d4-a716-446655440007"/>
+            <column name="title" value="Team Meeting - Sprint Planning"/>
+            <column name="description" value="Plan tasks and objectives for next sprint"/>
+            <column name="status" value="COMPLETED"/>
+            <column name="priority" value="MEDIUM"/>
+            <column name="category" value="MEETING"/>
+            <column name="assignee_id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="due_date" valueDate="2026-01-22"/>
+            <column name="created_at" valueDate="2026-01-21"/>
+            <column name="completed_at" valueDate="2026-01-22"/>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="id" value="770e8400-e29b-41d4-a716-446655440008"/>
+            <column name="title" value="Optimize Database Queries"/>
+            <column name="description" value="Add indexes and refactor slow queries identified in monitoring"/>
+            <column name="status" value="OPEN"/>
+            <column name="priority" value="MEDIUM"/>
+            <column name="category" value="OPTIMIZATION"/>
+            <column name="due_date" valueDate="2026-02-05"/>
+            <column name="created_at" valueDate="2026-01-24"/>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="id" value="770e8400-e29b-41d4-a716-446655440009"/>
+            <column name="title" value="Security Audit"/>
+            <column name="description" value="Perform security audit and penetration testing"/>
+            <column name="status" value="OPEN"/>
+            <column name="priority" value="HIGH"/>
+            <column name="category" value="SECURITY"/>
+            <column name="assignee_id" value="660e8400-e29b-41d4-a716-446655440000"/>
+            <column name="due_date" valueDate="2026-02-15"/>
+            <column name="created_at" valueDate="2026-01-23"/>
+        </insert>
+
+        <insert tableName="tasks">
+            <column name="id" value="770e8400-e29b-41d4-a716-446655440010"/>
+            <column name="title" value="Implement Dark Mode"/>
+            <column name="description" value="Add dark mode theme support to frontend application"/>
+            <column name="status" value="IN_PROGRESS"/>
+            <column name="priority" value="LOW"/>
+            <column name="category" value="FEATURE"/>
+            <column name="assignee_id" value="660e8400-e29b-41d4-a716-446655440000"/>
+            <column name="due_date" valueDate="2026-02-20"/>
+            <column name="created_at" valueDate="2026-01-22"/>
+        </insert>
+    </changeSet>
+
+    <!-- Create workflow tables -->
+    <changeSet id="4" author="martin">
+        <createTable tableName="workflows">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(1000)"/>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="owner_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="nodes_json" type="jsonb"/>
+            <column name="edges_json" type="jsonb"/>
+            <column name="triggers_json" type="jsonb"/>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="workflows"
+                baseColumnNames="owner_id"
+                constraintName="fk_workflows_owner"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+
+        <createIndex tableName="workflows" indexName="idx_workflows_owner">
+            <column name="owner_id"/>
+        </createIndex>
+
+        <createIndex tableName="workflows" indexName="idx_workflows_status">
+            <column name="status"/>
+        </createIndex>
+
+        <createTable tableName="workflow_executions">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="workflow_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="execution_log" type="jsonb"/>
+            <column name="error_details" type="text"/>
+            <column name="executed_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="completed_at" type="timestamp"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="workflow_executions"
+                baseColumnNames="workflow_id"
+                constraintName="fk_executions_workflow"
+                referencedTableName="workflows"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+
+        <createIndex tableName="workflow_executions" indexName="idx_executions_workflow">
+            <column name="workflow_id"/>
+        </createIndex>
+
+        <createIndex tableName="workflow_executions" indexName="idx_executions_status">
+            <column name="status"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

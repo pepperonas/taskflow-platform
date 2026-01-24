@@ -23,7 +23,7 @@ const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const { user } = useSelector((state: RootState) => state.auth);
-  const { tasks, loading } = useSelector((state: RootState) => state.tasks);
+  const { tasks, loading, error } = useSelector((state: RootState) => state.tasks);
   const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const DashboardPage: React.FC = () => {
               <Typography variant="h5" gutterBottom>
                 My Tasks
               </Typography>
-              <TaskList tasks={tasks} loading={loading} />
+              <TaskList tasks={tasks} loading={loading} error={error} />
             </Paper>
           </Grid>
         </Grid>
