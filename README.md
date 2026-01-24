@@ -13,6 +13,11 @@
 [![Kafka](https://img.shields.io/badge/Apache%20Kafka-7.5-black)](https://kafka.apache.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
+### 🌐 [Live Demo](https://taskflow.celox.io)
+
+**Try it now**: [https://taskflow.celox.io](https://taskflow.celox.io)
+**Login**: `admin` / `admin123` or `demo` / `demo123`
+
 </div>
 
 ## 🚀 Features
@@ -96,14 +101,20 @@ docker-compose up -d
 
 ### 3. Access the Application
 
-- **Frontend**: http://localhost:3001
+**Production (Live Demo)**:
+- **Frontend**: https://taskflow.celox.io
+- **Backend API**: https://taskflow.celox.io/api
+- **Swagger UI**: https://taskflow.celox.io/swagger-ui.html
+
+**Local Development**:
+- **Frontend**: http://localhost:8090
 - **Backend API**: http://localhost:8080/api
 - **Swagger UI**: http://localhost:8080/swagger-ui.html
 
 ### Default Credentials
 
-- **Username**: `admin` / **Password**: `admin123`
-- **Username**: `demo` / **Password**: `demo123`
+- **Admin**: `admin` / `admin123`
+- **Demo User**: `demo` / `demo123`
 
 ## 🧪 Testing
 
@@ -130,7 +141,9 @@ mvn verify
 
 ## 📚 API Documentation
 
-Visit the Swagger UI at: http://localhost:8080/swagger-ui.html
+**Live Demo**: [https://taskflow.celox.io/swagger-ui.html](https://taskflow.celox.io/swagger-ui.html)
+
+**Local Development**: http://localhost:8080/swagger-ui.html
 
 ### Main Endpoints
 
@@ -140,6 +153,18 @@ Visit the Swagger UI at: http://localhost:8080/swagger-ui.html
 - `POST /api/v1/tasks` - Create task
 - `PUT /api/v1/tasks/{id}` - Update task
 - `DELETE /api/v1/tasks/{id}` - Delete task
+
+## 🌍 Production Deployment
+
+The application is deployed and running at **[https://taskflow.celox.io](https://taskflow.celox.io)**
+
+**Infrastructure**:
+- ✅ HTTPS with Let's Encrypt SSL
+- ✅ Nginx Reverse Proxy
+- ✅ Docker Compose Orchestration
+- ✅ PostgreSQL 15 Database
+- ✅ Apache Kafka Event Streaming
+- ✅ Automated Certificate Renewal
 
 ## 🐳 Docker Deployment
 
