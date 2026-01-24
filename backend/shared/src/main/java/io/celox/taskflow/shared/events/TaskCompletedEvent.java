@@ -9,7 +9,6 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class TaskCompletedEvent extends TaskEvent {
     private UUID taskId;
