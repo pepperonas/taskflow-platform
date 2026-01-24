@@ -88,9 +88,7 @@ services:
   frontend:
     build:
       context: ../../frontend
-      dockerfile: Dockerfile
-      args:
-        REACT_APP_API_URL: https://taskflow.celox.io/api
+      dockerfile: Dockerfile.fast
     ports:
       - "8090:80"
     depends_on:
