@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="1" author="martin">
+        <createTable tableName="users">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="username" type="varchar(50)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="email" type="varchar(100)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="varchar(50)"/>
+            <column name="last_name" type="varchar(50)"/>
+            <column name="avatar" type="varchar(255)"/>
+            <column name="role" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="enabled" type="boolean" defaultValueBoolean="true">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
+        </createTable>
+
+        <createTable tableName="tasks">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="title" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="varchar(2000)"/>
+            <column name="status" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="priority" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="category" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="assignee_id" type="uuid"/>
+            <column name="due_date" type="timestamp"/>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="timestamp"/>
+            <column name="completed_at" type="timestamp"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="tasks"
+                baseColumnNames="assignee_id"
+                constraintName="fk_tasks_assignee"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                onDelete="SET NULL"/>
+
+        <createTable tableName="task_tags">
+            <column name="task_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tag" type="varchar(50)"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="task_tags"
+                baseColumnNames="task_id"
+                constraintName="fk_task_tags_task"
+                referencedTableName="tasks"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+
+        <createIndex tableName="tasks" indexName="idx_tasks_status">
+            <column name="status"/>
+        </createIndex>
+
+        <createIndex tableName="tasks" indexName="idx_tasks_assignee">
+            <column name="assignee_id"/>
+        </createIndex>
+
+        <createIndex tableName="tasks" indexName="idx_tasks_due_date">
+            <column name="due_date"/>
+        </createIndex>
+    </changeSet>
+
+    <!-- Insert demo user -->
+    <changeSet id="2" author="martin">
+        <insert tableName="users">
+            <column name="id" value="550e8400-e29b-41d4-a716-446655440000"/>
+            <column name="username" value="admin"/>
+            <column name="email" value="admin@taskflow.io"/>
+            <!-- Password: admin123 (BCrypt) -->
+            <column name="password" value="$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG"/>
+            <column name="first_name" value="Admin"/>
+            <column name="last_name" value="User"/>
+            <column name="role" value="ADMIN"/>
+            <column name="enabled" valueBoolean="true"/>
+            <column name="created_at" valueDate="now()"/>
+        </insert>
+
+        <insert tableName="users">
+            <column name="id" value="660e8400-e29b-41d4-a716-446655440000"/>
+            <column name="username" value="demo"/>
+            <column name="email" value="demo@taskflow.io"/>
+            <!-- Password: demo123 (BCrypt) -->
+            <column name="password" value="$2a$10$3TvXLHN9wXhG3J5uVJXP.eW5CKbXobN.XQSE8CmJAzCXTXGP8VJTS"/>
+            <column name="first_name" value="Demo"/>
+            <column name="last_name" value="User"/>
+            <column name="role" value="USER"/>
+            <column name="enabled" valueBoolean="true"/>
+            <column name="created_at" valueDate="now()"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
