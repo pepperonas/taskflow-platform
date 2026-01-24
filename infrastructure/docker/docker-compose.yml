@@ -90,7 +90,7 @@ services:
       context: ../../frontend
       dockerfile: Dockerfile
     ports:
-      - "3001:80"
+      - "8090:80"
     depends_on:
       - task-service
     networks:
