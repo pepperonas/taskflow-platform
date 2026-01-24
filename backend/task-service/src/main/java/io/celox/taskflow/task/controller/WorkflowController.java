@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -94,6 +95,18 @@ public class WorkflowController {
     })
     public ResponseEntity<WorkflowDto> deactivateWorkflow(@PathVariable UUID id) {
         return ResponseEntity.ok(workflowService.deactivateWorkflow(id));
+    }
+
+    @PostMapping("/{id}/execute")
+    @Operation(summary = "Execute a workflow manually")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Workflow execution started"),
+            @ApiResponse(responseCode = "404", description = "Workflow not found")
+    })
+    public ResponseEntity<WorkflowExecutionDto> executeWorkflow(
+            @PathVariable UUID id,
+            @RequestBody(required = false) Map<String, Object> triggerData) {
+        return ResponseEntity.ok(workflowService.executeWorkflow(id, triggerData));
     }
 
     @DeleteMapping("/{id}")

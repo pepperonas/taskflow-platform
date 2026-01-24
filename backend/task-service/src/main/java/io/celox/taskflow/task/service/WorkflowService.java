@@ -13,12 +13,14 @@ import io.celox.taskflow.task.mapper.WorkflowMapper;
 import io.celox.taskflow.task.repository.UserRepository;
 import io.celox.taskflow.task.repository.WorkflowRepository;
 import io.celox.taskflow.task.repository.WorkflowExecutionRepository;
+import io.celox.taskflow.task.workflow.WorkflowExecutionEngine;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,6 +33,7 @@ public class WorkflowService {
     private final WorkflowExecutionRepository executionRepository;
     private final UserRepository userRepository;
     private final WorkflowMapper workflowMapper;
+    private final WorkflowExecutionEngine executionEngine;
 
     @Transactional(readOnly = true)
     public List<WorkflowDto> getAllWorkflows() {
@@ -132,6 +135,20 @@ public class WorkflowService {
         return executionRepository.findByWorkflowId(workflowId).stream()
                 .map(workflowMapper::toExecutionDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public WorkflowExecutionDto executeWorkflow(UUID workflowId, Map<String, Object> triggerData) {
+        log.info("Executing workflow: {}", workflowId);
+
+        // Verify workflow exists
+        Workflow workflow = workflowRepository.findById(workflowId)
+                .orElseThrow(() -> new ResourceNotFoundException("Workflow not found with id: " + workflowId));
+
+        // Execute workflow
+        WorkflowExecution execution = executionEngine.executeWorkflow(workflowId, triggerData);
+
+        return workflowMapper.toExecutionDto(execution);
     }
 
     @Transactional(readOnly = true)
