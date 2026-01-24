@@ -89,6 +89,8 @@ services:
     build:
       context: ../../frontend
       dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: http://69.62.121.168:8080/api
     ports:
       - "8090:80"
     depends_on:
