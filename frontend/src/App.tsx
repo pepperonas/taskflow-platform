@@ -8,7 +8,7 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import TaskDetailPage from './pages/TaskDetailPage';
 import WorkflowsPage from './pages/WorkflowsPage';
-import WorkflowEditorPage from './pages/WorkflowEditorPage';
+import WorkflowEditorPageV2 from './pages/WorkflowEditorPageV2';
 import PrivateRoute from './components/common/PrivateRoute';
 
 const theme = createTheme({
@@ -52,7 +52,7 @@ function App() {
               path="/workflows/:id/edit"
               element={
                 <PrivateRoute>
-                  <WorkflowEditorPage />
+                  <WorkflowEditorPageV2 />
                 </PrivateRoute>
               }
             />
@@ -60,7 +60,7 @@ function App() {
               path="/workflows/new"
               element={
                 <PrivateRoute>
-                  <WorkflowEditorPage />
+                  <WorkflowEditorPageV2 />
                 </PrivateRoute>
               }
             />
