@@ -103,7 +103,7 @@
             <column name="username" value="admin"/>
             <column name="email" value="admin@taskflow.io"/>
             <!-- Password: admin123 (BCrypt) -->
-            <column name="password" value="$2a$10$dXJ3SW6G7P50lGmMkkmwe.20cQQubK3.HZWzG3YB1tlRy.fqvM/BG"/>
+            <column name="password" value="$2a$10$L.YvXXmCrhCj.dWq.7UEMu4w4Kn03e5CAdNv7u5qFLgLXCuHJ/sXC"/>
             <column name="first_name" value="Admin"/>
             <column name="last_name" value="User"/>
             <column name="role" value="ADMIN"/>
@@ -116,7 +116,7 @@
             <column name="username" value="demo"/>
             <column name="email" value="demo@taskflow.io"/>
             <!-- Password: demo123 (BCrypt) -->
-            <column name="password" value="$2a$10$3TvXLHN9wXhG3J5uVJXP.eW5CKbXobN.XQSE8CmJAzCXTXGP8VJTS"/>
+            <column name="password" value="$2a$10$XmfBACYgfVtuHvscd0QuKOXe2i9Pg3TwEgeECC/FNscstNkiToIb2"/>
             <column name="first_name" value="Demo"/>
             <column name="last_name" value="User"/>
             <column name="role" value="USER"/>
