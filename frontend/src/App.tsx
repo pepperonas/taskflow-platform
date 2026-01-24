@@ -6,6 +6,8 @@ import { store } from './store';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
+import TaskDetailPage from './pages/TaskDetailPage';
+import WorkflowsPage from './pages/WorkflowsPage';
 import PrivateRoute from './components/common/PrivateRoute';
 
 const theme = createTheme({
@@ -34,6 +36,22 @@ function App() {
               element={
                 <PrivateRoute>
                   <DashboardPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/tasks/:id"
+              element={
+                <PrivateRoute>
+                  <TaskDetailPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/workflows"
+              element={
+                <PrivateRoute>
+                  <WorkflowsPage />
                 </PrivateRoute>
               }
             />

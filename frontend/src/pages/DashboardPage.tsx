@@ -12,7 +12,7 @@ import {
   Paper,
   Fab,
 } from '@mui/material';
-import { Add as AddIcon, Logout as LogoutIcon } from '@mui/icons-material';
+import { Add as AddIcon, Logout as LogoutIcon, AccountTree as WorkflowIcon } from '@mui/icons-material';
 import { AppDispatch, RootState } from '../store';
 import { logout } from '../store/slices/authSlice';
 import { fetchTasks } from '../store/slices/tasksSlice';
@@ -42,6 +42,14 @@ const DashboardPage: React.FC = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             TaskFlow Platform
           </Typography>
+          <Button
+            color="inherit"
+            onClick={() => navigate('/workflows')}
+            startIcon={<WorkflowIcon />}
+            sx={{ mr: 2 }}
+          >
+            Workflows
+          </Button>
           <Typography variant="body1" sx={{ mr: 2 }}>
             Welcome, {user?.username}
           </Typography>
