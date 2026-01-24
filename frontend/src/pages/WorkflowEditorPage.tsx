@@ -1,10 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { useParams } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { mountWorkflowBuilder } from '../workflows/main';
 
 const WorkflowEditorPage: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
   const mountedRef = useRef(false);
 
   useEffect(() => {

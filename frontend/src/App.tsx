@@ -8,7 +8,6 @@ import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 import TaskDetailPage from './pages/TaskDetailPage';
 import WorkflowsPage from './pages/WorkflowsPage';
-import CreateWorkflowPage from './pages/CreateWorkflowPage';
 import WorkflowEditorPage from './pages/WorkflowEditorPage';
 import PrivateRoute from './components/common/PrivateRoute';
 

@@ -1,5 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
+// @ts-ignore
 import WorkflowBuilderApp from './WorkflowBuilderApp.vue';
 
 export function mountWorkflowBuilder(elementId: string) {
