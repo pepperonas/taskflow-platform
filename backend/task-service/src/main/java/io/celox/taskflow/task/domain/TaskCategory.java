@@ -6,5 +6,15 @@ public enum TaskCategory {
     SHOPPING,
     HEALTH,
     EDUCATION,
+    DEVELOPMENT,
+    CODE_REVIEW,
+    DOCUMENTATION,
+    BUG,
+    DEPLOYMENT,
+    DESIGN,
+    MEETING,
+    OPTIMIZATION,
+    SECURITY,
+    FEATURE,
     OTHER
 }
