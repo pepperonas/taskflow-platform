@@ -1017,7 +1017,8 @@ const WorkflowEditorPageV2: React.FC = () => {
           return {
             ...node,
             data: {
-              ...data,
+              ...node.data,  // Keep existing data
+              ...data,       // Merge with new data
               onToggleDisable: handleNodeToggleDisable,
               onDelete: handleNodeDelete,
             }
@@ -1196,12 +1197,20 @@ const WorkflowEditorPageV2: React.FC = () => {
             ← Back
           </Button>
           <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 300 }}>
-            <TextField
-              value={workflowName + (isDirty ? ' *' : '')}
-              onChange={(e) => setWorkflowName(e.target.value.replace(' *', ''))}
-              variant="standard"
-              InputProps={{ style: { fontSize: '16px', fontWeight: 600 } }}
-            />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <TextField
+                value={workflowName}
+                onChange={(e) => setWorkflowName(e.target.value)}
+                variant="standard"
+                InputProps={{ style: { fontSize: '16px', fontWeight: 600 } }}
+                sx={{ flex: 1 }}
+              />
+              {isDirty && (
+                <Typography sx={{ color: '#ef4444', fontWeight: 600, fontSize: '16px' }}>
+                  *
+                </Typography>
+              )}
+            </Box>
             {lastSaved && (
               <Typography variant="caption" sx={{ color: '#6b7280', mt: 0.5 }}>
                 {saving ? 'Saving...' : `Saved ${formatRelativeTime(lastSaved)}`}
@@ -1291,9 +1300,10 @@ const WorkflowEditorPageV2: React.FC = () => {
             flexShrink: 0,
             '& .MuiDrawer-paper': {
               width: 260,
-              position: 'relative',
+              position: 'static',
               height: '100%',
               boxSizing: 'border-box',
+              border: 'none',
             }
           }}
         >
