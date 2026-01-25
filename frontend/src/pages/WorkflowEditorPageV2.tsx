@@ -531,6 +531,20 @@ const WorkflowEditorPageV2: React.FC = () => {
     setNotification({ message: 'Node deleted', severity: 'success' });
   }, [setNodes, setEdges]);
 
+  const handleStickyNoteChange = useCallback((nodeId: string, content: string) => {
+    setNodes(prev =>
+      prev.map(n => {
+        if (n.id === nodeId) {
+          return {
+            ...n,
+            data: { ...n.data, content }
+          };
+        }
+        return n;
+      })
+    );
+  }, [setNodes]);
+
   const loadWorkflow = useCallback(async (workflowId: string) => {
     try {
       const token = localStorage.getItem('token');
@@ -562,6 +576,109 @@ const WorkflowEditorPageV2: React.FC = () => {
     }
   }, [handleNodeToggleDisable, handleNodeDelete, setNodes, setEdges]);
 
+  const handleSave = useCallback(async (silent = false) => {
+    try {
+      setSaving(true);
+      const token = localStorage.getItem('token');
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+
+      const payload = {
+        name: workflowName,
+        description: '',
+        nodesJson: JSON.stringify(nodes),
+        edgesJson: JSON.stringify(edges),
+      };
+
+      if (id && id !== 'new') {
+        await axios.put(`${apiUrl}/v1/workflows/${id}`, payload, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      } else {
+        await axios.post(`${apiUrl}/v1/workflows?ownerId=${user.id}`, payload, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+      }
+
+      setIsDirty(false);
+      setLastSaved(new Date());
+
+      if (!silent) {
+        setNotification({ message: 'Workflow saved successfully', severity: 'success' });
+      }
+    } catch (error) {
+      console.error('Error saving workflow:', error);
+      if (!silent) {
+        setNotification({ message: 'Failed to save workflow', severity: 'error' });
+      }
+    } finally {
+      setSaving(false);
+    }
+  }, [workflowName, nodes, edges, id]);
+
+  const handleExecute = useCallback(async () => {
+    if (!id || id === 'new') {
+      setNotification({
+        message: 'Please save the workflow first before executing',
+        severity: 'error'
+      });
+      return;
+    }
+
+    try {
+      setExecuting(true);
+      const token = localStorage.getItem('token');
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+
+      console.log('[WorkflowEditorV2] Executing workflow:', id);
+
+      const response = await axios.post(
+        `${apiUrl}/v1/workflows/${id}/execute`,
+        {}, // Empty trigger data for manual execution
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      console.log('[WorkflowEditorV2] Execution response:', response.data);
+
+      const executionStatus = response.data.status;
+
+      setNotification({
+        message: `Workflow execution ${executionStatus.toLowerCase()}`,
+        severity: executionStatus === 'COMPLETED' ? 'success' : executionStatus === 'FAILED' ? 'error' : 'info'
+      });
+
+      // Store execution result for display
+      setSelectedExecution(response.data);
+
+    } catch (error: any) {
+      console.error('[WorkflowEditorV2] Execution error:', error);
+      setNotification({
+        message: error.response?.data?.message || 'Workflow execution failed',
+        severity: 'error'
+      });
+    } finally {
+      setExecuting(false);
+    }
+  }, [id]);
+
+  const addNode = useCallback((type: string) => {
+    const newNode: Node = {
+      id: `${type}-${Date.now()}`,
+      type,
+      position: { x: Math.random() * 400 + 100, y: Math.random() * 400 + 100 },
+      data: {
+        label: type.charAt(0).toUpperCase() + type.slice(1),
+        onToggleDisable: handleNodeToggleDisable,
+        onDelete: handleNodeDelete,
+        onChange: type === 'stickyNote' ? handleStickyNoteChange : undefined,
+        content: type === 'stickyNote' ? '' : undefined,
+      },
+    };
+
+    console.log('[WorkflowEditorV2] Adding node:', newNode);
+    setNodes((nds) => [...nds, newNode]);
+  }, [handleNodeToggleDisable, handleNodeDelete, handleStickyNoteChange, setNodes]);
+
   useEffect(() => {
     if (id && id !== 'new') {
       loadWorkflow(id);
@@ -584,7 +701,7 @@ const WorkflowEditorPageV2: React.FC = () => {
     }, 30000); // 30 seconds
 
     return () => clearInterval(interval);
-  }, [isDirty, id, saving]);
+  }, [isDirty, id, saving, handleSave]);
 
   // Save to history when nodes or edges change
   useEffect(() => {
@@ -764,7 +881,7 @@ const WorkflowEditorPageV2: React.FC = () => {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [nodes, copiedNodes, id, undo, redo]);
+  }, [nodes, copiedNodes, id, undo, redo, addNode, handleExecute, handleSave, setNodes, setEdges]);
 
   const onConnect = useCallback(
     (params: Connection) => {
@@ -781,20 +898,6 @@ const WorkflowEditorPageV2: React.FC = () => {
     },
     [setEdges]
   );
-
-  const handleStickyNoteChange = useCallback((nodeId: string, content: string) => {
-    setNodes(prev =>
-      prev.map(n => {
-        if (n.id === nodeId) {
-          return {
-            ...n,
-            data: { ...n.data, content }
-          };
-        }
-        return n;
-      })
-    );
-  }, [setNodes]);
 
   const handleExportWorkflow = useCallback(() => {
     exportWorkflow(workflowName, nodes, edges);
@@ -842,24 +945,6 @@ const WorkflowEditorPageV2: React.FC = () => {
     setNodes(arrangedNodes);
     setNotification({ message: 'Nodes arranged automatically', severity: 'success' });
   }, [nodes, edges, setNodes]);
-
-  const addNode = (type: string) => {
-    const newNode: Node = {
-      id: `${type}-${Date.now()}`,
-      type,
-      position: { x: Math.random() * 400 + 100, y: Math.random() * 400 + 100 },
-      data: {
-        label: type.charAt(0).toUpperCase() + type.slice(1),
-        onToggleDisable: handleNodeToggleDisable,
-        onDelete: handleNodeDelete,
-        onChange: type === 'stickyNote' ? handleStickyNoteChange : undefined,
-        content: type === 'stickyNote' ? '' : undefined,
-      },
-    };
-
-    console.log('[WorkflowEditorV2] Adding node:', newNode);
-    setNodes((nds) => [...nds, newNode]);
-  };
 
   const onNodeClick = useCallback((_event: React.MouseEvent, node: Node) => {
     console.log('[WorkflowEditorV2] Node clicked:', node);
@@ -946,91 +1031,6 @@ const WorkflowEditorPageV2: React.FC = () => {
       })
     );
   }, [setNodes, handleNodeToggleDisable, handleNodeDelete]);
-
-  const handleSave = async (silent = false) => {
-    try {
-      setSaving(true);
-      const token = localStorage.getItem('token');
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
-
-      const payload = {
-        name: workflowName,
-        description: '',
-        nodesJson: JSON.stringify(nodes),
-        edgesJson: JSON.stringify(edges),
-      };
-
-      if (id && id !== 'new') {
-        await axios.put(`${apiUrl}/v1/workflows/${id}`, payload, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-      } else {
-        await axios.post(`${apiUrl}/v1/workflows?ownerId=${user.id}`, payload, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-      }
-
-      setIsDirty(false);
-      setLastSaved(new Date());
-
-      if (!silent) {
-        setNotification({ message: 'Workflow saved successfully', severity: 'success' });
-      }
-    } catch (error) {
-      console.error('Error saving workflow:', error);
-      if (!silent) {
-        setNotification({ message: 'Failed to save workflow', severity: 'error' });
-      }
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const handleExecute = async () => {
-    if (!id || id === 'new') {
-      setNotification({
-        message: 'Please save the workflow first before executing',
-        severity: 'error'
-      });
-      return;
-    }
-
-    try {
-      setExecuting(true);
-      const token = localStorage.getItem('token');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
-
-      console.log('[WorkflowEditorV2] Executing workflow:', id);
-
-      const response = await axios.post(
-        `${apiUrl}/v1/workflows/${id}/execute`,
-        {}, // Empty trigger data for manual execution
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-
-      console.log('[WorkflowEditorV2] Execution response:', response.data);
-
-      const executionStatus = response.data.status;
-
-      setNotification({
-        message: `Workflow execution ${executionStatus.toLowerCase()}`,
-        severity: executionStatus === 'COMPLETED' ? 'success' : executionStatus === 'FAILED' ? 'error' : 'info'
-      });
-
-      // Store execution result for display
-      setSelectedExecution(response.data);
-
-    } catch (error: any) {
-      console.error('[WorkflowEditorV2] Execution error:', error);
-      setNotification({
-        message: error.response?.data?.message || 'Workflow execution failed',
-        severity: 'error'
-      });
-    } finally {
-      setExecuting(false);
-    }
-  };
 
   // Command Palette Commands
   const commands: Command[] = React.useMemo(() => [
@@ -1189,7 +1189,7 @@ const WorkflowEditorPageV2: React.FC = () => {
       },
       shortcut: 'Delete',
     },
-  ], [handleExecute, undo, redo, nodes, copiedNodes]);
+  ], [handleExecute, undo, redo, nodes, copiedNodes, addNode, handleAutoArrange, handleExportWorkflow, handleImportWorkflow, handleSave, setNodes, setEdges]);
 
   return (
     <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', background: '#f3f4f6' }}>
