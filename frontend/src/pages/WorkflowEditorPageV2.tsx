@@ -1284,7 +1284,19 @@ const WorkflowEditorPageV2: React.FC = () => {
 
       <Box sx={{ display: 'flex', flex: 1, overflow: 'hidden' }}>
         {/* Left Panel - Node Palette */}
-        <Drawer variant="permanent" sx={{ width: 260, flexShrink: 0 }}>
+        <Drawer
+          variant="permanent"
+          sx={{
+            width: 260,
+            flexShrink: 0,
+            '& .MuiDrawer-paper': {
+              width: 260,
+              position: 'relative',
+              height: '100%',
+              boxSizing: 'border-box',
+            }
+          }}
+        >
           <Box sx={{ width: 260, p: 2, background: '#f9fafb', height: '100%' }}>
             <Typography variant="h6" sx={{ mb: 2 }}>
               Nodes
