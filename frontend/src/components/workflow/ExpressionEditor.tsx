@@ -1,10 +1,8 @@
 import React, { useState, useRef } from 'react';
 import {
   TextField,
-  Autocomplete,
   Box,
   Typography,
-  Chip,
 } from '@mui/material';
 
 interface ExpressionEditorProps {
@@ -46,8 +44,6 @@ const ExpressionEditor: React.FC<ExpressionEditorProps> = ({
       { label: '$uuid()', description: 'Generate UUID' },
     ]},
   ];
-
-  const allVariables = variables.flatMap(v => v.items);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     // Show autocomplete on Ctrl+Space or when typing {{

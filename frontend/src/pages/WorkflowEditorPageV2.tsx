@@ -24,9 +24,6 @@ import {
   Button,
   TextField,
   Drawer,
-  List,
-  ListItem,
-  ListItemText,
   Typography,
   Paper,
   Alert,
@@ -496,7 +493,6 @@ const WorkflowEditorPageV2: React.FC = () => {
   const [showHistoryPanel, setShowHistoryPanel] = useState(false);
   const [showCommandPalette, setShowCommandPalette] = useState(false);
   const [showShortcutsDialog, setShowShortcutsDialog] = useState(false);
-  const [hoveredNode, setHoveredNode] = useState<string | null>(null);
   const [menuAnchor, setMenuAnchor] = useState<null | HTMLElement>(null);
   const [isDirty, setIsDirty] = useState(false);
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
@@ -724,7 +720,7 @@ const WorkflowEditorPageV2: React.FC = () => {
         setHistoryIndex(newHistory.length - 1);
       }
     }
-  }, [nodes, edges]);
+  }, [nodes, edges, history, historyIndex, setHistory, setHistoryIndex]);
 
   const undo = useCallback(() => {
     if (historyIndex > 0) {

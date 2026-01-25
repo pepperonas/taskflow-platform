@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Drawer,
   Box,
@@ -31,13 +31,7 @@ const ExecutionHistoryPanel: React.FC<ExecutionHistoryPanelProps> = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (open && workflowId && workflowId !== 'new') {
-      fetchExecutions();
-    }
-  }, [open, workflowId]);
-
-  const fetchExecutions = async () => {
+  const fetchExecutions = useCallback(async () => {
     if (!workflowId || workflowId === 'new') return;
 
     try {
@@ -59,7 +53,13 @@ const ExecutionHistoryPanel: React.FC<ExecutionHistoryPanelProps> = ({
     } finally {
       setLoading(false);
     }
-  };
+  }, [workflowId]);
+
+  useEffect(() => {
+    if (open && workflowId && workflowId !== 'new') {
+      fetchExecutions();
+    }
+  }, [open, workflowId, fetchExecutions]);
 
   const handleSelectExecution = (execution: any) => {
     onSelectExecution(execution);
