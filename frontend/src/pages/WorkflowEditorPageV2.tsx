@@ -546,6 +546,7 @@ const WorkflowEditorPageV2: React.FC = () => {
       // Add handlers to loaded nodes
       const loadedNodes = JSON.parse(workflow.nodesJson).map((node: Node) => ({
         ...node,
+        position: node.position || { x: 0, y: 0 }, // Ensure position is always defined
         data: {
           ...node.data,
           onToggleDisable: handleNodeToggleDisable,
@@ -611,7 +612,12 @@ const WorkflowEditorPageV2: React.FC = () => {
   const undo = useCallback(() => {
     if (historyIndex > 0) {
       const previousState = history[historyIndex - 1];
-      setNodes(previousState.nodes);
+      // Ensure all nodes have valid positions
+      const validatedNodes = previousState.nodes.map((node: Node) => ({
+        ...node,
+        position: node.position || { x: 0, y: 0 },
+      }));
+      setNodes(validatedNodes);
       setEdges(previousState.edges);
       setHistoryIndex(historyIndex - 1);
       setNotification({ message: 'Undone', severity: 'info' });
@@ -621,7 +627,12 @@ const WorkflowEditorPageV2: React.FC = () => {
   const redo = useCallback(() => {
     if (historyIndex < history.length - 1) {
       const nextState = history[historyIndex + 1];
-      setNodes(nextState.nodes);
+      // Ensure all nodes have valid positions
+      const validatedNodes = nextState.nodes.map((node: Node) => ({
+        ...node,
+        position: node.position || { x: 0, y: 0 },
+      }));
+      setNodes(validatedNodes);
       setEdges(nextState.edges);
       setHistoryIndex(historyIndex + 1);
       setNotification({ message: 'Redone', severity: 'info' });
@@ -654,7 +665,10 @@ const WorkflowEditorPageV2: React.FC = () => {
         const newNodes = copiedNodes.map(node => ({
           ...node,
           id: `${node.type}-${Date.now()}-${Math.random()}`,
-          position: { x: node.position.x + 50, y: node.position.y + 50 },
+          position: {
+            x: (node.position?.x || 0) + 50,
+            y: (node.position?.y || 0) + 50
+          },
           selected: false,
         }));
         setNodes(prev => [...prev, ...newNodes]);
@@ -673,7 +687,10 @@ const WorkflowEditorPageV2: React.FC = () => {
           const duplicatedNodes = selectedNodes.map(node => ({
             ...node,
             id: `${node.type}-${Date.now()}-${Math.random()}`,
-            position: { x: node.position.x + 50, y: node.position.y + 50 },
+            position: {
+              x: (node.position?.x || 0) + 50,
+              y: (node.position?.y || 0) + 50
+            },
             selected: false,
           }));
           setNodes(prev => [...prev, ...duplicatedNodes]);
@@ -798,6 +815,7 @@ const WorkflowEditorPageV2: React.FC = () => {
           // Add handlers to imported nodes
           const nodesWithHandlers = data.nodes.map(node => ({
             ...node,
+            position: node.position || { x: 0, y: 0 }, // Ensure position is always defined
             data: {
               ...node.data,
               onToggleDisable: handleNodeToggleDisable,
@@ -869,7 +887,10 @@ const WorkflowEditorPageV2: React.FC = () => {
         const duplicated = {
           ...node,
           id: `${node.type}-${Date.now()}-${Math.random()}`,
-          position: { x: node.position.x + 50, y: node.position.y + 50 },
+          position: {
+            x: (node.position?.x || 0) + 50,
+            y: (node.position?.y || 0) + 50
+          },
           selected: false,
         };
         setNodes(prev => [...prev, duplicated]);
@@ -1140,7 +1161,10 @@ const WorkflowEditorPageV2: React.FC = () => {
           const newNodes = copiedNodes.map(node => ({
             ...node,
             id: `${node.type}-${Date.now()}-${Math.random()}`,
-            position: { x: node.position.x + 50, y: node.position.y + 50 },
+            position: {
+              x: (node.position?.x || 0) + 50,
+              y: (node.position?.y || 0) + 50
+            },
             selected: false,
           }));
           setNodes(prev => [...prev, ...newNodes]);
