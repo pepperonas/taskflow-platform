@@ -458,6 +458,7 @@ const nodeTypes: NodeTypes = {
 };
 
 const initialNodes: Node[] = [];
+const initialEdges: Edge[] = [];
 
 // Helper function to format relative time
 const formatRelativeTime = (date: Date) => {
@@ -480,7 +481,7 @@ const WorkflowEditorPageV2: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [workflowName, setWorkflowName] = useState('Untitled Workflow');
   const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const [saving, setSaving] = useState(false);
