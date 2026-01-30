@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Typography,
-  Alert,
-} from '@mui/material';
 import { Node } from 'reactflow';
-import ExpressionEditor from '../ExpressionEditor';
 
 interface ConditionConfigProps {
   node: Node;
@@ -17,68 +11,71 @@ const ConditionConfig: React.FC<ConditionConfigProps> = ({ node, onUpdate }) => 
     expression: '',
   };
 
-  const handleConfigChange = (field: string, value: any) => {
-    const newConfig = { ...config, [field]: value };
+  const handleConfigChange = (value: string) => {
+    const newConfig = { ...config, expression: value };
     onUpdate(node.id, { ...node.data, config: newConfig });
   };
 
+  const stopAll = (e: React.SyntheticEvent) => {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+  };
+
   return (
-    <Box 
-      sx={{ p: 2 }}
-      onMouseDown={(e) => e.stopPropagation()}
-      onClick={(e) => e.stopPropagation()}
+    <div 
+      style={{ padding: 16 }}
+      onMouseDown={stopAll}
+      onClick={stopAll}
+      onPointerDown={stopAll}
     >
-      <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
+      <div style={{ marginBottom: 8, fontSize: 13, color: '#6b7280', fontWeight: 500 }}>
         Configure Condition Node
-      </Typography>
+      </div>
 
-      <Alert severity="info" sx={{ mb: 2 }}>
-        The condition evaluates to true or false and routes the workflow accordingly.
-      </Alert>
-
-      <Box 
-        sx={{ mb: 2 }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <ExpressionEditor
-          label="Condition Expression"
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', marginBottom: 4, fontSize: 12, color: '#6b7280' }}>
+          Condition Expression *
+        </label>
+        <textarea
           value={config.expression}
-          onChange={(value) => handleConfigChange('expression', value)}
-          placeholder="e.g., {{ $trigger.priority }} === 'HIGH'"
-          multiline
+          placeholder="e.g., {{ $trigger.priority === 'HIGH' }}"
           rows={4}
-          helperText="Must evaluate to true or false"
+          style={{
+            width: '100%',
+            padding: '10px 12px',
+            border: '1px solid #d1d5db',
+            borderRadius: 4,
+            fontSize: 14,
+            outline: 'none',
+            boxSizing: 'border-box',
+            resize: 'vertical',
+            minHeight: 100,
+            fontFamily: 'monospace',
+          }}
+          onChange={(e) => handleConfigChange(e.target.value)}
+          onMouseDown={stopAll}
+          onClick={stopAll}
+          onPointerDown={stopAll}
+          onKeyDown={stopAll}
+          onKeyUp={stopAll}
+          onFocus={stopAll}
         />
-      </Box>
+        <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 4 }}>
+          Expression must evaluate to true or false. Use {'{{ }}'} syntax.
+        </div>
+      </div>
 
-      <Box sx={{ mt: 2, p: 2, bgcolor: '#f9fafb', borderRadius: 1 }}>
-        <Typography variant="caption" sx={{ fontWeight: 600, display: 'block', mb: 1 }}>
-          Available Variables:
-        </Typography>
-        <Typography variant="caption" component="div" sx={{ fontFamily: 'monospace', color: '#6b7280' }}>
-          • $trigger.* - Access trigger data
-        </Typography>
-        <Typography variant="caption" component="div" sx={{ fontFamily: 'monospace', color: '#6b7280' }}>
-          • $nodes.nodeName.* - Access previous node outputs
-        </Typography>
-      </Box>
-
-      <Box sx={{ mt: 2, p: 2, bgcolor: '#fffbeb', borderRadius: 1 }}>
-        <Typography variant="caption" sx={{ fontWeight: 600, display: 'block', mb: 1 }}>
-          Example Expressions:
-        </Typography>
-        <Typography variant="caption" component="div" sx={{ fontFamily: 'monospace', color: '#6b7280' }}>
-          • {"{{ $trigger.priority }} === 'HIGH'"}
-        </Typography>
-        <Typography variant="caption" component="div" sx={{ fontFamily: 'monospace', color: '#6b7280' }}>
-          • {"{{ $trigger.amount }} > 1000"}
-        </Typography>
-        <Typography variant="caption" component="div" sx={{ fontFamily: 'monospace', color: '#6b7280' }}>
-          • {"{{ $nodes.createTask.status }} === 'success'"}
-        </Typography>
-      </Box>
-    </Box>
+      <div style={{ padding: 12, backgroundColor: '#f0fdf4', borderRadius: 4, border: '1px solid #bbf7d0' }}>
+        <div style={{ fontSize: 12, fontWeight: 500, color: '#166534', marginBottom: 4 }}>
+          Examples:
+        </div>
+        <code style={{ fontSize: 11, color: '#166534', display: 'block' }}>
+          {'{{ $trigger.status === "urgent" }}'}<br/>
+          {'{{ $node1.count > 10 }}'}<br/>
+          {'{{ $trigger.assignee !== null }}'}
+        </code>
+      </div>
+    </div>
   );
 };
 

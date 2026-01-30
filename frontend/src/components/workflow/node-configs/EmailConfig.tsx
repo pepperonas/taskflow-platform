@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  Typography,
-  Alert,
-} from '@mui/material';
 import { Node } from 'reactflow';
-import ExpressionEditor from '../ExpressionEditor';
 
 interface EmailConfigProps {
   node: Node;
@@ -15,97 +9,128 @@ interface EmailConfigProps {
 const EmailConfig: React.FC<EmailConfigProps> = ({ node, onUpdate }) => {
   const config = node.data.config || {
     to: '',
+    from: '',
     subject: '',
     body: '',
-    from: 'martin.pfeffer@celox.io',
   };
 
-  const handleConfigChange = (field: string, value: any) => {
+  const handleConfigChange = (field: string, value: string) => {
     const newConfig = { ...config, [field]: value };
     onUpdate(node.id, { ...node.data, config: newConfig });
   };
 
+  const stopAll = (e: React.SyntheticEvent) => {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+  };
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '10px 12px',
+    border: '1px solid #d1d5db',
+    borderRadius: 4,
+    fontSize: 14,
+    outline: 'none',
+    boxSizing: 'border-box',
+  };
+
   return (
-    <Box 
-      sx={{ p: 2 }}
-      onMouseDown={(e) => e.stopPropagation()}
-      onClick={(e) => e.stopPropagation()}
+    <div 
+      style={{ padding: 16 }}
+      onMouseDown={stopAll}
+      onClick={stopAll}
+      onPointerDown={stopAll}
     >
-      <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
-        Email Configuration
-      </Typography>
+      <div style={{ marginBottom: 8, fontSize: 13, color: '#6b7280', fontWeight: 500 }}>
+        Configure Email Node
+      </div>
 
-      <Alert severity="info" sx={{ mb: 2, fontSize: '12px' }}>
-        Send emails via SMTP. Use {'{{ }}'} syntax to reference variables.
-      </Alert>
-
-      <Box 
-        sx={{ mb: 2 }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <ExpressionEditor
-          label="To (Recipient)"
+      {/* To */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', marginBottom: 4, fontSize: 12, color: '#6b7280' }}>
+          To *
+        </label>
+        <input
+          type="text"
           value={config.to}
-          onChange={(value) => handleConfigChange('to', value)}
-          placeholder="recipient@example.com or {{ $trigger.email }}"
+          placeholder="recipient@example.com"
+          style={inputStyle}
+          onChange={(e) => handleConfigChange('to', e.target.value)}
+          onMouseDown={stopAll}
+          onClick={stopAll}
+          onPointerDown={stopAll}
+          onKeyDown={stopAll}
+          onKeyUp={stopAll}
+          onFocus={stopAll}
         />
-      </Box>
+        <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 4 }}>
+          Use {'{{ $trigger.email }}'} for dynamic recipient
+        </div>
+      </div>
 
-      <Box 
-        sx={{ mb: 2 }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <ExpressionEditor
-          label="From (Sender)"
+      {/* From */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', marginBottom: 4, fontSize: 12, color: '#6b7280' }}>
+          From
+        </label>
+        <input
+          type="text"
           value={config.from}
-          onChange={(value) => handleConfigChange('from', value)}
-          placeholder="martin.pfeffer@celox.io"
+          placeholder="noreply@example.com"
+          style={inputStyle}
+          onChange={(e) => handleConfigChange('from', e.target.value)}
+          onMouseDown={stopAll}
+          onClick={stopAll}
+          onPointerDown={stopAll}
+          onKeyDown={stopAll}
+          onKeyUp={stopAll}
+          onFocus={stopAll}
         />
-      </Box>
+      </div>
 
-      <Box 
-        sx={{ mb: 2 }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <ExpressionEditor
-          label="Subject"
+      {/* Subject */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', marginBottom: 4, fontSize: 12, color: '#6b7280' }}>
+          Subject *
+        </label>
+        <input
+          type="text"
           value={config.subject}
-          onChange={(value) => handleConfigChange('subject', value)}
-          placeholder="e.g., {{ $trigger.taskTitle }} - Task Notification"
+          placeholder="e.g., Task {{ $trigger.title }} created"
+          style={inputStyle}
+          onChange={(e) => handleConfigChange('subject', e.target.value)}
+          onMouseDown={stopAll}
+          onClick={stopAll}
+          onPointerDown={stopAll}
+          onKeyDown={stopAll}
+          onKeyUp={stopAll}
+          onFocus={stopAll}
         />
-      </Box>
+      </div>
 
-      <Box 
-        sx={{ mb: 2 }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <ExpressionEditor
-          label="Body (HTML)"
+      {/* Body */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', marginBottom: 4, fontSize: 12, color: '#6b7280' }}>
+          Body *
+        </label>
+        <textarea
           value={config.body}
-          onChange={(value) => handleConfigChange('body', value)}
-          multiline
-          rows={8}
-          placeholder="<h1>Hello</h1><p>This is an email notification.</p>"
-          helperText="HTML content is supported"
+          placeholder="Email body content..."
+          rows={6}
+          style={{ ...inputStyle, resize: 'vertical', minHeight: 120 }}
+          onChange={(e) => handleConfigChange('body', e.target.value)}
+          onMouseDown={stopAll}
+          onClick={stopAll}
+          onPointerDown={stopAll}
+          onKeyDown={stopAll}
+          onKeyUp={stopAll}
+          onFocus={stopAll}
         />
-      </Box>
-
-      <Alert severity="success" sx={{ mt: 2, fontSize: '11px' }}>
-        <Typography variant="caption" sx={{ fontWeight: 600 }}>
-          Result Variables:
-        </Typography>
-        <br />
-        <code style={{ fontSize: '10px' }}>
-          {'{{ nodeId_result.sent }}'}<br />
-          {'{{ nodeId_result.to }}'}<br />
-          {'{{ nodeId_result.subject }}'}
-        </code>
-      </Alert>
-    </Box>
+        <div style={{ fontSize: 11, color: '#9ca3af', marginTop: 4 }}>
+          Supports HTML. Use {'{{ }}'} for dynamic content.
+        </div>
+      </div>
+    </div>
   );
 };
 

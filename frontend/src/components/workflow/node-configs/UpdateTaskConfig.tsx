@@ -1,15 +1,4 @@
 import React from 'react';
-import {
-  Box,
-  TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Typography,
-  FormControlLabel,
-  Checkbox,
-} from '@mui/material';
 import { Node } from 'reactflow';
 
 interface UpdateTaskConfigProps {
@@ -22,365 +11,127 @@ const UpdateTaskConfig: React.FC<UpdateTaskConfigProps> = ({ node, onUpdate }) =
     taskId: '',
     title: '',
     description: '',
-    priority: '',
     status: '',
-    assigneeId: '',
-    updateTitle: false,
-    updateDescription: false,
-    updatePriority: false,
-    updateStatus: false,
-    updateAssignee: false,
+    priority: '',
   };
 
-  const handleConfigChange = (field: string, value: any) => {
+  const handleConfigChange = (field: string, value: string) => {
     const newConfig = { ...config, [field]: value };
     onUpdate(node.id, { ...node.data, config: newConfig });
   };
 
+  const stopAll = (e: React.SyntheticEvent) => {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+  };
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '10px 12px',
+    border: '1px solid #d1d5db',
+    borderRadius: 4,
+    fontSize: 14,
+    outline: 'none',
+    boxSizing: 'border-box',
+  };
+
   return (
-    <Box 
-      sx={{ p: 2 }}
-      onMouseDown={(e) => e.stopPropagation()}
-      onClick={(e) => e.stopPropagation()}
+    <div 
+      style={{ padding: 16 }}
+      onMouseDown={stopAll}
+      onClick={stopAll}
+      onPointerDown={stopAll}
     >
-      <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
+      <div style={{ marginBottom: 8, fontSize: 13, color: '#6b7280', fontWeight: 500 }}>
         Configure Update Task Node
-      </Typography>
+      </div>
 
-      <TextField
-        fullWidth
-        label="Task ID"
-        value={config.taskId}
-        onChange={(e) => {
-          e.stopPropagation();
-          handleConfigChange('taskId', e.target.value);
-        }}
-        onMouseDown={(e) => {
-          e.stopPropagation();
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-        onKeyDown={(e) => {
-          e.stopPropagation();
-        }}
-        onKeyPress={(e) => {
-          e.stopPropagation();
-        }}
-        onKeyUp={(e) => {
-          e.stopPropagation();
-        }}
-        placeholder="e.g., {{ $trigger.taskId }}"
-        helperText="Use {{ }} for expressions"
-        sx={{ mb: 2 }}
-        required
-        InputProps={{
-          onMouseDown: (e) => {
-            e.stopPropagation();
-          },
-          onClick: (e) => {
-            e.stopPropagation();
-          },
-        }}
-        inputProps={{
-          onMouseDown: (e) => {
-            e.stopPropagation();
-          },
-          onClick: (e) => {
-            e.stopPropagation();
-          },
-        }}
-      />
+      {/* Task ID */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', marginBottom: 4, fontSize: 12, color: '#6b7280' }}>
+          Task ID *
+        </label>
+        <input
+          type="text"
+          value={config.taskId}
+          placeholder="e.g., {{ $trigger.taskId }}"
+          style={inputStyle}
+          onChange={(e) => handleConfigChange('taskId', e.target.value)}
+          onMouseDown={stopAll}
+          onClick={stopAll}
+          onPointerDown={stopAll}
+          onKeyDown={stopAll}
+          onKeyUp={stopAll}
+          onFocus={stopAll}
+        />
+      </div>
 
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={config.updateTitle}
-            onChange={(e) => {
-              e.stopPropagation();
-              handleConfigChange('updateTitle', e.target.checked);
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          />
-        }
-        label="Update Title"
-        sx={{ mb: 1 }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      />
-      {config.updateTitle && (
-        <TextField
-          fullWidth
-          label="New Title"
+      {/* Title */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', marginBottom: 4, fontSize: 12, color: '#6b7280' }}>
+          New Title (optional)
+        </label>
+        <input
+          type="text"
           value={config.title}
-          onChange={(e) => {
-            e.stopPropagation();
-            handleConfigChange('title', e.target.value);
-          }}
-          onMouseDown={(e) => {
-            e.stopPropagation();
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          onKeyDown={(e) => {
-            e.stopPropagation();
-          }}
-          placeholder="e.g., {{ $trigger.newTitle }}"
-          sx={{ mb: 2, ml: 4 }}
-          InputProps={{
-            onMouseDown: (e) => {
-              e.stopPropagation();
-            },
-            onClick: (e) => {
-              e.stopPropagation();
-            },
-          }}
-          inputProps={{
-            onMouseDown: (e) => {
-              e.stopPropagation();
-            },
-            onClick: (e) => {
-              e.stopPropagation();
-            },
-          }}
+          placeholder="Leave empty to keep current"
+          style={inputStyle}
+          onChange={(e) => handleConfigChange('title', e.target.value)}
+          onMouseDown={stopAll}
+          onClick={stopAll}
+          onPointerDown={stopAll}
+          onKeyDown={stopAll}
+          onKeyUp={stopAll}
+          onFocus={stopAll}
         />
-      )}
+      </div>
 
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={config.updateDescription}
-            onChange={(e) => {
-              e.stopPropagation();
-              handleConfigChange('updateDescription', e.target.checked);
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          />
-        }
-        label="Update Description"
-        sx={{ mb: 1 }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      />
-      {config.updateDescription && (
-        <TextField
-          fullWidth
-          multiline
-          rows={3}
-          label="New Description"
-          value={config.description}
-          onChange={(e) => {
-            e.stopPropagation();
-            handleConfigChange('description', e.target.value);
-          }}
-          onMouseDown={(e) => {
-            e.stopPropagation();
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          onKeyDown={(e) => {
-            e.stopPropagation();
-          }}
-          placeholder="e.g., {{ $trigger.newDescription }}"
-          sx={{ mb: 2, ml: 4 }}
-          InputProps={{
-            onMouseDown: (e) => {
-              e.stopPropagation();
-            },
-            onClick: (e) => {
-              e.stopPropagation();
-            },
-          }}
-          inputProps={{
-            onMouseDown: (e) => {
-              e.stopPropagation();
-            },
-            onClick: (e) => {
-              e.stopPropagation();
-            },
-          }}
-        />
-      )}
-
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={config.updatePriority}
-            onChange={(e) => {
-              e.stopPropagation();
-              handleConfigChange('updatePriority', e.target.checked);
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          />
-        }
-        label="Update Priority"
-        sx={{ mb: 1 }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      />
-      {config.updatePriority && (
-        <FormControl 
-          fullWidth 
-          sx={{ mb: 2, ml: 4 }}
-          onMouseDown={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
+      {/* Status */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', marginBottom: 4, fontSize: 12, color: '#6b7280' }}>
+          Status
+        </label>
+        <select
+          value={config.status}
+          style={{ ...inputStyle, backgroundColor: 'white', cursor: 'pointer' }}
+          onChange={(e) => handleConfigChange('status', e.target.value)}
+          onMouseDown={stopAll}
+          onClick={stopAll}
+          onPointerDown={stopAll}
+          onKeyDown={stopAll}
+          onFocus={stopAll}
         >
-          <InputLabel>New Priority</InputLabel>
-          <Select
-            value={config.priority}
-            label="New Priority"
-            onChange={(e) => {
-              e.stopPropagation();
-              handleConfigChange('priority', e.target.value);
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            onKeyDown={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <MenuItem value="LOW">Low</MenuItem>
-            <MenuItem value="MEDIUM">Medium</MenuItem>
-            <MenuItem value="HIGH">High</MenuItem>
-            <MenuItem value="CRITICAL">Critical</MenuItem>
-          </Select>
-        </FormControl>
-      )}
+          <option value="">Keep current</option>
+          <option value="OPEN">Open</option>
+          <option value="IN_PROGRESS">In Progress</option>
+          <option value="COMPLETED">Completed</option>
+          <option value="CANCELLED">Cancelled</option>
+        </select>
+      </div>
 
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={config.updateStatus}
-            onChange={(e) => {
-              e.stopPropagation();
-              handleConfigChange('updateStatus', e.target.checked);
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          />
-        }
-        label="Update Status"
-        sx={{ mb: 1 }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      />
-      {config.updateStatus && (
-        <FormControl 
-          fullWidth 
-          sx={{ mb: 2, ml: 4 }}
-          onMouseDown={(e) => e.stopPropagation()}
-          onClick={(e) => e.stopPropagation()}
+      {/* Priority */}
+      <div style={{ marginBottom: 16 }}>
+        <label style={{ display: 'block', marginBottom: 4, fontSize: 12, color: '#6b7280' }}>
+          Priority
+        </label>
+        <select
+          value={config.priority}
+          style={{ ...inputStyle, backgroundColor: 'white', cursor: 'pointer' }}
+          onChange={(e) => handleConfigChange('priority', e.target.value)}
+          onMouseDown={stopAll}
+          onClick={stopAll}
+          onPointerDown={stopAll}
+          onKeyDown={stopAll}
+          onFocus={stopAll}
         >
-          <InputLabel>New Status</InputLabel>
-          <Select
-            value={config.status}
-            label="New Status"
-            onChange={(e) => {
-              e.stopPropagation();
-              handleConfigChange('status', e.target.value);
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            onKeyDown={(e) => {
-              e.stopPropagation();
-            }}
-          >
-            <MenuItem value="TODO">To Do</MenuItem>
-            <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-            <MenuItem value="DONE">Done</MenuItem>
-          </Select>
-        </FormControl>
-      )}
-
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={config.updateAssignee}
-            onChange={(e) => {
-              e.stopPropagation();
-              handleConfigChange('updateAssignee', e.target.checked);
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-          />
-        }
-        label="Update Assignee"
-        sx={{ mb: 1 }}
-        onMouseDown={(e) => e.stopPropagation()}
-        onClick={(e) => e.stopPropagation()}
-      />
-      {config.updateAssignee && (
-        <TextField
-          fullWidth
-          label="New Assignee ID"
-          value={config.assigneeId}
-          onChange={(e) => {
-            e.stopPropagation();
-            handleConfigChange('assigneeId', e.target.value);
-          }}
-          onMouseDown={(e) => {
-            e.stopPropagation();
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-          onKeyDown={(e) => {
-            e.stopPropagation();
-          }}
-          placeholder="e.g., {{ $trigger.assigneeId }}"
-          sx={{ mb: 2, ml: 4 }}
-          InputProps={{
-            onMouseDown: (e) => {
-              e.stopPropagation();
-            },
-            onClick: (e) => {
-              e.stopPropagation();
-            },
-          }}
-          inputProps={{
-            onMouseDown: (e) => {
-              e.stopPropagation();
-            },
-            onClick: (e) => {
-              e.stopPropagation();
-            },
-          }}
-        />
-      )}
-    </Box>
+          <option value="">Keep current</option>
+          <option value="LOW">Low</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="HIGH">High</option>
+          <option value="CRITICAL">Critical</option>
+        </select>
+      </div>
+    </div>
   );
 };
 
