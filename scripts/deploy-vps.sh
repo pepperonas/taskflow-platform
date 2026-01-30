@@ -41,7 +41,7 @@ EOF
 echo "🔧 Setting up environment variables..."
 ssh ${VPS_USER}@${VPS_HOST} << EOF
 cd ${DEPLOY_DIR}
-cat > .env << 'ENVEOF'
+cat > .env << ENVEOF
 # Database
 DB_HOST=postgres
 DB_PORT=5432
@@ -61,10 +61,30 @@ JWT_EXPIRATION=86400000
 TASK_SERVICE_PORT=8080
 NOTIFICATION_SERVICE_PORT=8081
 
+# Email Configuration (SMTP) - Set via environment variables or update manually
+MAIL_HOST=\${MAIL_HOST:-premium269-4.web-hosting.com}
+MAIL_PORT=\${MAIL_PORT:-465}
+MAIL_USERNAME=\${MAIL_USERNAME:-martin.pfeffer@celox.io}
+MAIL_PASSWORD=\${MAIL_PASSWORD:-}
+
 # Frontend
 REACT_APP_API_URL=http://${VPS_HOST}:8080/api
 REACT_APP_WS_URL=ws://${VPS_HOST}:8080/ws
 ENVEOF
+
+# If MAIL_PASSWORD is set as environment variable, update .env file
+if [ -n "\$MAIL_PASSWORD" ]; then
+    sed -i "s|MAIL_PASSWORD=.*|MAIL_PASSWORD=\$MAIL_PASSWORD|" .env
+fi
+if [ -n "\$MAIL_USERNAME" ]; then
+    sed -i "s|MAIL_USERNAME=.*|MAIL_USERNAME=\$MAIL_USERNAME|" .env
+fi
+if [ -n "\$MAIL_HOST" ]; then
+    sed -i "s|MAIL_HOST=.*|MAIL_HOST=\$MAIL_HOST|" .env
+fi
+if [ -n "\$MAIL_PORT" ]; then
+    sed -i "s|MAIL_PORT=.*|MAIL_PORT=\$MAIL_PORT|" .env
+fi
 EOF
 
 echo "🏗️ Building and starting Docker containers..."

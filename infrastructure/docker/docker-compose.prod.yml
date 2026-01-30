@@ -64,8 +64,8 @@ services:
       JWT_SECRET: ${JWT_SECRET:-taskflow-production-secret-key-please-change-this-to-a-random-string}
       JWT_EXPIRATION: ${JWT_EXPIRATION:-86400000}
       ENCRYPTION_KEY: ${ENCRYPTION_KEY:-taskflow-32-char-encryption!!}
-      MAIL_HOST: ${MAIL_HOST:-smtp.gmail.com}
-      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_HOST: ${MAIL_HOST:-premium269-4.web-hosting.com}
+      MAIL_PORT: ${MAIL_PORT:-465}
       MAIL_USERNAME: ${MAIL_USERNAME:-}
       MAIL_PASSWORD: ${MAIL_PASSWORD:-}
     depends_on:
