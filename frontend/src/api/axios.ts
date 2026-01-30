@@ -43,10 +43,13 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error);
     }
     
+    // Check if we're in a "grace period" after login (first 5 seconds)
+    const loginTime = sessionStorage.getItem('loginTime');
+    const now = Date.now();
+    const isGracePeriod = loginTime && (now - parseInt(loginTime)) < 5000;
+    
     // Handle authentication errors (401 Unauthorized)
     if (error.response?.status === 401) {
-      // Only redirect if we're not already on the login page and we have a token
-      // (if no token, we're probably already logged out)
       const token = localStorage.getItem('token');
       const currentPath = window.location.pathname;
       
@@ -55,19 +58,16 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error);
       }
       
-      // Check if this is a fresh login (token was just set)
-      // If the error happens within 1 second of navigation, it might be a timing issue
-      const loginTime = sessionStorage.getItem('loginTime');
-      const now = Date.now();
-      if (loginTime && (now - parseInt(loginTime)) < 1000) {
-        // This might be a timing issue, don't logout immediately
-        console.warn('401 error shortly after login, might be timing issue');
+      // During grace period, don't logout - just log and reject
+      if (isGracePeriod) {
+        console.warn('401 error during grace period after login, ignoring logout:', error.config?.url);
         return Promise.reject(error);
       }
       
       // Clear token and user
       localStorage.removeItem('token');
       localStorage.removeItem('user');
+      sessionStorage.removeItem('loginTime');
       // Small delay to allow error message to be displayed
       setTimeout(() => {
         window.location.href = '/login';
@@ -76,24 +76,33 @@ axiosInstance.interceptors.response.use(
     }
     
     // Handle forbidden errors (403) - might be due to invalid/expired token
-    // Check if the error message indicates authentication issues
     if (error.response?.status === 403) {
       const errorMessage = error.response?.data?.message || '';
+      const token = localStorage.getItem('token');
+      const currentPath = window.location.pathname;
+      
+      // Don't redirect if we're on auth pages or if there's no token
+      if (!token || currentPath === '/login' || currentPath === '/register') {
+        return Promise.reject(error);
+      }
+      
+      // During grace period, don't logout - just log and reject
+      if (isGracePeriod) {
+        console.warn('403 error during grace period after login, ignoring logout:', error.config?.url);
+        return Promise.reject(error);
+      }
+      
       // If it's an authentication-related 403, treat it like 401
       if (errorMessage.includes('Authentication') || 
           errorMessage.includes('authenticated') ||
           errorMessage.includes('token') ||
           errorMessage.includes('login')) {
-        // Only redirect if we're not already on the login page and we have a token
-        const token = localStorage.getItem('token');
-        if (token && window.location.pathname !== '/login' && window.location.pathname !== '/register') {
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
-          // Small delay to allow error message to be displayed
-          setTimeout(() => {
-            window.location.href = '/login';
-          }, 100);
-        }
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        sessionStorage.removeItem('loginTime');
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 100);
         return Promise.reject(error);
       }
     }

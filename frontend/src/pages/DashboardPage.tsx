@@ -86,13 +86,13 @@ const DashboardPage: React.FC = () => {
       return;
     }
     
-    // Small delay to ensure token is available for API calls
+    // Longer delay to ensure token is available and axios interceptor is ready
     const timer = setTimeout(() => {
       dispatch(fetchTasks());
       fetchWorkflows();
       fetchRecentExecutions();
       fetchCredentialsCount();
-    }, 100);
+    }, 300);
     
     return () => clearTimeout(timer);
   }, [dispatch, navigate]);
