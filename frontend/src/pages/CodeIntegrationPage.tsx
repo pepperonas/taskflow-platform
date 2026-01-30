@@ -81,9 +81,13 @@ return {
     setError(null);
     setResult('');
 
+    // Debug: Log the code being executed
+    console.log('Executing code:', code);
+    console.log('Code length:', code.length);
+
     try {
-      const response = await axiosInstance.post('/v1/code/execute', {
-        code: code,
+      const requestPayload = {
+        code: code.trim(), // Trim whitespace
         triggerData: {
           name: 'Test User',
           score: 85,
@@ -92,7 +96,13 @@ return {
             { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com' }
           ]
         }
-      });
+      };
+      
+      console.log('Sending request:', { code: requestPayload.code.substring(0, 100) + '...', triggerData: requestPayload.triggerData });
+      
+      const response = await axiosInstance.post('/v1/code/execute', requestPayload);
+      
+      console.log('Response received:', response.data);
 
       if (response.data.error) {
         setError(response.data.error);
