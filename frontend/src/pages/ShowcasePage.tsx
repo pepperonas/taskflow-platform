@@ -22,6 +22,7 @@ import {
   Tabs,
   Tab,
   Divider,
+  Link,
 } from '@mui/material';
 import {
   AccountTree as WorkflowIcon,
@@ -37,6 +38,13 @@ import {
   Security as SecurityIcon,
   Extension as ExtensionIcon,
   Bolt as BoltIcon,
+  Api as ApiIcon,
+  Description as DocsIcon,
+  GitHub as GitHubIcon,
+  Cloud as CloudIcon,
+  Storage as StorageIcon,
+  Lock as LockIcon,
+  Web as WebIcon,
 } from '@mui/icons-material';
 
 interface TabPanelProps {
@@ -176,6 +184,35 @@ return result;`,
     },
   };
 
+  const techStack = {
+    backend: [
+      { name: 'Java 17', description: 'Modern Java with latest features' },
+      { name: 'Spring Boot 3.2.1', description: 'Enterprise-grade framework' },
+      { name: 'Apache Kafka', description: 'Event-driven messaging' },
+      { name: 'PostgreSQL 15', description: 'Reliable relational database' },
+      { name: 'Spring Data JPA', description: 'Data access layer' },
+      { name: 'Spring Security', description: 'JWT authentication & authorization' },
+      { name: 'Liquibase', description: 'Database migrations' },
+      { name: 'OpenAPI 3.0', description: 'API documentation' },
+    ],
+    frontend: [
+      { name: 'React 18', description: 'Modern UI library' },
+      { name: 'TypeScript 5.3', description: 'Type-safe JavaScript' },
+      { name: 'Redux Toolkit', description: 'State management' },
+      { name: 'Material-UI (MUI)', description: 'Component library' },
+      { name: 'React Flow', description: 'Workflow visualization' },
+      { name: 'Axios', description: 'HTTP client' },
+      { name: 'Recharts', description: 'Data visualization' },
+    ],
+    devops: [
+      { name: 'Docker', description: 'Containerization' },
+      { name: 'Docker Compose', description: 'Multi-container orchestration' },
+      { name: 'Nginx', description: 'Reverse proxy & load balancing' },
+      { name: 'GitHub Actions', description: 'CI/CD pipeline' },
+      { name: 'Maven', description: 'Build management' },
+    ],
+  };
+
   return (
     <Box sx={{ py: 4 }}>
       <Container maxWidth="xl">
@@ -207,7 +244,7 @@ return result;`,
           <Typography variant="h5" sx={{ color: 'text.secondary', mb: 4, maxWidth: 800, mx: 'auto' }}>
             Next-generation workflow automation platform with visual editor, code execution, and powerful integrations
           </Typography>
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Button
               variant="contained"
               size="large"
@@ -229,8 +266,181 @@ return result;`,
             >
               View Demos
             </Button>
+            <Button
+              variant="outlined"
+              size="large"
+              startIcon={<ApiIcon />}
+              href="https://taskflow.celox.io/api"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ px: 4, py: 1.5 }}
+            >
+              Backend API
+            </Button>
+            <Button
+              variant="outlined"
+              size="large"
+              startIcon={<DocsIcon />}
+              href="https://taskflow.celox.io/swagger-ui.html"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ px: 4, py: 1.5 }}
+            >
+              Swagger UI
+            </Button>
           </Box>
         </Box>
+
+        {/* Project Overview */}
+        <Paper sx={{ p: 4, mb: 4, background: 'linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%)' }}>
+          <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, textAlign: 'center' }}>
+            About TaskFlow Platform
+          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'primary.main' }}>
+                What is TaskFlow?
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
+                TaskFlow is a modern, event-driven task management and workflow automation platform. 
+                It combines the power of visual workflow editing with code execution, database integration, 
+                and API connectivity to create a comprehensive automation solution.
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                Built with enterprise-grade technologies, TaskFlow provides a scalable, secure, and 
+                user-friendly platform for automating business processes, managing tasks, and integrating 
+                with external systems.
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'primary.main' }}>
+                Key Capabilities
+              </Typography>
+              <List>
+                <ListItem>
+                  <ListItemIcon>
+                    <WorkflowIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary="Visual Workflow Builder"
+                    secondary="Drag-and-drop interface for creating complex automation workflows"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <CodeIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary="Code Execution"
+                    secondary="Run JavaScript code in a secure, sandboxed environment"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <DatabaseIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary="Database Integration"
+                    secondary="Execute SQL queries with built-in security protection"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <EmailIcon color="primary" />
+                  </ListItemIcon>
+                  <ListItemText 
+                    primary="Email Automation"
+                    secondary="Send automated emails with HTML templates"
+                  />
+                </ListItem>
+              </List>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* API & Documentation Links */}
+        <Grid container spacing={3} sx={{ mb: 4 }}>
+          <Grid item xs={12} md={6}>
+            <Card
+              sx={{
+                height: '100%',
+                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                color: 'white',
+                transition: 'transform 0.3s',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                },
+              }}
+            >
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <ApiIcon sx={{ fontSize: 40, mr: 2 }} />
+                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                    Backend API
+                  </Typography>
+                </Box>
+                <Typography variant="body1" sx={{ mb: 3, opacity: 0.9 }}>
+                  Access the RESTful API endpoints for tasks, workflows, credentials, and more.
+                  All endpoints are secured with JWT authentication.
+                </Typography>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  href="https://taskflow.celox.io/api"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    bgcolor: 'white',
+                    color: 'primary.main',
+                    '&:hover': { bgcolor: 'grey.100' },
+                  }}
+                >
+                  Explore API
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Card
+              sx={{
+                height: '100%',
+                background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                color: 'white',
+                transition: 'transform 0.3s',
+                '&:hover': {
+                  transform: 'translateY(-4px)',
+                },
+              }}
+            >
+              <CardContent>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <DocsIcon sx={{ fontSize: 40, mr: 2 }} />
+                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                    Swagger UI
+                  </Typography>
+                </Box>
+                <Typography variant="body1" sx={{ mb: 3, opacity: 0.9 }}>
+                  Interactive API documentation with OpenAPI 3.0. Test endpoints directly 
+                  from your browser with built-in authentication support.
+                </Typography>
+                <Button
+                  variant="contained"
+                  fullWidth
+                  href="https://taskflow.celox.io/swagger-ui.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    bgcolor: 'white',
+                    color: 'primary.main',
+                    '&:hover': { bgcolor: 'grey.100' },
+                  }}
+                >
+                  Open Swagger UI
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
 
         {/* Stats */}
         <Grid container spacing={3} sx={{ mb: 6 }}>
@@ -271,12 +481,14 @@ return result;`,
           <Tabs
             value={tabValue}
             onChange={(_, newValue) => setTabValue(newValue)}
-            variant="fullWidth"
+            variant="scrollable"
+            scrollButtons="auto"
             sx={{ borderBottom: 1, borderColor: 'divider' }}
           >
             <Tab label="Features" />
             <Tab label="Interactive Demos" />
             <Tab label="Use Cases" />
+            <Tab label="Technologies" />
           </Tabs>
 
           {/* Tab 1: Features */}
@@ -445,6 +657,120 @@ return result;`,
               ))}
             </Grid>
           </TabPanel>
+
+          {/* Tab 4: Technologies */}
+          <TabPanel value={tabValue} index={3}>
+            <Grid container spacing={4}>
+              {/* Backend Technologies */}
+              <Grid item xs={12} md={4}>
+                <Paper sx={{ p: 3, height: '100%' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                    <CloudIcon sx={{ fontSize: 32, mr: 1, color: 'primary.main' }} />
+                    <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                      Backend
+                    </Typography>
+                  </Box>
+                  <List>
+                    {techStack.backend.map((tech, idx) => (
+                      <ListItem key={idx} sx={{ px: 0 }}>
+                        <ListItemIcon>
+                          <CheckIcon color="success" />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={tech.name}
+                          secondary={tech.description}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Paper>
+              </Grid>
+
+              {/* Frontend Technologies */}
+              <Grid item xs={12} md={4}>
+                <Paper sx={{ p: 3, height: '100%' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                    <WebIcon sx={{ fontSize: 32, mr: 1, color: 'primary.main' }} />
+                    <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                      Frontend
+                    </Typography>
+                  </Box>
+                  <List>
+                    {techStack.frontend.map((tech, idx) => (
+                      <ListItem key={idx} sx={{ px: 0 }}>
+                        <ListItemIcon>
+                          <CheckIcon color="success" />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={tech.name}
+                          secondary={tech.description}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Paper>
+              </Grid>
+
+              {/* DevOps Technologies */}
+              <Grid item xs={12} md={4}>
+                <Paper sx={{ p: 3, height: '100%' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
+                    <StorageIcon sx={{ fontSize: 32, mr: 1, color: 'primary.main' }} />
+                    <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                      DevOps
+                    </Typography>
+                  </Box>
+                  <List>
+                    {techStack.devops.map((tech, idx) => (
+                      <ListItem key={idx} sx={{ px: 0 }}>
+                        <ListItemIcon>
+                          <CheckIcon color="success" />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={tech.name}
+                          secondary={tech.description}
+                        />
+                      </ListItem>
+                    ))}
+                  </List>
+                </Paper>
+              </Grid>
+            </Grid>
+
+            {/* Architecture Diagram */}
+            <Paper sx={{ p: 4, mt: 4, background: 'linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%)' }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, textAlign: 'center' }}>
+                System Architecture
+              </Typography>
+              <Box
+                sx={{
+                  fontFamily: 'monospace',
+                  fontSize: '14px',
+                  bgcolor: '#1e1e1e',
+                  color: '#d4d4d4',
+                  p: 3,
+                  borderRadius: 1,
+                  overflow: 'auto',
+                }}
+              >
+                <pre>{`┌─────────────┐      ┌──────────────┐      ┌─────────────────┐
+│   Frontend  │─────▶│ Task Service │─────▶│   PostgreSQL    │
+│  (React)    │      │ (Spring Boot)│      │                 │
+└─────────────┘      └──────┬───────┘      └─────────────────┘
+                            │
+                            ▼
+                     ┌─────────────┐
+                     │Apache Kafka │
+                     └──────┬──────┘
+                            │
+                            ▼
+                ┌───────────────────────┐
+                │ Notification Service  │
+                │   (Kafka Consumer)    │
+                └───────────────────────┘`}</pre>
+              </Box>
+            </Paper>
+          </TabPanel>
         </Paper>
 
         {/* Quick Start Guide */}
@@ -498,9 +824,27 @@ return result;`,
                 '&:hover': { bgcolor: 'grey.100' },
                 px: 4,
                 py: 1.5,
+                mr: 2,
               }}
             >
               Start Building Now
+            </Button>
+            <Button
+              variant="outlined"
+              size="large"
+              startIcon={<GitHubIcon />}
+              href="https://github.com/pepperonas/taskflow-platform"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{
+                borderColor: 'white',
+                color: 'white',
+                '&:hover': { borderColor: 'white', bgcolor: 'rgba(255,255,255,0.1)' },
+                px: 4,
+                py: 1.5,
+              }}
+            >
+              View on GitHub
             </Button>
           </Box>
         </Paper>
