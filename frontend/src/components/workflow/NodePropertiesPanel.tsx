@@ -137,10 +137,8 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
         disableEnforceFocus: true,
         disableAutoFocus: true,
         disableRestoreFocus: true,
-        disablePortal: false,
-        style: {
-          pointerEvents: 'none',
-        },
+        disablePortal: true,
+        keepMounted: true,
       }}
       PaperProps={{
         onMouseDown: (e) => {
@@ -152,7 +150,6 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
       }}
       sx={{
         zIndex: 1300,
-        pointerEvents: 'none',
         '& .MuiDrawer-paper': {
           width: 400,
           boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.1)',
@@ -160,7 +157,6 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
           top: 0,
           right: 0,
           height: '100vh',
-          pointerEvents: 'auto',
         },
       }}
     >
