@@ -225,7 +225,10 @@ TaskFlow Team`,
               fullWidth
               variant="contained"
               startIcon={<SendIcon />}
-              onClick={handleSendTest}
+              onClick={() => {
+                console.log('Button clicked!');
+                handleSendTest();
+              }}
               disabled={loading}
               sx={{ background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }}
             >

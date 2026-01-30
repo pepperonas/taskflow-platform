@@ -176,6 +176,9 @@ mvn verify
 **Database Integration**:
 - `POST /api/v1/database/query` - Execute SQL query (SELECT only, with security validation)
 
+**Email Integration**:
+- `POST /api/v1/email/send` - Send email via SMTP with HTML support and variable interpolation
+
 **Code Execution**:
 - `POST /api/v1/code/execute` - Execute JavaScript code in sandboxed GraalVM environment
 
@@ -227,6 +230,7 @@ docker-compose up -d
 - [Testing Guide](docs/TESTING.md)
 - [Security Documentation](docs/SECURITY.md)
 - [Database Integration Guide](docs/DATABASE_INTEGRATION.md)
+- [Email Integration Guide](docs/EMAIL_INTEGRATION.md)
 - [Code Execution Guide](docs/CODE_EXECUTION.md)
 
 ## 🔧 Development
