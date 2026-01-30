@@ -137,7 +137,7 @@ const DashboardPage: React.FC = () => {
   const completedTasks = tasks.filter(t => t.status === 'COMPLETED').length;
   const inProgressTasks = tasks.filter(t => t.status === 'IN_PROGRESS').length;
   const openTasks = tasks.filter(t => t.status === 'OPEN').length;
-  const cancelledTasks = tasks.filter(t => t.status === 'CANCELLED').length;
+  const archivedTasks = tasks.filter(t => t.status === 'ARCHIVED').length;
 
   // Calculate workflow statistics
   const activeWorkflows = workflows.filter(w => w.status === 'ACTIVE').length;
@@ -153,7 +153,7 @@ const DashboardPage: React.FC = () => {
     { name: 'Completed', value: completedTasks, color: '#43e97b' },
     { name: 'In Progress', value: inProgressTasks, color: '#f093fb' },
     { name: 'Open', value: openTasks, color: '#fa709a' },
-    { name: 'Cancelled', value: cancelledTasks, color: '#9ca3af' },
+    { name: 'Archived', value: archivedTasks, color: '#9ca3af' },
   ].filter(item => item.value > 0);
 
   // Task priority distribution
