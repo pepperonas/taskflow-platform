@@ -195,11 +195,10 @@ docker-compose up -d
 
 ## 📖 Documentation
 
-- [Architecture Documentation](docs/ARCHITECTURE.md)
-- [API Documentation](docs/API.md)
-- [Deployment Guide](docs/DEPLOYMENT.md)
-- [Development Guide](docs/DEVELOPMENT.md)
+- [Workflow Editor Guide](docs/WORKFLOW_EDITOR_GUIDE.md)
+- [Workflow Editor Technical](docs/WORKFLOW_EDITOR_TECHNICAL.md)
 - [Testing Guide](docs/TESTING.md)
+- [Security Documentation](docs/SECURITY.md)
 
 ## 🔧 Development
 
@@ -237,6 +236,17 @@ Tasks emit events (created, updated, completed, deleted) to Kafka topics. The No
 - **Strategy Pattern** - Notification Types
 - **Observer Pattern** - Event Handling
 - **Builder Pattern** - DTOs & Entities
+
+## 🔒 Security
+
+The TaskFlow Platform includes comprehensive security measures:
+
+- **SQL Injection Protection**: Multi-layer validation, keyword blocking, and pattern detection
+- **JWT Authentication**: Secure token-based authentication
+- **Query Restrictions**: Only SELECT and WITH queries allowed in Database Integration
+- **Security Alert Logging**: All suspicious activity is logged and monitored
+
+For detailed security documentation, see [docs/SECURITY.md](docs/SECURITY.md).
 
 ## 🤝 Contributing
 
