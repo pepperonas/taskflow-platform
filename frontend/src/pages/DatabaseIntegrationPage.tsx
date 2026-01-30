@@ -89,10 +89,22 @@ WHERE t.status = 'in_progress';`,
       }
     } catch (err: any) {
       console.error('Query execution error:', err);
-      const errorMessage = err.response?.data?.error || 
-                          err.response?.data?.message || 
-                          err.message || 
-                          'Query execution failed';
+      console.error('Error response:', err.response?.data);
+      
+      // Try to extract the error message from the response
+      let errorMessage = 'Query execution failed';
+      if (err.response?.data) {
+        if (err.response.data.error) {
+          errorMessage = err.response.data.error;
+        } else if (err.response.data.message) {
+          errorMessage = err.response.data.message;
+        } else if (typeof err.response.data === 'string') {
+          errorMessage = err.response.data;
+        }
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
       setError(errorMessage);
     } finally {
       setLoading(false);
