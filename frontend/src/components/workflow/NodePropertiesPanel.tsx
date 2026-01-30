@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {
   Drawer,
   Box,
@@ -43,7 +44,59 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
     }
   }, [node, onUpdate]);
 
+  // Create portal container if it doesn't exist
+  React.useEffect(() => {
+    const portalRoot = document.getElementById('drawer-portal-root');
+    if (!portalRoot) {
+      const div = document.createElement('div');
+      div.id = 'drawer-portal-root';
+      div.style.position = 'fixed';
+      div.style.top = '0';
+      div.style.right = '0';
+      div.style.zIndex = '9999';
+      div.style.pointerEvents = 'none';
+      document.body.appendChild(div);
+    }
+  }, []);
+
   if (!node) return null;
+
+  const drawerContent = (
+    <Drawer
+      anchor="right"
+      open={!!node}
+      onClose={onClose}
+      variant="persistent"
+      hideBackdrop={true}
+      container={() => document.getElementById('drawer-portal-root') || document.body}
+      disablePortal={false}
+      ModalProps={{
+        disableEnforceFocus: true,
+        disableAutoFocus: true,
+        disableRestoreFocus: true,
+        keepMounted: false,
+      }}
+      PaperProps={{
+        sx: {
+          pointerEvents: 'auto',
+        },
+      }}
+      sx={{
+        zIndex: 9999,
+        '& .MuiDrawer-paper': {
+          width: 400,
+          boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.1)',
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          height: '100vh',
+          pointerEvents: 'auto',
+        },
+      }}
+    >
+      {renderDrawerContent()}
+    </Drawer>
+  );
 
   const getNodeIcon = (type: string) => {
     switch (type) {
@@ -277,8 +330,14 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
       <Box sx={{ flex: 1, overflow: 'auto' }}>
         {renderConfig()}
       </Box>
-    </Drawer>
+    </>
   );
+
+  // Render using React Portal to escape React Flow's event handling
+  const portalRoot = document.getElementById('drawer-portal-root');
+  if (!portalRoot) return null;
+
+  return ReactDOM.createPortal(drawerContent, portalRoot);
 };
 
 export default NodePropertiesPanel;
