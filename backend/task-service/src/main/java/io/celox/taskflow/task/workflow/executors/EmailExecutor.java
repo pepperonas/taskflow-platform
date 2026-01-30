@@ -43,6 +43,8 @@ public class EmailExecutor implements NodeExecutor {
         }
 
         try {
+            log.info("Attempting to send email to: {}, subject: {}", to, subject);
+            
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
@@ -51,7 +53,9 @@ public class EmailExecutor implements NodeExecutor {
             helper.setText(body != null ? body : "", true); // HTML
             helper.setFrom(from);
 
+            log.info("Sending email via JavaMailSender...");
             mailSender.send(message);
+            log.info("Email sent successfully to: {}", to);
 
             Map<String, Object> result = new HashMap<>();
             result.put("sent", true);
@@ -63,13 +67,28 @@ public class EmailExecutor implements NodeExecutor {
 
             return result;
 
+        } catch (jakarta.mail.MessagingException e) {
+            log.error("MessagingException while sending email to {}: {}", to, e.getMessage(), e);
+            context.log("ERROR: Failed to send email - " + e.getMessage());
+            
+            Map<String, Object> errorResult = new HashMap<>();
+            errorResult.put("sent", false);
+            errorResult.put("error", "Email sending failed: " + e.getMessage());
+            if (e.getCause() != null) {
+                errorResult.put("cause", e.getCause().getMessage());
+            }
+
+            return errorResult;
         } catch (Exception e) {
-            log.error("Failed to send email", e);
+            log.error("Unexpected error while sending email to {}: {}", to, e.getMessage(), e);
             context.log("ERROR: Failed to send email - " + e.getMessage());
 
             Map<String, Object> errorResult = new HashMap<>();
             errorResult.put("sent", false);
             errorResult.put("error", e.getMessage());
+            if (e.getCause() != null) {
+                errorResult.put("cause", e.getCause().getMessage());
+            }
 
             return errorResult;
         }

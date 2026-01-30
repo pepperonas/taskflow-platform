@@ -37,19 +37,24 @@ spring:
     port: ${MAIL_PORT:465}
     username: ${MAIL_USERNAME:}
     password: ${MAIL_PASSWORD:}
+    default-encoding: UTF-8
     properties:
       mail:
         smtp:
           auth: true
+          starttls:
+            enable: false
+            required: false
           ssl:
             enable: true
             trust: "*"
           socketFactory:
             class: javax.net.ssl.SSLSocketFactory
             port: 465
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
+          connectiontimeout: 15000
+          timeout: 15000
+          writetimeout: 15000
+          debug: true
 
 app:
   jwt:
