@@ -21,6 +21,7 @@ import {
   Check as CheckIcon,
   Warning as WarningIcon 
 } from '@mui/icons-material';
+import axiosInstance from '../api/axios';
 
 const DatabaseIntegrationPage: React.FC = () => {
   const navigate = useNavigate();
