@@ -618,6 +618,93 @@ const CodeNode = ({ data, id }: any) => {
   );
 };
 
+const EmailNode = ({ data, id }: any) => {
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        position: 'relative',
+        padding: '15px 20px',
+        borderRadius: '8px',
+        background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+        border: data.disabled ? '2px dashed #9ca3af' : 'none',
+        color: 'white',
+        minWidth: '200px',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        opacity: data.disabled ? 0.4 : 1,
+      }}
+    >
+      {isHovered && !data.disabled && (
+        <div
+          style={{
+            position: 'absolute',
+            top: -40,
+            right: 0,
+            display: 'flex',
+            gap: '4px',
+            background: 'white',
+            padding: '4px',
+            borderRadius: '6px',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+            zIndex: 1000,
+          }}
+        >
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              data.onToggleDisable?.(id);
+            }}
+            style={{
+              padding: '4px 8px',
+              border: 'none',
+              background: '#f3f4f6',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '12px',
+            }}
+            title="Disable"
+          >
+            ⏸️
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              data.onDelete?.(id);
+            }}
+            style={{
+              padding: '4px 8px',
+              border: 'none',
+              background: '#fee2e2',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '12px',
+            }}
+            title="Delete"
+          >
+            🗑️
+          </button>
+        </div>
+      )}
+      <Handle type="target" position={Position.Left} style={{ background: '#fee140' }} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <span style={{ fontSize: '24px' }}>📧</span>
+        <div>
+          <div style={{ fontWeight: 600 }}>{data.label || 'Email'}</div>
+          {data.config?.to && (
+            <div style={{ fontSize: '11px', opacity: 0.9, marginTop: '4px' }}>
+              To: {data.config.to.substring(0, 30)}{data.config.to.length > 30 ? '...' : ''}
+            </div>
+          )}
+        </div>
+      </div>
+      <Handle type="source" position={Position.Right} style={{ background: '#fee140' }} />
+    </div>
+  );
+};
+
 const nodeTypes: NodeTypes = {
   trigger: TriggerNode,
   createTask: CreateTaskNode,
@@ -626,6 +713,7 @@ const nodeTypes: NodeTypes = {
   delay: DelayNode,
   httpRequest: HttpRequestNode,
   code: CodeNode,
+  email: EmailNode,
   stickyNote: StickyNoteNode,
 };
 
@@ -1629,6 +1717,16 @@ const WorkflowEditorPageV2: React.FC = () => {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <span>💻</span>
                 <span>Code (JavaScript)</span>
+              </Box>
+            </Paper>
+
+            <Paper
+              sx={{ p: 1.5, mb: 1, cursor: 'pointer', '&:hover': { bgcolor: '#f0f9ff' } }}
+              onClick={() => addNode('email')}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <span>📧</span>
+                <span>Send Email</span>
               </Box>
             </Paper>
 

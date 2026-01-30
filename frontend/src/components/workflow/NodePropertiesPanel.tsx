@@ -14,6 +14,7 @@ import ConditionConfig from './node-configs/ConditionConfig';
 import DelayConfig from './node-configs/DelayConfig';
 import HttpRequestConfig from './node-configs/HttpRequestConfig';
 import CodeConfig from './node-configs/CodeConfig';
+import EmailConfig from './node-configs/EmailConfig';
 
 interface NodePropertiesPanelProps {
   node: Node | null;
@@ -60,6 +61,8 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
         return '🌐';
       case 'code':
         return '💻';
+      case 'email':
+        return '📧';
       default:
         return '📦';
     }
@@ -81,6 +84,8 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
         return 'HTTP Request';
       case 'code':
         return 'Code';
+      case 'email':
+        return 'Email';
       default:
         return type;
     }
@@ -100,6 +105,8 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
         return <HttpRequestConfig node={node} onUpdate={onUpdate} />;
       case 'code':
         return <CodeConfig node={node} onUpdate={onUpdate} />;
+      case 'email':
+        return <EmailConfig node={node} onUpdate={onUpdate} />;
       case 'trigger':
         return (
           <Box sx={{ p: 2 }}>

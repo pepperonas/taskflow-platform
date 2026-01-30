@@ -26,10 +26,16 @@ public class EmailExecutor implements NodeExecutor {
 
         context.log("Executing Email node: " + node.getId());
 
-        String to = resolveTemplate((String) data.get("to"), context);
-        String subject = resolveTemplate((String) data.get("subject"), context);
-        String body = resolveTemplate((String) data.get("body"), context);
-        String from = (String) data.getOrDefault("from", "noreply@taskflow.celox.io");
+        // Support both config.* structure (from frontend) and direct properties
+        Map<String, Object> config = (Map<String, Object>) data.get("config");
+        if (config == null) {
+            config = data; // Fallback to direct properties
+        }
+
+        String to = resolveTemplate((String) config.get("to"), context);
+        String subject = resolveTemplate((String) config.get("subject"), context);
+        String body = resolveTemplate((String) config.get("body"), context);
+        String from = (String) config.getOrDefault("from", "martin.pfeffer@celox.io");
 
         if (to == null || to.trim().isEmpty()) {
             context.log("WARNING: No recipient email address specified");
