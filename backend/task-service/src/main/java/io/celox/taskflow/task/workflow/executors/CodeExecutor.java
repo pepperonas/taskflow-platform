@@ -163,14 +163,36 @@ public class CodeExecutor implements NodeExecutor {
     private String validateCode(String code) {
         String codeLower = code.toLowerCase();
         
-        // Use word boundaries to avoid false positives (e.g., "evaluate" shouldn't match "eval")
+        // Use Pattern.compile for proper regex handling
         for (String pattern : DANGEROUS_PATTERNS) {
-            // Escape special regex characters in pattern
-            String escapedPattern = pattern.replace("\\", "\\\\");
-            // Use word boundary to match whole words only
-            if (code.matches("(?s).*\\b" + escapedPattern + "\\b.*")) {
-                log.warn("SECURITY ALERT: Dangerous code pattern detected: {}", pattern);
-                return "Dangerous pattern detected: " + pattern.replace("\\", "");
+            try {
+                // Patterns already contain regex, so we compile them directly
+                // Add word boundaries where appropriate (before keywords, after function names)
+                java.util.regex.Pattern compiledPattern;
+                
+                // For patterns with parentheses like "eval\\s*\\(", we need to handle them carefully
+                if (pattern.contains("(")) {
+                    // Pattern already has escaped parentheses, compile as-is with word boundary before
+                    String patternWithBoundary = "\\b" + pattern;
+                    compiledPattern = java.util.regex.Pattern.compile(patternWithBoundary, 
+                        java.util.regex.Pattern.CASE_INSENSITIVE | java.util.regex.Pattern.DOTALL);
+                } else {
+                    // For simple keywords, add word boundaries on both sides
+                    compiledPattern = java.util.regex.Pattern.compile("\\b" + pattern + "\\b", 
+                        java.util.regex.Pattern.CASE_INSENSITIVE | java.util.regex.Pattern.DOTALL);
+                }
+                
+                if (compiledPattern.matcher(code).find()) {
+                    log.warn("SECURITY ALERT: Dangerous code pattern detected: {}", pattern);
+                    return "Dangerous pattern detected: " + pattern.replace("\\", "");
+                }
+            } catch (java.util.regex.PatternSyntaxException e) {
+                log.error("Invalid regex pattern: {}", pattern, e);
+                // Fallback to simple contains check for invalid patterns
+                if (codeLower.contains(pattern.replace("\\", "").replace("(", "").replace(")", ""))) {
+                    log.warn("SECURITY ALERT: Dangerous code pattern detected (fallback): {}", pattern);
+                    return "Dangerous pattern detected: " + pattern.replace("\\", "");
+                }
             }
         }
         
