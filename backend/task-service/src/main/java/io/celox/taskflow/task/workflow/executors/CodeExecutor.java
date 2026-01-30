@@ -122,8 +122,22 @@ public class CodeExecutor implements NodeExecutor {
 
                 context.log("Executing JavaScript code (timeout: " + MAX_EXECUTION_TIME_MS + "ms)");
 
+                // Wrap code in a function if it contains a return statement
+                // This allows users to write code with return statements naturally
+                String codeToExecute = code.trim();
+                boolean hasReturn = codeToExecute.matches("(?s).*\\breturn\\b.*");
+                
+                if (hasReturn) {
+                    // Wrap in an IIFE (Immediately Invoked Function Expression)
+                    codeToExecute = "(function() {\n" + codeToExecute + "\n})()";
+                } else {
+                    // For code without return, wrap in expression to capture last value
+                    // This allows code like: const x = 5; x * 2; (returns 10)
+                    codeToExecute = "(function() {\n" + codeToExecute + "\n})()";
+                }
+
                 // Execute with timeout - make code final for lambda
-                final String finalCode = code;
+                final String finalCode = codeToExecute;
                 CompletableFuture<Value> future = CompletableFuture.supplyAsync(() -> {
                     try {
                         return jsContext.eval("js", finalCode);
