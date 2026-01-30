@@ -94,9 +94,18 @@ public class DatabaseController {
                 "Only SELECT and WITH (CTE) queries are allowed. Write operations are not permitted.");
         }
 
-        // Check for dangerous keywords
+        // Check for dangerous keywords (as whole words only, not substrings)
+        // Use word boundaries to avoid false positives like "created_at" containing "create"
         for (String keyword : DANGEROUS_KEYWORDS) {
-            if (queryLower.contains(keyword)) {
+            // Skip comment markers and special characters - they're checked separately
+            if (keyword.equals("--") || keyword.equals("/*") || keyword.equals("*/")) {
+                continue; // Already checked in containsSqlInjectionPattern
+            }
+            
+            // Use word boundary regex to match whole words only
+            // This prevents false positives like "created_at" matching "create"
+            String wordBoundaryPattern = "\\b" + Pattern.quote(keyword) + "\\b";
+            if (Pattern.compile(wordBoundaryPattern, Pattern.CASE_INSENSITIVE).matcher(queryLower).find()) {
                 return new SecurityValidationResult(false, 
                     "Query contains prohibited keyword: " + keyword.toUpperCase());
             }
