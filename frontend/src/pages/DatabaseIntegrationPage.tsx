@@ -59,13 +59,13 @@ FROM workflows;`,
   t.id,
   t.title,
   t.status,
+  t.priority,
   u.email as assigned_to,
-  w.name as workflow_name
+  u.username
 FROM tasks t
 LEFT JOIN users u ON t.assignee_id = u.id
-LEFT JOIN workflows w ON t.id = w.id
 WHERE t.status = 'IN_PROGRESS';`,
-      description: 'Join tasks with users and workflows',
+      description: 'Join tasks with assigned users',
     },
   ];
 
