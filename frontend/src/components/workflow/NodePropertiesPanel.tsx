@@ -1,13 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {
-  Drawer,
-  Box,
-  Typography,
-  IconButton,
-  Divider,
-} from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import { Node } from 'reactflow';
 import CreateTaskConfig from './node-configs/CreateTaskConfig';
 import UpdateTaskConfig from './node-configs/UpdateTaskConfig';
@@ -28,7 +19,6 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
   onClose,
   onUpdate,
 }) => {
-  const inputRef = React.useRef<HTMLInputElement>(null);
   const [localLabel, setLocalLabel] = React.useState<string>('');
 
   React.useEffect(() => {
@@ -37,255 +27,127 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
     }
   }, [node]);
 
-  const handleLabelChange = React.useCallback((newLabel: string) => {
+  const handleLabelChange = (newLabel: string) => {
     setLocalLabel(newLabel);
     if (node) {
       onUpdate(node.id, { ...node.data, label: newLabel });
     }
-  }, [node, onUpdate]);
-
-  // Create portal container if it doesn't exist
-  React.useEffect(() => {
-    const portalRoot = document.getElementById('drawer-portal-root');
-    if (!portalRoot) {
-      const div = document.createElement('div');
-      div.id = 'drawer-portal-root';
-      div.style.position = 'fixed';
-      div.style.top = '0';
-      div.style.right = '0';
-      div.style.zIndex = '9999';
-      div.style.pointerEvents = 'none';
-      document.body.appendChild(div);
-    }
-  }, []);
+  };
 
   if (!node) return null;
 
   const getNodeIcon = (type: string) => {
-    switch (type) {
-      case 'trigger':
-        return '⚡';
-      case 'createTask':
-        return '📝';
-      case 'updateTask':
-        return '✏️';
-      case 'condition':
-        return '🔀';
-      case 'delay':
-        return '⏱️';
-      case 'httpRequest':
-        return '🌐';
-      case 'code':
-        return '💻';
-      case 'email':
-        return '📧';
-      default:
-        return '📦';
-    }
+    const icons: Record<string, string> = {
+      trigger: '⚡', createTask: '📝', updateTask: '✏️', condition: '🔀',
+      delay: '⏱️', httpRequest: '🌐', code: '💻', email: '📧',
+    };
+    return icons[type] || '📦';
   };
 
   const getNodeTypeLabel = (type: string) => {
-    switch (type) {
-      case 'trigger':
-        return 'Trigger';
-      case 'createTask':
-        return 'Create Task';
-      case 'updateTask':
-        return 'Update Task';
-      case 'condition':
-        return 'Condition';
-      case 'delay':
-        return 'Delay';
-      case 'httpRequest':
-        return 'HTTP Request';
-      case 'code':
-        return 'Code';
-      case 'email':
-        return 'Email';
-      default:
-        return type;
-    }
+    const labels: Record<string, string> = {
+      trigger: 'Trigger', createTask: 'Create Task', updateTask: 'Update Task',
+      condition: 'Condition', delay: 'Delay', httpRequest: 'HTTP Request',
+      code: 'Code', email: 'Email',
+    };
+    return labels[type] || type;
   };
 
   const renderConfig = () => {
     switch (node.type) {
-      case 'createTask':
-        return <CreateTaskConfig node={node} onUpdate={onUpdate} />;
-      case 'updateTask':
-        return <UpdateTaskConfig node={node} onUpdate={onUpdate} />;
-      case 'condition':
-        return <ConditionConfig node={node} onUpdate={onUpdate} />;
-      case 'delay':
-        return <DelayConfig node={node} onUpdate={onUpdate} />;
-      case 'httpRequest':
-        return <HttpRequestConfig node={node} onUpdate={onUpdate} />;
-      case 'code':
-        return <CodeConfig node={node} onUpdate={onUpdate} />;
-      case 'email':
-        return <EmailConfig node={node} onUpdate={onUpdate} />;
+      case 'createTask': return <CreateTaskConfig node={node} onUpdate={onUpdate} />;
+      case 'updateTask': return <UpdateTaskConfig node={node} onUpdate={onUpdate} />;
+      case 'condition': return <ConditionConfig node={node} onUpdate={onUpdate} />;
+      case 'delay': return <DelayConfig node={node} onUpdate={onUpdate} />;
+      case 'httpRequest': return <HttpRequestConfig node={node} onUpdate={onUpdate} />;
+      case 'code': return <CodeConfig node={node} onUpdate={onUpdate} />;
+      case 'email': return <EmailConfig node={node} onUpdate={onUpdate} />;
       case 'trigger':
-        return (
-          <Box sx={{ p: 2 }}>
-            <Typography variant="body2" sx={{ color: '#6b7280' }}>
-              This is a manual trigger node. Click "Execute" to run the workflow with custom trigger data.
-            </Typography>
-          </Box>
-        );
+        return <div style={{ padding: 16, color: '#6b7280' }}>Manual trigger node. Click "Execute" to run.</div>;
       default:
-        return (
-          <Box sx={{ p: 2 }}>
-            <Typography variant="body2" sx={{ color: '#6b7280' }}>
-              No configuration available for this node type.
-            </Typography>
-          </Box>
-        );
+        return <div style={{ padding: 16, color: '#6b7280' }}>No configuration available.</div>;
     }
   };
 
-  const drawerContent = (
-    <Drawer
-      anchor="right"
-      open={!!node}
-      onClose={onClose}
-      variant="persistent"
-      hideBackdrop={true}
-      container={() => document.getElementById('drawer-portal-root') || document.body}
-      disablePortal={false}
-      ModalProps={{
-        disableEnforceFocus: true,
-        disableAutoFocus: true,
-        disableRestoreFocus: true,
-        keepMounted: false,
-      }}
-      PaperProps={{
-        sx: {
-          pointerEvents: 'auto',
-        },
-      }}
-      sx={{
+  // Pure HTML/CSS Drawer - NO Material-UI
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        top: 0,
+        right: 0,
+        width: 400,
+        height: '100vh',
+        backgroundColor: 'white',
+        boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.1)',
         zIndex: 9999,
-        '& .MuiDrawer-paper': {
-          width: 400,
-          boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.1)',
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          height: '100vh',
-          pointerEvents: 'auto',
-        },
+        display: 'flex',
+        flexDirection: 'column',
+        overflow: 'hidden',
       }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
     >
       {/* Header */}
-      <Box
-        sx={{
-          p: 2,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          borderBottom: '1px solid #e5e7eb',
-        }}
-      >
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          <span style={{ fontSize: '24px' }}>{getNodeIcon(node.type || '')}</span>
-          <Typography variant="h6">{getNodeTypeLabel(node.type || '')}</Typography>
-        </Box>
-        <IconButton onClick={onClose} size="small">
-          <CloseIcon />
-        </IconButton>
-      </Box>
+      <div style={{
+        padding: 16,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        borderBottom: '1px solid #e5e7eb',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 24 }}>{getNodeIcon(node.type || '')}</span>
+          <span style={{ fontSize: 18, fontWeight: 600 }}>{getNodeTypeLabel(node.type || '')}</span>
+        </div>
+        <button
+          onClick={onClose}
+          style={{
+            border: 'none',
+            background: '#f3f4f6',
+            borderRadius: 4,
+            padding: '4px 8px',
+            cursor: 'pointer',
+            fontSize: 16,
+          }}
+        >
+          ✕
+        </button>
+      </div>
 
       {/* Node Name */}
-      <Box 
-        sx={{ p: 2, borderBottom: '1px solid #e5e7eb' }}
-        className="nodrag nowheel"
-        onMouseDown={(e) => {
-          e.stopPropagation();
-        }}
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        <Box sx={{ mb: 1 }} className="nodrag nowheel">
-          <Typography variant="caption" sx={{ color: '#6b7280', display: 'block', mb: 0.5 }}>
-            Node Name
-          </Typography>
-          <input
-            ref={inputRef}
-            type="text"
-            value={localLabel}
-            className="nodrag nowheel"
-            onChange={(e) => {
-              const newValue = e.target.value;
-              setLocalLabel(newValue);
-              handleLabelChange(newValue);
-            }}
-            onMouseDown={(e) => {
-              e.stopPropagation();
-            }}
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            onKeyDown={(e) => {
-              e.stopPropagation();
-            }}
-            onKeyPress={(e) => {
-              e.stopPropagation();
-            }}
-            onKeyUp={(e) => {
-              e.stopPropagation();
-            }}
-            onFocus={(e) => {
-              e.stopPropagation();
-              (e.target as HTMLInputElement).style.borderColor = '#667eea';
-              (e.target as HTMLInputElement).style.boxShadow = '0 0 0 2px rgba(102, 126, 234, 0.2)';
-              e.target.select();
-            }}
-            onBlur={(e) => {
-              (e.target as HTMLInputElement).style.borderColor = '#d1d5db';
-              (e.target as HTMLInputElement).style.boxShadow = 'none';
-            }}
-            onMouseEnter={(e) => {
-              if (document.activeElement !== e.target) {
-                (e.target as HTMLInputElement).style.borderColor = '#9ca3af';
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (document.activeElement !== e.target) {
-                (e.target as HTMLInputElement).style.borderColor = '#d1d5db';
-              }
-            }}
-            style={{
-              width: '100%',
-              padding: '8px 12px',
-              border: '1px solid #d1d5db',
-              borderRadius: '4px',
-              fontSize: '14px',
-              fontFamily: 'inherit',
-              outline: 'none',
-              boxSizing: 'border-box',
-            }}
-            data-testid="node-name-input"
-          />
-        </Box>
-        <Typography variant="caption" sx={{ color: '#6b7280', display: 'block', mt: 1 }}>
+      <div style={{ padding: 16, borderBottom: '1px solid #e5e7eb' }}>
+        <label style={{ display: 'block', marginBottom: 4, fontSize: 12, color: '#6b7280' }}>
+          Node Name
+        </label>
+        <input
+          type="text"
+          value={localLabel}
+          onChange={(e) => handleLabelChange(e.target.value)}
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+          onKeyDown={(e) => e.stopPropagation()}
+          style={{
+            width: '100%',
+            padding: '8px 12px',
+            border: '1px solid #d1d5db',
+            borderRadius: 4,
+            fontSize: 14,
+            outline: 'none',
+            boxSizing: 'border-box',
+          }}
+        />
+        <div style={{ marginTop: 8, fontSize: 11, color: '#9ca3af' }}>
           Node ID: {node.id}
-        </Typography>
-      </Box>
+        </div>
+      </div>
 
-      <Divider />
-
-      {/* Configuration Form */}
-      <Box sx={{ flex: 1, overflow: 'auto' }}>
+      {/* Config */}
+      <div style={{ flex: 1, overflow: 'auto' }}>
         {renderConfig()}
-      </Box>
-    </Drawer>
+      </div>
+    </div>
   );
-
-  // Render using React Portal to escape React Flow's event handling
-  const portalRoot = document.getElementById('drawer-portal-root');
-  if (!portalRoot) return null;
-
-  return ReactDOM.createPortal(drawerContent, portalRoot);
 };
 
 export default NodePropertiesPanel;
