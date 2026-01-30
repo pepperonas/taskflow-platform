@@ -55,12 +55,29 @@ const CreateTaskConfig: React.FC<CreateTaskConfigProps> = ({ node, onUpdate }) =
         />
       </Box>
 
-      <FormControl fullWidth sx={{ mb: 2 }}>
+      <FormControl 
+        fullWidth 
+        sx={{ mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <InputLabel>Priority</InputLabel>
         <Select
           value={config.priority}
           label="Priority"
-          onChange={(e) => handleConfigChange('priority', e.target.value)}
+          onChange={(e) => {
+            e.stopPropagation();
+            handleConfigChange('priority', e.target.value);
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onKeyDown={(e) => {
+            e.stopPropagation();
+          }}
         >
           <MenuItem value="LOW">Low</MenuItem>
           <MenuItem value="MEDIUM">Medium</MenuItem>
@@ -73,13 +90,45 @@ const CreateTaskConfig: React.FC<CreateTaskConfigProps> = ({ node, onUpdate }) =
         fullWidth
         label="Assignee ID (optional)"
         value={config.assigneeId}
-        onChange={(e) => handleConfigChange('assigneeId', e.target.value)}
+        onChange={(e) => {
+          e.stopPropagation();
+          handleConfigChange('assigneeId', e.target.value);
+        }}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}
         onClick={(e) => {
+          e.stopPropagation();
           e.currentTarget.querySelector('input')?.focus();
+        }}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+        }}
+        onKeyPress={(e) => {
+          e.stopPropagation();
+        }}
+        onKeyUp={(e) => {
+          e.stopPropagation();
         }}
         placeholder="e.g., {{ $trigger.assigneeId }}"
         helperText="Leave empty for unassigned"
         sx={{ mb: 2 }}
+        InputProps={{
+          onMouseDown: (e) => {
+            e.stopPropagation();
+          },
+          onClick: (e) => {
+            e.stopPropagation();
+          },
+        }}
+        inputProps={{
+          onMouseDown: (e) => {
+            e.stopPropagation();
+          },
+          onClick: (e) => {
+            e.stopPropagation();
+          },
+        }}
       />
     </Box>
   );

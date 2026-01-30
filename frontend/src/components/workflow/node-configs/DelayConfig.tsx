@@ -46,23 +46,63 @@ const DelayConfig: React.FC<DelayConfigProps> = ({ node, onUpdate }) => {
         Configure Delay Node
       </Typography>
 
-      <Box sx={{ display: 'flex', gap: 2, mb: 2 }}>
+      <Box 
+        sx={{ display: 'flex', gap: 2, mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <TextField
           label="Duration"
           type="number"
           value={config.duration}
-          onChange={(e) => handleConfigChange('duration', e.target.value)}
+          onChange={(e) => {
+            e.stopPropagation();
+            handleConfigChange('duration', e.target.value);
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onKeyDown={(e) => {
+            e.stopPropagation();
+          }}
           placeholder="5"
           sx={{ flex: 1 }}
           inputProps={{ min: 1 }}
+          InputProps={{
+            onMouseDown: (e) => {
+              e.stopPropagation();
+            },
+            onClick: (e) => {
+              e.stopPropagation();
+            },
+          }}
         />
 
-        <FormControl sx={{ flex: 1 }}>
+        <FormControl 
+          sx={{ flex: 1 }}
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+        >
           <InputLabel>Unit</InputLabel>
           <Select
             value={config.unit}
             label="Unit"
-            onChange={(e) => handleConfigChange('unit', e.target.value)}
+            onChange={(e) => {
+              e.stopPropagation();
+              handleConfigChange('unit', e.target.value);
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onKeyDown={(e) => {
+              e.stopPropagation();
+            }}
           >
             <MenuItem value="seconds">Seconds</MenuItem>
             <MenuItem value="minutes">Minutes</MenuItem>

@@ -82,17 +82,32 @@ const ExpressionEditor: React.FC<ExpressionEditorProps> = ({
   };
 
   return (
-    <Box sx={{ position: 'relative', zIndex: 1 }}>
+    <Box 
+      sx={{ position: 'relative', zIndex: 1 }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
       <TextField
         fullWidth
         label={label}
         value={value}
         onChange={(e) => {
+          e.stopPropagation();
           onChange(e.target.value);
           setCursorPosition(e.target.selectionStart || 0);
         }}
-        onKeyDown={handleKeyDown}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+          handleKeyDown(e);
+        }}
+        onKeyPress={(e) => {
+          e.stopPropagation();
+        }}
+        onKeyUp={(e) => {
+          e.stopPropagation();
+        }}
         onFocus={(e) => {
+          e.stopPropagation();
           setCursorPosition(e.target.selectionStart || 0);
         }}
         placeholder={placeholder}
@@ -101,6 +116,22 @@ const ExpressionEditor: React.FC<ExpressionEditorProps> = ({
         rows={multiline ? rows : undefined}
         inputRef={inputRef}
         autoComplete="off"
+        InputProps={{
+          onMouseDown: (e) => {
+            e.stopPropagation();
+          },
+          onClick: (e) => {
+            e.stopPropagation();
+          },
+        }}
+        inputProps={{
+          onMouseDown: (e) => {
+            e.stopPropagation();
+          },
+          onClick: (e) => {
+            e.stopPropagation();
+          },
+        }}
       />
 
       {showAutocomplete && (

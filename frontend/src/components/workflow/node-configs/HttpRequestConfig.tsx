@@ -59,12 +59,29 @@ const HttpRequestConfig: React.FC<HttpRequestConfigProps> = ({ node, onUpdate })
         Make HTTP requests to external APIs. Use {'{{ }}'} syntax to reference variables.
       </Alert>
 
-      <FormControl fullWidth sx={{ mb: 2 }}>
+      <FormControl 
+        fullWidth 
+        sx={{ mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <InputLabel>Method</InputLabel>
         <Select
           value={config.method}
           label="Method"
-          onChange={(e) => handleConfigChange('method', e.target.value)}
+          onChange={(e) => {
+            e.stopPropagation();
+            handleConfigChange('method', e.target.value);
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onKeyDown={(e) => {
+            e.stopPropagation();
+          }}
           size="small"
         >
           <MenuItem value="GET">GET</MenuItem>
@@ -94,24 +111,92 @@ const HttpRequestConfig: React.FC<HttpRequestConfigProps> = ({ node, onUpdate })
           </IconButton>
         </Box>
         {(config.headers || []).map((header: any, index: number) => (
-          <Box key={index} sx={{ display: 'flex', gap: 1, mb: 1 }}>
+          <Box 
+            key={index} 
+            sx={{ display: 'flex', gap: 1, mb: 1 }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
+          >
             <TextField
               size="small"
               placeholder="Header Name"
               value={header.key}
-              onChange={(e) => updateHeader(index, 'key', e.target.value)}
+              onChange={(e) => {
+                e.stopPropagation();
+                updateHeader(index, 'key', e.target.value);
+              }}
+              onMouseDown={(e) => {
+                e.stopPropagation();
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              onKeyDown={(e) => {
+                e.stopPropagation();
+              }}
               autoComplete="off"
               sx={{ flex: 1 }}
+              InputProps={{
+                onMouseDown: (e) => {
+                  e.stopPropagation();
+                },
+                onClick: (e) => {
+                  e.stopPropagation();
+                },
+              }}
+              inputProps={{
+                onMouseDown: (e) => {
+                  e.stopPropagation();
+                },
+                onClick: (e) => {
+                  e.stopPropagation();
+                },
+              }}
             />
             <TextField
               size="small"
               placeholder="Header Value"
               value={header.value}
-              onChange={(e) => updateHeader(index, 'value', e.target.value)}
+              onChange={(e) => {
+                e.stopPropagation();
+                updateHeader(index, 'value', e.target.value);
+              }}
+              onMouseDown={(e) => {
+                e.stopPropagation();
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+              onKeyDown={(e) => {
+                e.stopPropagation();
+              }}
               autoComplete="off"
               sx={{ flex: 1 }}
+              InputProps={{
+                onMouseDown: (e) => {
+                  e.stopPropagation();
+                },
+                onClick: (e) => {
+                  e.stopPropagation();
+                },
+              }}
+              inputProps={{
+                onMouseDown: (e) => {
+                  e.stopPropagation();
+                },
+                onClick: (e) => {
+                  e.stopPropagation();
+                },
+              }}
             />
-            <IconButton size="small" onClick={() => removeHeader(index)} color="error">
+            <IconButton 
+              size="small" 
+              onClick={(e) => {
+                e.stopPropagation();
+                removeHeader(index);
+              }} 
+              color="error"
+            >
               <DeleteIcon fontSize="small" />
             </IconButton>
           </Box>

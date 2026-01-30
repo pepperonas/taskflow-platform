@@ -47,31 +47,104 @@ const UpdateTaskConfig: React.FC<UpdateTaskConfigProps> = ({ node, onUpdate }) =
         fullWidth
         label="Task ID"
         value={config.taskId}
-        onChange={(e) => handleConfigChange('taskId', e.target.value)}
+        onChange={(e) => {
+          e.stopPropagation();
+          handleConfigChange('taskId', e.target.value);
+        }}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+        }}
+        onKeyPress={(e) => {
+          e.stopPropagation();
+        }}
+        onKeyUp={(e) => {
+          e.stopPropagation();
+        }}
         placeholder="e.g., {{ $trigger.taskId }}"
         helperText="Use {{ }} for expressions"
         sx={{ mb: 2 }}
         required
+        InputProps={{
+          onMouseDown: (e) => {
+            e.stopPropagation();
+          },
+          onClick: (e) => {
+            e.stopPropagation();
+          },
+        }}
+        inputProps={{
+          onMouseDown: (e) => {
+            e.stopPropagation();
+          },
+          onClick: (e) => {
+            e.stopPropagation();
+          },
+        }}
       />
 
       <FormControlLabel
         control={
           <Checkbox
             checked={config.updateTitle}
-            onChange={(e) => handleConfigChange('updateTitle', e.target.checked)}
+            onChange={(e) => {
+              e.stopPropagation();
+              handleConfigChange('updateTitle', e.target.checked);
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
           />
         }
         label="Update Title"
         sx={{ mb: 1 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       />
       {config.updateTitle && (
         <TextField
           fullWidth
           label="New Title"
           value={config.title}
-          onChange={(e) => handleConfigChange('title', e.target.value)}
+          onChange={(e) => {
+            e.stopPropagation();
+            handleConfigChange('title', e.target.value);
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onKeyDown={(e) => {
+            e.stopPropagation();
+          }}
           placeholder="e.g., {{ $trigger.newTitle }}"
           sx={{ mb: 2, ml: 4 }}
+          InputProps={{
+            onMouseDown: (e) => {
+              e.stopPropagation();
+            },
+            onClick: (e) => {
+              e.stopPropagation();
+            },
+          }}
+          inputProps={{
+            onMouseDown: (e) => {
+              e.stopPropagation();
+            },
+            onClick: (e) => {
+              e.stopPropagation();
+            },
+          }}
         />
       )}
 
@@ -79,11 +152,22 @@ const UpdateTaskConfig: React.FC<UpdateTaskConfigProps> = ({ node, onUpdate }) =
         control={
           <Checkbox
             checked={config.updateDescription}
-            onChange={(e) => handleConfigChange('updateDescription', e.target.checked)}
+            onChange={(e) => {
+              e.stopPropagation();
+              handleConfigChange('updateDescription', e.target.checked);
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
           />
         }
         label="Update Description"
         sx={{ mb: 1 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       />
       {config.updateDescription && (
         <TextField
@@ -92,9 +176,37 @@ const UpdateTaskConfig: React.FC<UpdateTaskConfigProps> = ({ node, onUpdate }) =
           rows={3}
           label="New Description"
           value={config.description}
-          onChange={(e) => handleConfigChange('description', e.target.value)}
+          onChange={(e) => {
+            e.stopPropagation();
+            handleConfigChange('description', e.target.value);
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onKeyDown={(e) => {
+            e.stopPropagation();
+          }}
           placeholder="e.g., {{ $trigger.newDescription }}"
           sx={{ mb: 2, ml: 4 }}
+          InputProps={{
+            onMouseDown: (e) => {
+              e.stopPropagation();
+            },
+            onClick: (e) => {
+              e.stopPropagation();
+            },
+          }}
+          inputProps={{
+            onMouseDown: (e) => {
+              e.stopPropagation();
+            },
+            onClick: (e) => {
+              e.stopPropagation();
+            },
+          }}
         />
       )}
 
@@ -102,19 +214,47 @@ const UpdateTaskConfig: React.FC<UpdateTaskConfigProps> = ({ node, onUpdate }) =
         control={
           <Checkbox
             checked={config.updatePriority}
-            onChange={(e) => handleConfigChange('updatePriority', e.target.checked)}
+            onChange={(e) => {
+              e.stopPropagation();
+              handleConfigChange('updatePriority', e.target.checked);
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
           />
         }
         label="Update Priority"
         sx={{ mb: 1 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       />
       {config.updatePriority && (
-        <FormControl fullWidth sx={{ mb: 2, ml: 4 }}>
+        <FormControl 
+          fullWidth 
+          sx={{ mb: 2, ml: 4 }}
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+        >
           <InputLabel>New Priority</InputLabel>
           <Select
             value={config.priority}
             label="New Priority"
-            onChange={(e) => handleConfigChange('priority', e.target.value)}
+            onChange={(e) => {
+              e.stopPropagation();
+              handleConfigChange('priority', e.target.value);
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onKeyDown={(e) => {
+              e.stopPropagation();
+            }}
           >
             <MenuItem value="LOW">Low</MenuItem>
             <MenuItem value="MEDIUM">Medium</MenuItem>
@@ -128,19 +268,47 @@ const UpdateTaskConfig: React.FC<UpdateTaskConfigProps> = ({ node, onUpdate }) =
         control={
           <Checkbox
             checked={config.updateStatus}
-            onChange={(e) => handleConfigChange('updateStatus', e.target.checked)}
+            onChange={(e) => {
+              e.stopPropagation();
+              handleConfigChange('updateStatus', e.target.checked);
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
           />
         }
         label="Update Status"
         sx={{ mb: 1 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       />
       {config.updateStatus && (
-        <FormControl fullWidth sx={{ mb: 2, ml: 4 }}>
+        <FormControl 
+          fullWidth 
+          sx={{ mb: 2, ml: 4 }}
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+        >
           <InputLabel>New Status</InputLabel>
           <Select
             value={config.status}
             label="New Status"
-            onChange={(e) => handleConfigChange('status', e.target.value)}
+            onChange={(e) => {
+              e.stopPropagation();
+              handleConfigChange('status', e.target.value);
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            onKeyDown={(e) => {
+              e.stopPropagation();
+            }}
           >
             <MenuItem value="TODO">To Do</MenuItem>
             <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
@@ -153,20 +321,59 @@ const UpdateTaskConfig: React.FC<UpdateTaskConfigProps> = ({ node, onUpdate }) =
         control={
           <Checkbox
             checked={config.updateAssignee}
-            onChange={(e) => handleConfigChange('updateAssignee', e.target.checked)}
+            onChange={(e) => {
+              e.stopPropagation();
+              handleConfigChange('updateAssignee', e.target.checked);
+            }}
+            onMouseDown={(e) => {
+              e.stopPropagation();
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
           />
         }
         label="Update Assignee"
         sx={{ mb: 1 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
       />
       {config.updateAssignee && (
         <TextField
           fullWidth
           label="New Assignee ID"
           value={config.assigneeId}
-          onChange={(e) => handleConfigChange('assigneeId', e.target.value)}
+          onChange={(e) => {
+            e.stopPropagation();
+            handleConfigChange('assigneeId', e.target.value);
+          }}
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+          onKeyDown={(e) => {
+            e.stopPropagation();
+          }}
           placeholder="e.g., {{ $trigger.assigneeId }}"
           sx={{ mb: 2, ml: 4 }}
+          InputProps={{
+            onMouseDown: (e) => {
+              e.stopPropagation();
+            },
+            onClick: (e) => {
+              e.stopPropagation();
+            },
+          }}
+          inputProps={{
+            onMouseDown: (e) => {
+              e.stopPropagation();
+            },
+            onClick: (e) => {
+              e.stopPropagation();
+            },
+          }}
         />
       )}
     </Box>

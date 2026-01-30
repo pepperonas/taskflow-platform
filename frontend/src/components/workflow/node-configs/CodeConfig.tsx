@@ -42,7 +42,25 @@ const CodeConfig: React.FC<CodeConfigProps> = ({ node, onUpdate }) => {
         rows={18}
         label="JavaScript Code"
         value={config.code}
-        onChange={(e) => handleConfigChange('code', e.target.value)}
+        onChange={(e) => {
+          e.stopPropagation();
+          handleConfigChange('code', e.target.value);
+        }}
+        onMouseDown={(e) => {
+          e.stopPropagation();
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        onKeyDown={(e) => {
+          e.stopPropagation();
+        }}
+        onKeyPress={(e) => {
+          e.stopPropagation();
+        }}
+        onKeyUp={(e) => {
+          e.stopPropagation();
+        }}
         sx={{
           '& .MuiInputBase-input': {
             fontFamily: 'Menlo, Monaco, "Courier New", monospace',
@@ -54,6 +72,22 @@ const CodeConfig: React.FC<CodeConfigProps> = ({ node, onUpdate }) => {
           }
         }}
         helperText="Code must return a value that will be stored in context variables"
+        InputProps={{
+          onMouseDown: (e) => {
+            e.stopPropagation();
+          },
+          onClick: (e) => {
+            e.stopPropagation();
+          },
+        }}
+        inputProps={{
+          onMouseDown: (e) => {
+            e.stopPropagation();
+          },
+          onClick: (e) => {
+            e.stopPropagation();
+          },
+        }}
       />
 
       <Box sx={{ mt: 2, p: 2, bgcolor: '#f8fafc', borderRadius: 1 }}>
