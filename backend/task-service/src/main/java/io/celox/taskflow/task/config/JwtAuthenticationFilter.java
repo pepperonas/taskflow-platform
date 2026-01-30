@@ -29,6 +29,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        // Log email requests for debugging
+        if (request.getRequestURI().contains("/email")) {
+            log.info("JWT Filter: Email request to {} with Authorization header: {}", 
+                request.getRequestURI(), 
+                request.getHeader("Authorization") != null ? "present" : "missing");
+        }
+        
         try {
             String jwt = getJwtFromRequest(request);
 

@@ -90,6 +90,12 @@ TaskFlow Team`,
     setResult(null);
 
     try {
+      console.log('Sending email request:', {
+        to: formData.to,
+        subject: formData.subject,
+        body: formData.body,
+      });
+      
       const response = await axiosInstance.post('/v1/email/send', {
         to: formData.to,
         subject: formData.subject,
@@ -97,6 +103,8 @@ TaskFlow Team`,
         from: 'martin.pfeffer@celox.io',
         triggerData: {}
       });
+      
+      console.log('Email response:', response.data);
 
       if (response.data.success) {
         setResult({

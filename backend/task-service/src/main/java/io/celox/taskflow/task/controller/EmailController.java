@@ -36,6 +36,7 @@ public class EmailController {
         @ApiResponse(responseCode = "400", description = "Invalid email request")
     })
     public ResponseEntity<EmailResponse> sendEmail(@RequestBody EmailRequest request) {
+        log.info("=== EMAIL CONTROLLER: POST /api/v1/email/send called ===");
         log.info("=== EMAIL CONTROLLER: Received email send request ===");
         log.info("Request: to={}, subject={}, from={}", request.getTo(), request.getSubject(), request.getFrom());
         
