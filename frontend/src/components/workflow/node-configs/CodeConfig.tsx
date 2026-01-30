@@ -23,7 +23,11 @@ const CodeConfig: React.FC<CodeConfigProps> = ({ node, onUpdate }) => {
   };
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box 
+      sx={{ p: 2 }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
       <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
         JavaScript Code Configuration
       </Typography>

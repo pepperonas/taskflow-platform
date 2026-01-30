@@ -26,7 +26,11 @@ const EmailConfig: React.FC<EmailConfigProps> = ({ node, onUpdate }) => {
   };
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box 
+      sx={{ p: 2 }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
       <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
         Email Configuration
       </Typography>
@@ -35,7 +39,11 @@ const EmailConfig: React.FC<EmailConfigProps> = ({ node, onUpdate }) => {
         Send emails via SMTP. Use {'{{ }}'} syntax to reference variables.
       </Alert>
 
-      <Box sx={{ mb: 2 }}>
+      <Box 
+        sx={{ mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <ExpressionEditor
           label="To (Recipient)"
           value={config.to}
@@ -44,7 +52,11 @@ const EmailConfig: React.FC<EmailConfigProps> = ({ node, onUpdate }) => {
         />
       </Box>
 
-      <Box sx={{ mb: 2 }}>
+      <Box 
+        sx={{ mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <ExpressionEditor
           label="From (Sender)"
           value={config.from}
@@ -53,7 +65,11 @@ const EmailConfig: React.FC<EmailConfigProps> = ({ node, onUpdate }) => {
         />
       </Box>
 
-      <Box sx={{ mb: 2 }}>
+      <Box 
+        sx={{ mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <ExpressionEditor
           label="Subject"
           value={config.subject}
@@ -62,7 +78,11 @@ const EmailConfig: React.FC<EmailConfigProps> = ({ node, onUpdate }) => {
         />
       </Box>
 
-      <Box sx={{ mb: 2 }}>
+      <Box 
+        sx={{ mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <ExpressionEditor
           label="Body (HTML)"
           value={config.body}

@@ -23,7 +23,11 @@ const ConditionConfig: React.FC<ConditionConfigProps> = ({ node, onUpdate }) => 
   };
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box 
+      sx={{ p: 2 }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
       <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
         Configure Condition Node
       </Typography>
@@ -32,7 +36,11 @@ const ConditionConfig: React.FC<ConditionConfigProps> = ({ node, onUpdate }) => 
         The condition evaluates to true or false and routes the workflow accordingly.
       </Alert>
 
-      <Box sx={{ mb: 2 }}>
+      <Box 
+        sx={{ mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <ExpressionEditor
           label="Condition Expression"
           value={config.expression}

@@ -30,12 +30,20 @@ const CreateTaskConfig: React.FC<CreateTaskConfigProps> = ({ node, onUpdate }) =
   };
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box 
+      sx={{ p: 2 }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
       <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
         Configure Create Task Node
       </Typography>
 
-      <Box sx={{ mb: 2 }}>
+      <Box 
+        sx={{ mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <ExpressionEditor
           label="Task Title"
           value={config.title}
@@ -44,7 +52,11 @@ const CreateTaskConfig: React.FC<CreateTaskConfigProps> = ({ node, onUpdate }) =
         />
       </Box>
 
-      <Box sx={{ mb: 2 }}>
+      <Box 
+        sx={{ mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <ExpressionEditor
           label="Task Description"
           value={config.description}

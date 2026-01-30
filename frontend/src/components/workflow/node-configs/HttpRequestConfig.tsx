@@ -50,7 +50,11 @@ const HttpRequestConfig: React.FC<HttpRequestConfigProps> = ({ node, onUpdate })
   };
 
   return (
-    <Box sx={{ p: 2 }}>
+    <Box 
+      sx={{ p: 2 }}
+      onMouseDown={(e) => e.stopPropagation()}
+      onClick={(e) => e.stopPropagation()}
+    >
       <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
         HTTP Request Configuration
       </Typography>
@@ -92,7 +96,11 @@ const HttpRequestConfig: React.FC<HttpRequestConfigProps> = ({ node, onUpdate })
         </Select>
       </FormControl>
 
-      <Box sx={{ mb: 2 }}>
+      <Box 
+        sx={{ mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <ExpressionEditor
           label="URL"
           value={config.url}
@@ -101,7 +109,11 @@ const HttpRequestConfig: React.FC<HttpRequestConfigProps> = ({ node, onUpdate })
         />
       </Box>
 
-      <Box sx={{ mb: 2 }}>
+      <Box 
+        sx={{ mb: 2 }}
+        onMouseDown={(e) => e.stopPropagation()}
+        onClick={(e) => e.stopPropagation()}
+      >
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
           <Typography variant="caption" sx={{ color: '#6b7280' }}>
             Headers
@@ -204,7 +216,11 @@ const HttpRequestConfig: React.FC<HttpRequestConfigProps> = ({ node, onUpdate })
       </Box>
 
       {['POST', 'PUT', 'PATCH'].includes(config.method) && (
-        <Box sx={{ mb: 2 }}>
+        <Box 
+          sx={{ mb: 2 }}
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
+        >
           <ExpressionEditor
             label="Request Body"
             value={config.body}
