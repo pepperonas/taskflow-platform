@@ -4,11 +4,6 @@ import {
   Box,
   Typography,
   IconButton,
-  TextField,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
   Divider,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -50,13 +45,9 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
     }
   };
 
-  // Stop ALL events from bubbling to React Flow
-  const stopAllEvents = (e: React.SyntheticEvent) => {
+  // ONLY stopPropagation - NO preventDefault!
+  const stopProp = (e: React.SyntheticEvent) => {
     e.stopPropagation();
-    e.nativeEvent.stopImmediatePropagation();
-    if (e.nativeEvent.cancelable) {
-      e.nativeEvent.preventDefault();
-    }
   };
 
   if (!node) return null;
@@ -78,6 +69,25 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
     return labels[type] || type;
   };
 
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '10px 12px',
+    border: '1px solid #d1d5db',
+    borderRadius: 4,
+    fontSize: 14,
+    outline: 'none',
+    boxSizing: 'border-box',
+    fontFamily: 'inherit',
+  };
+
+  const labelStyle: React.CSSProperties = {
+    display: 'block',
+    marginBottom: 8,
+    fontSize: 12,
+    color: '#6b7280',
+    fontWeight: 500,
+  };
+
   const renderConfigContent = () => {
     switch (node.type) {
       case 'createTask':
@@ -86,102 +96,80 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
             <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
               Configure Create Task Node
             </Typography>
-            <TextField
-              fullWidth
-              label="Task Title *"
-              value={localConfig.title || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('title', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="e.g., {{ $trigger.title }}"
-              size="small"
-              sx={{ mb: 2 }}
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
-            <TextField
-              fullWidth
-              label="Task Description"
-              value={localConfig.description || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('description', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="e.g., {{ $trigger.description }}"
-              multiline
-              rows={3}
-              size="small"
-              sx={{ mb: 2 }}
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
-            <FormControl fullWidth size="small" sx={{ mb: 2 }}>
-              <InputLabel>Priority</InputLabel>
-              <Select
-                value={localConfig.priority || 'MEDIUM'}
-                label="Priority"
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>Task Title *</label>
+              <input
+                type="text"
+                value={localConfig.title || ''}
                 onChange={(e) => {
-                  e.stopPropagation();
+                  stopProp(e);
+                  handleConfigChange('title', e.target.value);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="e.g., {{ $trigger.title }}"
+                style={inputStyle}
+              />
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>Task Description</label>
+              <textarea
+                value={localConfig.description || ''}
+                onChange={(e) => {
+                  stopProp(e);
+                  handleConfigChange('description', e.target.value);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="e.g., {{ $trigger.description }}"
+                rows={3}
+                style={{ ...inputStyle, resize: 'vertical', minHeight: 80 }}
+              />
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>Priority</label>
+              <select
+                value={localConfig.priority || 'MEDIUM'}
+                onChange={(e) => {
+                  stopProp(e);
                   handleConfigChange('priority', e.target.value);
                 }}
-                onMouseDown={stopAllEvents}
-                onClick={stopAllEvents}
-                onKeyDown={stopAllEvents}
-                onFocus={stopAllEvents}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onFocus={stopProp}
+                style={{ ...inputStyle, backgroundColor: 'white', cursor: 'pointer' }}
               >
-                <MenuItem value="LOW">Low</MenuItem>
-                <MenuItem value="MEDIUM">Medium</MenuItem>
-                <MenuItem value="HIGH">High</MenuItem>
-                <MenuItem value="CRITICAL">Critical</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              fullWidth
-              label="Assignee ID (optional)"
-              value={localConfig.assigneeId || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('assigneeId', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="e.g., {{ $trigger.assigneeId }}"
-              size="small"
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
+                <option value="LOW">Low</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="HIGH">High</option>
+                <option value="CRITICAL">Critical</option>
+              </select>
+            </Box>
+            <Box>
+              <label style={labelStyle}>Assignee ID (optional)</label>
+              <input
+                type="text"
+                value={localConfig.assigneeId || ''}
+                onChange={(e) => {
+                  stopProp(e);
+                  handleConfigChange('assigneeId', e.target.value);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="e.g., {{ $trigger.assigneeId }}"
+                style={inputStyle}
+              />
+            </Box>
           </Box>
         );
 
@@ -191,98 +179,84 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
             <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
               Configure Update Task Node
             </Typography>
-            <TextField
-              fullWidth
-              label="Task ID *"
-              value={localConfig.taskId || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('taskId', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="e.g., {{ $trigger.taskId }}"
-              size="small"
-              sx={{ mb: 2 }}
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
-            <TextField
-              fullWidth
-              label="New Title (optional)"
-              value={localConfig.title || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('title', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="Leave empty to keep current"
-              size="small"
-              sx={{ mb: 2 }}
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
-            <FormControl fullWidth size="small" sx={{ mb: 2 }}>
-              <InputLabel>Status</InputLabel>
-              <Select
-                value={localConfig.status || ''}
-                label="Status"
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>Task ID *</label>
+              <input
+                type="text"
+                value={localConfig.taskId || ''}
                 onChange={(e) => {
-                  e.stopPropagation();
+                  stopProp(e);
+                  handleConfigChange('taskId', e.target.value);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="e.g., {{ $trigger.taskId }}"
+                style={inputStyle}
+              />
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>New Title (optional)</label>
+              <input
+                type="text"
+                value={localConfig.title || ''}
+                onChange={(e) => {
+                  stopProp(e);
+                  handleConfigChange('title', e.target.value);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="Leave empty to keep current"
+                style={inputStyle}
+              />
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>Status</label>
+              <select
+                value={localConfig.status || ''}
+                onChange={(e) => {
+                  stopProp(e);
                   handleConfigChange('status', e.target.value);
                 }}
-                onMouseDown={stopAllEvents}
-                onClick={stopAllEvents}
-                onKeyDown={stopAllEvents}
-                onFocus={stopAllEvents}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onFocus={stopProp}
+                style={{ ...inputStyle, backgroundColor: 'white', cursor: 'pointer' }}
               >
-                <MenuItem value="">Keep current</MenuItem>
-                <MenuItem value="OPEN">Open</MenuItem>
-                <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-                <MenuItem value="COMPLETED">Completed</MenuItem>
-                <MenuItem value="CANCELLED">Cancelled</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl fullWidth size="small">
-              <InputLabel>Priority</InputLabel>
-              <Select
+                <option value="">Keep current</option>
+                <option value="OPEN">Open</option>
+                <option value="IN_PROGRESS">In Progress</option>
+                <option value="COMPLETED">Completed</option>
+                <option value="CANCELLED">Cancelled</option>
+              </select>
+            </Box>
+            <Box>
+              <label style={labelStyle}>Priority</label>
+              <select
                 value={localConfig.priority || ''}
-                label="Priority"
                 onChange={(e) => {
-                  e.stopPropagation();
+                  stopProp(e);
                   handleConfigChange('priority', e.target.value);
                 }}
-                onMouseDown={stopAllEvents}
-                onClick={stopAllEvents}
-                onKeyDown={stopAllEvents}
-                onFocus={stopAllEvents}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onFocus={stopProp}
+                style={{ ...inputStyle, backgroundColor: 'white', cursor: 'pointer' }}
               >
-                <MenuItem value="">Keep current</MenuItem>
-                <MenuItem value="LOW">Low</MenuItem>
-                <MenuItem value="MEDIUM">Medium</MenuItem>
-                <MenuItem value="HIGH">High</MenuItem>
-                <MenuItem value="CRITICAL">Critical</MenuItem>
-              </Select>
-            </FormControl>
+                <option value="">Keep current</option>
+                <option value="LOW">Low</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="HIGH">High</option>
+                <option value="CRITICAL">Critical</option>
+              </select>
+            </Box>
           </Box>
         );
 
@@ -292,32 +266,24 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
             <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
               Configure Condition Node
             </Typography>
-            <TextField
-              fullWidth
-              label="Condition Expression *"
-              value={localConfig.expression || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('expression', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="e.g., {{ $trigger.priority === 'HIGH' }}"
-              multiline
-              rows={4}
-              size="small"
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
+            <Box>
+              <label style={labelStyle}>Condition Expression *</label>
+              <textarea
+                value={localConfig.expression || ''}
+                onChange={(e) => {
+                  stopProp(e);
+                  handleConfigChange('expression', e.target.value);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="e.g., {{ $trigger.priority === 'HIGH' }}"
+                rows={4}
+                style={{ ...inputStyle, resize: 'vertical', minHeight: 100, fontFamily: 'monospace' }}
+              />
+            </Box>
           </Box>
         );
 
@@ -327,51 +293,43 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
             <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
               Configure Delay Node
             </Typography>
-            <TextField
-              fullWidth
-              label="Duration *"
-              type="number"
-              value={localConfig.duration || 1000}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('duration', parseInt(e.target.value) || 0);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              size="small"
-              sx={{ mb: 2 }}
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
-            <FormControl fullWidth size="small">
-              <InputLabel>Unit</InputLabel>
-              <Select
-                value={localConfig.unit || 'milliseconds'}
-                label="Unit"
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>Duration *</label>
+              <input
+                type="number"
+                value={localConfig.duration || 1000}
                 onChange={(e) => {
-                  e.stopPropagation();
+                  stopProp(e);
+                  handleConfigChange('duration', parseInt(e.target.value) || 0);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                style={inputStyle}
+              />
+            </Box>
+            <Box>
+              <label style={labelStyle}>Unit</label>
+              <select
+                value={localConfig.unit || 'milliseconds'}
+                onChange={(e) => {
+                  stopProp(e);
                   handleConfigChange('unit', e.target.value);
                 }}
-                onMouseDown={stopAllEvents}
-                onClick={stopAllEvents}
-                onKeyDown={stopAllEvents}
-                onFocus={stopAllEvents}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onFocus={stopProp}
+                style={{ ...inputStyle, backgroundColor: 'white', cursor: 'pointer' }}
               >
-                <MenuItem value="milliseconds">Milliseconds</MenuItem>
-                <MenuItem value="seconds">Seconds</MenuItem>
-                <MenuItem value="minutes">Minutes</MenuItem>
-                <MenuItem value="hours">Hours</MenuItem>
-              </Select>
-            </FormControl>
+                <option value="milliseconds">Milliseconds</option>
+                <option value="seconds">Seconds</option>
+                <option value="minutes">Minutes</option>
+                <option value="hours">Hours</option>
+              </select>
+            </Box>
           </Box>
         );
 
@@ -381,79 +339,64 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
             <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
               Configure HTTP Request Node
             </Typography>
-            <FormControl fullWidth size="small" sx={{ mb: 2 }}>
-              <InputLabel>Method</InputLabel>
-              <Select
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>Method</label>
+              <select
                 value={localConfig.method || 'GET'}
-                label="Method"
                 onChange={(e) => {
-                  e.stopPropagation();
+                  stopProp(e);
                   handleConfigChange('method', e.target.value);
                 }}
-                onMouseDown={stopAllEvents}
-                onClick={stopAllEvents}
-                onKeyDown={stopAllEvents}
-                onFocus={stopAllEvents}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onFocus={stopProp}
+                style={{ ...inputStyle, backgroundColor: 'white', cursor: 'pointer' }}
               >
-                <MenuItem value="GET">GET</MenuItem>
-                <MenuItem value="POST">POST</MenuItem>
-                <MenuItem value="PUT">PUT</MenuItem>
-                <MenuItem value="PATCH">PATCH</MenuItem>
-                <MenuItem value="DELETE">DELETE</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              fullWidth
-              label="URL *"
-              value={localConfig.url || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('url', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="https://api.example.com/endpoint"
-              size="small"
-              sx={{ mb: 2 }}
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
-            {['POST', 'PUT', 'PATCH'].includes(localConfig.method || 'GET') && (
-              <TextField
-                fullWidth
-                label="Request Body (JSON)"
-                value={localConfig.body || ''}
+                <option value="GET">GET</option>
+                <option value="POST">POST</option>
+                <option value="PUT">PUT</option>
+                <option value="PATCH">PATCH</option>
+                <option value="DELETE">DELETE</option>
+              </select>
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>URL *</label>
+              <input
+                type="text"
+                value={localConfig.url || ''}
                 onChange={(e) => {
-                  stopAllEvents(e);
-                  handleConfigChange('body', e.target.value);
+                  stopProp(e);
+                  handleConfigChange('url', e.target.value);
                 }}
-                onMouseDown={stopAllEvents}
-                onClick={stopAllEvents}
-                onKeyDown={stopAllEvents}
-                onKeyUp={stopAllEvents}
-                onFocus={stopAllEvents}
-                placeholder='{"key": "value"}'
-                multiline
-                rows={5}
-                size="small"
-                InputProps={{
-                  onMouseDown: stopAllEvents,
-                  onClick: stopAllEvents,
-                }}
-                inputProps={{
-                  onMouseDown: stopAllEvents,
-                  onClick: stopAllEvents,
-                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="https://api.example.com/endpoint"
+                style={inputStyle}
               />
+            </Box>
+            {['POST', 'PUT', 'PATCH'].includes(localConfig.method || 'GET') && (
+              <Box>
+                <label style={labelStyle}>Request Body (JSON)</label>
+                <textarea
+                  value={localConfig.body || ''}
+                  onChange={(e) => {
+                    stopProp(e);
+                    handleConfigChange('body', e.target.value);
+                  }}
+                  onMouseDown={stopProp}
+                  onClick={stopProp}
+                  onKeyDown={stopProp}
+                  onKeyUp={stopProp}
+                  onFocus={stopProp}
+                  placeholder='{"key": "value"}'
+                  rows={5}
+                  style={{ ...inputStyle, fontFamily: 'monospace', resize: 'vertical' }}
+                />
+              </Box>
             )}
           </Box>
         );
@@ -464,33 +407,24 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
             <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
               Configure Code Node
             </Typography>
-            <TextField
-              fullWidth
-              label="JavaScript Code *"
-              value={localConfig.code || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('code', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="// Access trigger data with $trigger\nreturn { result: $trigger.value * 2 };"
-              multiline
-              rows={12}
-              size="small"
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-                style: { fontFamily: 'monospace' },
-              }}
-            />
+            <Box>
+              <label style={labelStyle}>JavaScript Code *</label>
+              <textarea
+                value={localConfig.code || ''}
+                onChange={(e) => {
+                  stopProp(e);
+                  handleConfigChange('code', e.target.value);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="// Access trigger data with $trigger\nreturn { result: $trigger.value * 2 };"
+                rows={12}
+                style={{ ...inputStyle, fontFamily: 'monospace', resize: 'vertical', minHeight: 200 }}
+              />
+            </Box>
           </Box>
         );
 
@@ -500,107 +434,78 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
             <Typography variant="subtitle2" sx={{ mb: 2, color: '#6b7280' }}>
               Configure Email Node
             </Typography>
-            <TextField
-              fullWidth
-              label="To *"
-              value={localConfig.to || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('to', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="recipient@example.com"
-              size="small"
-              sx={{ mb: 2 }}
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
-            <TextField
-              fullWidth
-              label="From"
-              value={localConfig.from || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('from', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="noreply@example.com"
-              size="small"
-              sx={{ mb: 2 }}
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
-            <TextField
-              fullWidth
-              label="Subject *"
-              value={localConfig.subject || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('subject', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="e.g., Task {{ $trigger.title }} created"
-              size="small"
-              sx={{ mb: 2 }}
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
-            <TextField
-              fullWidth
-              label="Body *"
-              value={localConfig.body || ''}
-              onChange={(e) => {
-                stopAllEvents(e);
-                handleConfigChange('body', e.target.value);
-              }}
-              onMouseDown={stopAllEvents}
-              onClick={stopAllEvents}
-              onKeyDown={stopAllEvents}
-              onKeyUp={stopAllEvents}
-              onFocus={stopAllEvents}
-              placeholder="Email body content..."
-              multiline
-              rows={6}
-              size="small"
-              InputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-              inputProps={{
-                onMouseDown: stopAllEvents,
-                onClick: stopAllEvents,
-              }}
-            />
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>To *</label>
+              <input
+                type="text"
+                value={localConfig.to || ''}
+                onChange={(e) => {
+                  stopProp(e);
+                  handleConfigChange('to', e.target.value);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="recipient@example.com"
+                style={inputStyle}
+              />
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>From</label>
+              <input
+                type="text"
+                value={localConfig.from || ''}
+                onChange={(e) => {
+                  stopProp(e);
+                  handleConfigChange('from', e.target.value);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="noreply@example.com"
+                style={inputStyle}
+              />
+            </Box>
+            <Box sx={{ mb: 2 }}>
+              <label style={labelStyle}>Subject *</label>
+              <input
+                type="text"
+                value={localConfig.subject || ''}
+                onChange={(e) => {
+                  stopProp(e);
+                  handleConfigChange('subject', e.target.value);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="e.g., Task {{ $trigger.title }} created"
+                style={inputStyle}
+              />
+            </Box>
+            <Box>
+              <label style={labelStyle}>Body *</label>
+              <textarea
+                value={localConfig.body || ''}
+                onChange={(e) => {
+                  stopProp(e);
+                  handleConfigChange('body', e.target.value);
+                }}
+                onMouseDown={stopProp}
+                onClick={stopProp}
+                onKeyDown={stopProp}
+                onKeyUp={stopProp}
+                onFocus={stopProp}
+                placeholder="Email body content..."
+                rows={6}
+                style={{ ...inputStyle, resize: 'vertical', minHeight: 120 }}
+              />
+            </Box>
           </Box>
         );
 
@@ -636,14 +541,13 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
         disableAutoFocus: true,
         disableRestoreFocus: true,
         keepMounted: false,
-        style: { pointerEvents: 'none' },
       }}
       PaperProps={{
         sx: {
           pointerEvents: 'auto',
         },
-        onMouseDown: stopAllEvents,
-        onClick: stopAllEvents,
+        onMouseDown: stopProp,
+        onClick: stopProp,
       }}
       sx={{
         zIndex: 9999,
@@ -667,8 +571,8 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
           justifyContent: 'space-between',
           borderBottom: '1px solid #e5e7eb',
         }}
-        onMouseDown={stopAllEvents}
-        onClick={stopAllEvents}
+        onMouseDown={stopProp}
+        onClick={stopProp}
       >
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <span style={{ fontSize: '24px' }}>{getNodeIcon(node.type || '')}</span>
@@ -679,34 +583,24 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
         </IconButton>
       </Box>
 
-      {/* Node Name */}
+      {/* Node Name - EXACTLY like the working version */}
       <Box
         sx={{ p: 2, borderBottom: '1px solid #e5e7eb' }}
-        onMouseDown={stopAllEvents}
-        onClick={stopAllEvents}
+        onMouseDown={stopProp}
+        onClick={stopProp}
       >
-        <TextField
-          fullWidth
-          label="Node Name"
+        <label style={labelStyle}>Node Name</label>
+        <input
+          type="text"
           value={localLabel}
           onChange={(e) => {
-            stopAllEvents(e);
+            stopProp(e);
             handleLabelChange(e.target.value);
           }}
-          onMouseDown={stopAllEvents}
-          onClick={stopAllEvents}
-          onKeyDown={stopAllEvents}
-          onKeyUp={stopAllEvents}
-          onFocus={stopAllEvents}
-          size="small"
-          InputProps={{
-            onMouseDown: stopAllEvents,
-            onClick: stopAllEvents,
-          }}
-          inputProps={{
-            onMouseDown: stopAllEvents,
-            onClick: stopAllEvents,
-          }}
+          onMouseDown={stopProp}
+          onClick={stopProp}
+          onKeyDown={stopProp}
+          style={inputStyle}
         />
         <Typography variant="caption" sx={{ color: '#6b7280', display: 'block', mt: 1 }}>
           Node ID: {node.id}
@@ -715,8 +609,8 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
 
       <Divider />
 
-      {/* Configuration Form - ALL INLINE */}
-      <Box sx={{ flex: 1, overflow: 'auto' }} onMouseDown={stopAllEvents} onClick={stopAllEvents}>
+      {/* Configuration Form - ALL native HTML inputs */}
+      <Box sx={{ flex: 1, overflow: 'auto' }} onMouseDown={stopProp} onClick={stopProp}>
         {renderConfigContent()}
       </Box>
     </Drawer>
