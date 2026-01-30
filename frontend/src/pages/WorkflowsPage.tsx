@@ -57,9 +57,7 @@ const WorkflowsPage: React.FC = () => {
 
   const fetchWorkflows = async () => {
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
-
-      const response = await axiosInstance.get(`${apiUrl}/v1/workflows`);
+      const response = await axiosInstance.get('/v1/workflows');
 
       setWorkflows(response.data);
       setLoading(false);
@@ -74,9 +72,7 @@ const WorkflowsPage: React.FC = () => {
     event.stopPropagation();
 
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
-
-      await axiosInstance.post(`${apiUrl}/v1/workflows/${id}/execute`, {});
+      await axiosInstance.post(`/v1/workflows/${id}/execute`, {});
 
       setSnackbar({
         open: true,
@@ -104,9 +100,7 @@ const WorkflowsPage: React.FC = () => {
 
     setDeleting(true);
     try {
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
-
-      await axiosInstance.delete(`${apiUrl}/v1/workflows/${workflowToDelete.id}`);
+      await axiosInstance.delete(`/v1/workflows/${workflowToDelete.id}`);
 
       setSnackbar({
         open: true,
