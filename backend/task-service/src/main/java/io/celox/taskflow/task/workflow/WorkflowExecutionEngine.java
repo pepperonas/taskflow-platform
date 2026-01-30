@@ -151,7 +151,8 @@ public class WorkflowExecutionEngine {
     }
 
     private Object executeNode(WorkflowNode node, ExecutionContext context) {
-        log.debug("Executing node: {} (type: {})", node.getId(), node.getType());
+        log.info("=== EXECUTING NODE: {} (type: {}) ===", node.getId(), node.getType());
+        log.info("Node data: {}", node.getData());
 
         // Find appropriate executor
         NodeExecutor executor = nodeExecutors.stream()

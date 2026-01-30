@@ -24,6 +24,7 @@ public class EmailExecutor implements NodeExecutor {
     public Object execute(WorkflowNode node, ExecutionContext context) {
         Map<String, Object> data = node.getData();
 
+        log.info("=== EMAIL EXECUTOR: Starting execution for node {} ===", node.getId());
         context.log("Executing Email node: " + node.getId());
 
         // Support both config.* structure (from frontend) and direct properties
@@ -32,10 +33,14 @@ public class EmailExecutor implements NodeExecutor {
             config = data; // Fallback to direct properties
         }
 
+        log.info("Email node config: {}", config);
+        
         String to = resolveTemplate((String) config.get("to"), context);
         String subject = resolveTemplate((String) config.get("subject"), context);
         String body = resolveTemplate((String) config.get("body"), context);
         String from = (String) config.getOrDefault("from", "martin.pfeffer@celox.io");
+        
+        log.info("Resolved email fields - To: {}, Subject: {}, From: {}", to, subject, from);
 
         if (to == null || to.trim().isEmpty()) {
             context.log("WARNING: No recipient email address specified");
