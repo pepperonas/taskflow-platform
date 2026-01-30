@@ -59,6 +59,26 @@ frontend/src/
 
 **Implementation Details**:
 - Uses native `<input>` element instead of Material-UI TextField
+
+### Node Configuration Input Fields
+
+**Issue**: Other input fields in node configuration panels (not just Node Name) were not editable.
+
+**Solution**:
+- Added `stopPropagation()` to all event handlers (`onMouseDown`, `onClick`, `onKeyDown`, `onKeyPress`, `onKeyUp`, `onChange`, `onFocus`) on all input components
+- Applied to `TextField`, `Select`, `Checkbox`, and `ExpressionEditor` components
+- Applied to parent `Box` and `FormControl` elements
+- Prevents event bubbling to React Flow or the Drawer backdrop
+
+**Files Modified**:
+- `ExpressionEditor.tsx`
+- `CreateTaskConfig.tsx`
+- `UpdateTaskConfig.tsx`
+- `ConditionConfig.tsx`
+- `DelayConfig.tsx`
+- `HttpRequestConfig.tsx`
+- `CodeConfig.tsx`
+- `EmailConfig.tsx`
 - Local state synchronizes with node data model
 - All mouse and keyboard events properly isolated from React Flow canvas
 

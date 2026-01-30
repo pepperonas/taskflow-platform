@@ -25,11 +25,14 @@
 - ✅ **Event-Driven Architecture** with Apache Kafka
 - 🔄 **Real-time Updates** via WebSocket
 - 🔐 **JWT Authentication** with Spring Security
+- 🛡️ **SQL Injection Protection** with comprehensive security measures
 - 📊 **RESTful API** with OpenAPI documentation
 - 🎨 **Modern UI** with Material-UI
 - 🐳 **Containerized** with Docker & Docker Compose
 - 🧪 **Comprehensive Tests** (Unit, Integration, E2E)
 - 🚀 **CI/CD Pipeline** with GitHub Actions
+- 📧 **Email Integration** with SMTP support
+- 🗄️ **Database Integration** with secure query execution
 
 ## 📋 Tech Stack
 
