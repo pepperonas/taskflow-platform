@@ -11,19 +11,19 @@ import {
   Chip,
   Alert,
   Divider,
+  CircularProgress,
 } from '@mui/material';
 import { PlayArrow as PlayIcon, Code as CodeIcon, Check as CheckIcon, Warning as WarningIcon } from '@mui/icons-material';
+import axiosInstance from '../api/axios';
 
 const CodeIntegrationPage: React.FC = () => {
   const navigate = useNavigate();
   const [code, setCode] = useState(`// Access trigger data
 const name = $trigger.name || 'World';
-const timestamp = $now();
 
 // Transform data
 const result = {
   message: \`Hello, \${name}!\`,
-  timestamp: timestamp,
   uppercase: name.toUpperCase(),
   length: name.length
 };
@@ -31,22 +31,24 @@ const result = {
 // Return result
 return result;`);
   const [result, setResult] = useState<string>('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const examples = [
     {
       title: 'Data Transformation',
-      code: `const data = $trigger.users;
+      code: `const data = $trigger.users || [];
 
 return data.map(user => ({
   id: user.id,
-  fullName: \`\${user.firstName} \${user.lastName}\`,
-  email: user.email.toLowerCase()
+  fullName: \`\${user.firstName || ''} \${user.lastName || ''}\`.trim(),
+  email: (user.email || '').toLowerCase()
 }));`,
       description: 'Transform array of user objects',
     },
     {
       title: 'Conditional Logic',
-      code: `const score = $trigger.score;
+      code: `const score = $trigger.score || 0;
 
 if (score >= 90) {
   return { grade: 'A', passed: true };
@@ -74,18 +76,58 @@ return {
     },
   ];
 
+  const handleExecuteCode = async () => {
+    setLoading(true);
+    setError(null);
+    setResult('');
+
+    try {
+      const response = await axiosInstance.post('/v1/code/execute', {
+        code: code,
+        triggerData: {
+          name: 'Test User',
+          score: 85,
+          users: [
+            { id: 1, firstName: 'John', lastName: 'Doe', email: 'john@example.com' },
+            { id: 2, firstName: 'Jane', lastName: 'Smith', email: 'jane@example.com' }
+          ]
+        }
+      });
+
+      if (response.data.error) {
+        setError(response.data.error);
+      } else {
+        const formattedResult = JSON.stringify(response.data.result, null, 2);
+        setResult(`// Code executed successfully in ${response.data.executionTimeMs}ms
+
+// Result:
+${formattedResult}`);
+      }
+    } catch (err: any) {
+      console.error('Code execution error:', err);
+      
+      let errorMessage = 'Code execution failed';
+      if (err.response?.data) {
+        if (err.response.data.error) {
+          errorMessage = err.response.data.error;
+        } else if (err.response.data.message) {
+          errorMessage = err.response.data.message;
+        } else if (typeof err.response.data === 'string') {
+          errorMessage = err.response.data;
+        }
+      } else if (err.message) {
+        errorMessage = err.message;
+      }
+      
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleRunDemo = (demoCode: string) => {
     setCode(demoCode);
-    // Simulate execution result
-    setResult(`// This is a demo simulation
-// In a real workflow, this code would execute in a sandboxed GraalVM environment
-
-// Simulated output:
-{
-  "status": "success",
-  "executionTime": "45ms",
-  "output": "Results would appear here"
-}`);
+    // Don't auto-execute, let user click Run
   };
 
   return (
@@ -120,7 +162,7 @@ return {
               Try It Out
             </Typography>
             <Alert severity="info" sx={{ mb: 2, fontSize: '12px' }}>
-              Available variables: <code>$trigger</code>, <code>$vars</code>, <code>$now()</code>, <code>$json()</code>, <code>$uuid()</code>
+              Available variables: <code>$trigger</code> (trigger data), <code>$vars</code> (workflow variables), <code>$context</code> (execution context)
             </Alert>
             <TextField
               fullWidth
@@ -141,12 +183,34 @@ return {
             <Button
               fullWidth
               variant="contained"
-              startIcon={<PlayIcon />}
-              onClick={() => handleRunDemo(code)}
+              startIcon={loading ? <CircularProgress size={16} color="inherit" /> : <PlayIcon />}
+              onClick={handleExecuteCode}
+              disabled={loading}
             >
-              Run in Workflow Editor
+              {loading ? 'Executing...' : 'Execute Code'}
             </Button>
           </Paper>
+
+          {error && (
+            <Paper sx={{ p: 3, mt: 3, bgcolor: '#fee2e2' }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: '#dc2626' }}>
+                Execution Error
+              </Typography>
+              <Box
+                sx={{
+                  bgcolor: '#1e1e1e',
+                  color: '#fca5a5',
+                  p: 2,
+                  borderRadius: 1,
+                  fontFamily: 'monospace',
+                  fontSize: '12px',
+                  overflow: 'auto',
+                }}
+              >
+                <pre>{error}</pre>
+              </Box>
+            </Paper>
+          )}
 
           {result && (
             <Paper sx={{ p: 3, mt: 3 }}>
@@ -186,7 +250,7 @@ return {
                     size="small"
                     onClick={() => handleRunDemo(example.code)}
                   >
-                    Try
+                    Load
                   </Button>
                 </Box>
                 <Typography variant="caption" color="text.secondary">
@@ -234,6 +298,17 @@ return {
                 </Typography>
               </Box>
             </Box>
+            <Box sx={{ display: 'flex', alignItems: 'start', mb: 2 }}>
+              <CheckIcon color="success" sx={{ mr: 1, mt: 0.5 }} />
+              <Box>
+                <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                  Code Validation
+                </Typography>
+                <Typography variant="caption" color="text.secondary">
+                  Blocks dangerous patterns (eval, require, etc.)
+                </Typography>
+              </Box>
+            </Box>
             <Box sx={{ display: 'flex', alignItems: 'start' }}>
               <CheckIcon color="success" sx={{ mr: 1, mt: 0.5 }} />
               <Box>
@@ -249,7 +324,7 @@ return {
 
           <Alert severity="warning" icon={<WarningIcon />}>
             <Typography variant="caption">
-              <strong>Production Ready:</strong> All code executes in a secure, isolated environment with strict resource limits.
+              <strong>Security:</strong> All code executes in a secure, isolated environment with strict resource limits. Dangerous operations are blocked and logged.
             </Typography>
           </Alert>
         </Grid>
