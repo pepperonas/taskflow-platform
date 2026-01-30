@@ -22,9 +22,7 @@ import {
 import DeleteIcon from '@mui/icons-material/Delete';
 import AddIcon from '@mui/icons-material/Add';
 import KeyIcon from '@mui/icons-material/Key';
-import axios from 'axios';
-
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
+import axiosInstance from '../api/axios';
 
 interface Credential {
   id: string;
@@ -56,14 +54,15 @@ const CredentialsPage: React.FC = () => {
 
   const fetchCredentials = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get(`${API_URL}/v1/credentials`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axiosInstance.get('/v1/credentials');
       setCredentials(response.data);
     } catch (err: any) {
       console.error('Failed to fetch credentials:', err);
-      setError('Failed to load credentials');
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError('Please log in to view credentials');
+      } else {
+        setError('Failed to load credentials');
+      }
     }
   };
 
@@ -87,18 +86,14 @@ const CredentialsPage: React.FC = () => {
     setError(null);
 
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        `${API_URL}/v1/credentials`,
+      await axiosInstance.post(
+        '/v1/credentials',
         {
           name: newCred.name,
           type: newCred.type,
           data: newCred.type === 'api_key'
             ? { apiKey: newCred.data.apiKey }
             : { username: newCred.data.username, password: newCred.data.password },
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
@@ -124,10 +119,7 @@ const CredentialsPage: React.FC = () => {
     }
 
     try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`${API_URL}/v1/credentials/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      await axiosInstance.delete(`/v1/credentials/${id}`);
       setSuccess('Credential deleted successfully');
       fetchCredentials();
     } catch (err: any) {
