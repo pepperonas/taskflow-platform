@@ -62,8 +62,13 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
+        // Store token and user synchronously before any navigation
         localStorage.setItem('token', action.payload.token);
         localStorage.setItem('user', JSON.stringify(action.payload.user));
+        // Force axios to pick up the new token
+        if (window.axiosInstance) {
+          window.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${action.payload.token}`;
+        }
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;

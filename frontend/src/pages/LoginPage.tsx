@@ -25,10 +25,10 @@ const LoginPage: React.FC = () => {
   const onSubmit = async (data: LoginDto) => {
     const result = await dispatch(login(data));
     if (login.fulfilled.match(result)) {
-      // Use setTimeout to ensure state updates before navigation
+      // Wait a bit longer to ensure token is stored and axios interceptor is ready
       setTimeout(() => {
         navigate('/dashboard', { replace: true });
-      }, 100);
+      }, 200);
     }
   };
 

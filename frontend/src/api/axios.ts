@@ -9,6 +9,11 @@ const axiosInstance = axios.create({
   },
 });
 
+// Make axiosInstance available globally for token updates
+if (typeof window !== 'undefined') {
+  (window as any).axiosInstance = axiosInstance;
+}
+
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -30,10 +35,21 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error);
     }
     
+    // Skip auth error handling for login/register endpoints
+    const isAuthEndpoint = error.config?.url?.includes('/auth/login') || 
+                          error.config?.url?.includes('/auth/register');
+    
+    if (isAuthEndpoint) {
+      return Promise.reject(error);
+    }
+    
     // Handle authentication errors (401 Unauthorized)
     if (error.response?.status === 401) {
-      // Only redirect if we're not already on the login page
-      if (window.location.pathname !== '/login') {
+      // Only redirect if we're not already on the login page and we have a token
+      // (if no token, we're probably already logged out)
+      const token = localStorage.getItem('token');
+      if (token && window.location.pathname !== '/login' && window.location.pathname !== '/register') {
+        // Clear token and user
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         // Small delay to allow error message to be displayed
@@ -53,8 +69,9 @@ axiosInstance.interceptors.response.use(
           errorMessage.includes('authenticated') ||
           errorMessage.includes('token') ||
           errorMessage.includes('login')) {
-        // Only redirect if we're not already on the login page
-        if (window.location.pathname !== '/login') {
+        // Only redirect if we're not already on the login page and we have a token
+        const token = localStorage.getItem('token');
+        if (token && window.location.pathname !== '/login' && window.location.pathname !== '/register') {
           localStorage.removeItem('token');
           localStorage.removeItem('user');
           // Small delay to allow error message to be displayed
