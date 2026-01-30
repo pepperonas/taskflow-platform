@@ -150,12 +150,29 @@ mvn verify
 
 ### Main Endpoints
 
+**Authentication**:
 - `POST /api/v1/auth/register` - Register new user
 - `POST /api/v1/auth/login` - Login
+
+**Tasks**:
 - `GET /api/v1/tasks` - Get all tasks
 - `POST /api/v1/tasks` - Create task
 - `PUT /api/v1/tasks/{id}` - Update task
 - `DELETE /api/v1/tasks/{id}` - Delete task
+
+**Workflows**:
+- `GET /api/v1/workflows` - Get all workflows
+- `POST /api/v1/workflows` - Create workflow
+- `PUT /api/v1/workflows/{id}` - Update workflow
+- `DELETE /api/v1/workflows/{id}` - Delete workflow
+
+**Database Integration**:
+- `POST /api/v1/database/query` - Execute SQL query (SELECT only, with security validation)
+
+**Credentials**:
+- `GET /api/v1/credentials` - Get user credentials
+- `POST /api/v1/credentials` - Create credential
+- `DELETE /api/v1/credentials/{id}` - Delete credential
 
 ## 🌍 Production Deployment
 
