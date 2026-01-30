@@ -78,11 +78,24 @@ const DashboardPage: React.FC = () => {
   const [credentialsLoading, setCredentialsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchTasks());
-    fetchWorkflows();
-    fetchRecentExecutions();
-    fetchCredentialsCount();
-  }, [dispatch]);
+    // Wait a bit to ensure token is set after login
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // If no token, redirect to login
+      navigate('/login');
+      return;
+    }
+    
+    // Small delay to ensure token is available for API calls
+    const timer = setTimeout(() => {
+      dispatch(fetchTasks());
+      fetchWorkflows();
+      fetchRecentExecutions();
+      fetchCredentialsCount();
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, [dispatch, navigate]);
 
   const fetchWorkflows = async () => {
     try {

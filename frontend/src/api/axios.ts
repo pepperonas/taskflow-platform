@@ -48,15 +48,30 @@ axiosInstance.interceptors.response.use(
       // Only redirect if we're not already on the login page and we have a token
       // (if no token, we're probably already logged out)
       const token = localStorage.getItem('token');
-      if (token && window.location.pathname !== '/login' && window.location.pathname !== '/register') {
-        // Clear token and user
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        // Small delay to allow error message to be displayed
-        setTimeout(() => {
-          window.location.href = '/login';
-        }, 100);
+      const currentPath = window.location.pathname;
+      
+      // Don't redirect if we're on auth pages or if there's no token
+      if (!token || currentPath === '/login' || currentPath === '/register') {
+        return Promise.reject(error);
       }
+      
+      // Check if this is a fresh login (token was just set)
+      // If the error happens within 1 second of navigation, it might be a timing issue
+      const loginTime = sessionStorage.getItem('loginTime');
+      const now = Date.now();
+      if (loginTime && (now - parseInt(loginTime)) < 1000) {
+        // This might be a timing issue, don't logout immediately
+        console.warn('401 error shortly after login, might be timing issue');
+        return Promise.reject(error);
+      }
+      
+      // Clear token and user
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      // Small delay to allow error message to be displayed
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 100);
       return Promise.reject(error);
     }
     

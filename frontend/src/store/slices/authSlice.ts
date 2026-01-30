@@ -65,6 +65,8 @@ const authSlice = createSlice({
         // Store token and user synchronously before any navigation
         localStorage.setItem('token', action.payload.token);
         localStorage.setItem('user', JSON.stringify(action.payload.user));
+        // Store login time to detect timing issues
+        sessionStorage.setItem('loginTime', Date.now().toString());
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
