@@ -68,6 +68,12 @@ Example alert format:
 3. Security validation runs before execution
 4. Only validated queries are executed
 
+**Error Handling**:
+- Root cause extraction from exception chain for clearer error messages
+- PostgreSQL error messages are directly shown to users (e.g., "ERROR: column 'name' does not exist")
+- SQL syntax errors are not logged as security alerts (only actual security threats trigger alerts)
+- Improved error messages help users identify and fix query issues quickly
+
 ## Authentication & Authorization
 
 ### JWT Token Security

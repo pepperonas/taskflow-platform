@@ -216,6 +216,7 @@ docker-compose up -d
 - [Workflow Editor Technical](docs/WORKFLOW_EDITOR_TECHNICAL.md)
 - [Testing Guide](docs/TESTING.md)
 - [Security Documentation](docs/SECURITY.md)
+- [Database Integration Guide](docs/DATABASE_INTEGRATION.md)
 
 ## 🔧 Development
 
