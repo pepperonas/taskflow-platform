@@ -73,38 +73,26 @@ WHERE t.status = 'in_progress';`,
     setResult(null);
 
     try {
-      // Simulate database query execution
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock result based on query type
-      if (testQuery.toLowerCase().includes('select')) {
-        setResult({
-          rows: [
-            { id: 1, name: 'Sample Task 1', status: 'pending', created_at: '2024-01-15T10:30:00Z' },
-            { id: 2, name: 'Sample Task 2', status: 'pending', created_at: '2024-01-14T14:20:00Z' },
-            { id: 3, name: 'Sample Task 3', status: 'pending', created_at: '2024-01-13T09:15:00Z' },
-          ],
-          rowCount: 3,
-          executionTime: '45ms'
-        });
-      } else if (testQuery.toLowerCase().includes('count')) {
-        setResult({
-          rows: [{ total: 25, active: 18, inactive: 7 }],
-          rowCount: 1,
-          executionTime: '12ms'
-        });
+      const response = await axiosInstance.post('/v1/database/query', {
+        query: testQuery
+      });
+
+      if (response.data.error) {
+        setError(response.data.error);
       } else {
         setResult({
-          rows: [
-            { id: 1, name: 'Task 1', assigned_to: 'user@example.com', workflow_name: 'Onboarding' },
-            { id: 2, name: 'Task 2', assigned_to: 'admin@example.com', workflow_name: 'Support' },
-          ],
-          rowCount: 2,
-          executionTime: '28ms'
+          rows: response.data.rows || [],
+          rowCount: response.data.rowCount || 0,
+          executionTime: `${response.data.executionTimeMs || 0}ms`
         });
       }
     } catch (err: any) {
-      setError(err.message || 'Query execution failed');
+      console.error('Query execution error:', err);
+      const errorMessage = err.response?.data?.error || 
+                          err.response?.data?.message || 
+                          err.message || 
+                          'Query execution failed';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
