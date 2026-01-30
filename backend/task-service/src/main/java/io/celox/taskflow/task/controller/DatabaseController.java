@@ -61,7 +61,11 @@ public class DatabaseController {
             }
 
             // Only SELECT queries are allowed
+            // Remove trailing semicolon if present (PostgreSQL/JdbcTemplate doesn't need it)
             String trimmedQuery = query.trim();
+            if (trimmedQuery.endsWith(";")) {
+                trimmedQuery = trimmedQuery.substring(0, trimmedQuery.length() - 1).trim();
+            }
             List<Map<String, Object>> results = jdbcTemplate.queryForList(trimmedQuery);
             long executionTime = System.currentTimeMillis() - startTime;
 
