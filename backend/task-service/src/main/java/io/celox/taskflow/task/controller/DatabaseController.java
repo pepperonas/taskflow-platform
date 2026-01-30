@@ -75,9 +75,24 @@ public class DatabaseController {
         } catch (Exception e) {
             long executionTime = System.currentTimeMillis() - startTime;
             log.error("Database query failed for user {}: {}", userId, e.getMessage(), e);
-            logSecurityAlert(userId, request.getQuery(), "Query execution failed: " + e.getMessage());
+            
+            // Extract the root cause message for better error reporting
+            String errorMessage = e.getMessage();
+            Throwable cause = e.getCause();
+            while (cause != null && cause.getMessage() != null) {
+                errorMessage = cause.getMessage();
+                cause = cause.getCause();
+            }
+            
+            // Log security alert only for actual security issues, not SQL errors
+            // SQL errors are logged but not treated as security alerts
+            if (!errorMessage.contains("column") && !errorMessage.contains("syntax") && 
+                !errorMessage.contains("does not exist") && !errorMessage.contains("relation")) {
+                logSecurityAlert(userId, request.getQuery(), "Query execution failed: " + errorMessage);
+            }
+            
             return ResponseEntity.badRequest()
-                .body(new QueryResult(null, 0, executionTime, "Query execution failed: " + e.getMessage()));
+                .body(new QueryResult(null, 0, executionTime, errorMessage));
         }
     }
 
