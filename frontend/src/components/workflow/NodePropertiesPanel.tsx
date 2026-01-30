@@ -147,11 +147,59 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
                 onClick={stopProp}
                 onKeyDown={stopProp}
                 onFocus={stopProp}
+                MenuProps={{
+                  disablePortal: true,
+                  onMouseDown: stopProp,
+                  onClick: stopProp,
+                  PaperProps: {
+                    onMouseDown: stopProp,
+                    onClick: stopProp,
+                    sx: {
+                      pointerEvents: 'auto',
+                    },
+                  },
+                }}
               >
-                <MenuItem value="LOW">Low</MenuItem>
-                <MenuItem value="MEDIUM">Medium</MenuItem>
-                <MenuItem value="HIGH">High</MenuItem>
-                <MenuItem value="CRITICAL">Critical</MenuItem>
+                <MenuItem 
+                  value="LOW"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('priority', 'LOW');
+                  }}
+                >
+                  Low
+                </MenuItem>
+                <MenuItem 
+                  value="MEDIUM"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('priority', 'MEDIUM');
+                  }}
+                >
+                  Medium
+                </MenuItem>
+                <MenuItem 
+                  value="HIGH"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('priority', 'HIGH');
+                  }}
+                >
+                  High
+                </MenuItem>
+                <MenuItem 
+                  value="CRITICAL"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('priority', 'CRITICAL');
+                  }}
+                >
+                  Critical
+                </MenuItem>
               </Select>
             </FormControl>
             <TextField
@@ -250,12 +298,69 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
                 onClick={stopProp}
                 onKeyDown={stopProp}
                 onFocus={stopProp}
+                MenuProps={{
+                  disablePortal: true,
+                  onMouseDown: stopProp,
+                  onClick: stopProp,
+                  PaperProps: {
+                    onMouseDown: stopProp,
+                    onClick: stopProp,
+                    sx: {
+                      pointerEvents: 'auto',
+                    },
+                  },
+                }}
               >
-                <MenuItem value="">Keep current</MenuItem>
-                <MenuItem value="OPEN">Open</MenuItem>
-                <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-                <MenuItem value="COMPLETED">Completed</MenuItem>
-                <MenuItem value="CANCELLED">Cancelled</MenuItem>
+                <MenuItem 
+                  value=""
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('status', '');
+                  }}
+                >
+                  Keep current
+                </MenuItem>
+                <MenuItem 
+                  value="OPEN"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('status', 'OPEN');
+                  }}
+                >
+                  Open
+                </MenuItem>
+                <MenuItem 
+                  value="IN_PROGRESS"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('status', 'IN_PROGRESS');
+                  }}
+                >
+                  In Progress
+                </MenuItem>
+                <MenuItem 
+                  value="COMPLETED"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('status', 'COMPLETED');
+                  }}
+                >
+                  Completed
+                </MenuItem>
+                <MenuItem 
+                  value="CANCELLED"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('status', 'CANCELLED');
+                  }}
+                >
+                  Cancelled
+                </MenuItem>
               </Select>
             </FormControl>
             <FormControl fullWidth size="small">
@@ -271,12 +376,69 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
                 onClick={stopProp}
                 onKeyDown={stopProp}
                 onFocus={stopProp}
+                MenuProps={{
+                  disablePortal: true,
+                  onMouseDown: stopProp,
+                  onClick: stopProp,
+                  PaperProps: {
+                    onMouseDown: stopProp,
+                    onClick: stopProp,
+                    sx: {
+                      pointerEvents: 'auto',
+                    },
+                  },
+                }}
               >
-                <MenuItem value="">Keep current</MenuItem>
-                <MenuItem value="LOW">Low</MenuItem>
-                <MenuItem value="MEDIUM">Medium</MenuItem>
-                <MenuItem value="HIGH">High</MenuItem>
-                <MenuItem value="CRITICAL">Critical</MenuItem>
+                <MenuItem 
+                  value=""
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('priority', '');
+                  }}
+                >
+                  Keep current
+                </MenuItem>
+                <MenuItem 
+                  value="LOW"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('priority', 'LOW');
+                  }}
+                >
+                  Low
+                </MenuItem>
+                <MenuItem 
+                  value="MEDIUM"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('priority', 'MEDIUM');
+                  }}
+                >
+                  Medium
+                </MenuItem>
+                <MenuItem 
+                  value="HIGH"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('priority', 'HIGH');
+                  }}
+                >
+                  High
+                </MenuItem>
+                <MenuItem 
+                  value="CRITICAL"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('priority', 'CRITICAL');
+                  }}
+                >
+                  Critical
+                </MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -362,11 +524,59 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
                 onClick={stopProp}
                 onKeyDown={stopProp}
                 onFocus={stopProp}
+                MenuProps={{
+                  disablePortal: true,
+                  onMouseDown: stopProp,
+                  onClick: stopProp,
+                  PaperProps: {
+                    onMouseDown: stopProp,
+                    onClick: stopProp,
+                    sx: {
+                      pointerEvents: 'auto',
+                    },
+                  },
+                }}
               >
-                <MenuItem value="milliseconds">Milliseconds</MenuItem>
-                <MenuItem value="seconds">Seconds</MenuItem>
-                <MenuItem value="minutes">Minutes</MenuItem>
-                <MenuItem value="hours">Hours</MenuItem>
+                <MenuItem 
+                  value="milliseconds"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('unit', 'milliseconds');
+                  }}
+                >
+                  Milliseconds
+                </MenuItem>
+                <MenuItem 
+                  value="seconds"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('unit', 'seconds');
+                  }}
+                >
+                  Seconds
+                </MenuItem>
+                <MenuItem 
+                  value="minutes"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('unit', 'minutes');
+                  }}
+                >
+                  Minutes
+                </MenuItem>
+                <MenuItem 
+                  value="hours"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('unit', 'hours');
+                  }}
+                >
+                  Hours
+                </MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -391,12 +601,69 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
                 onClick={stopProp}
                 onKeyDown={stopProp}
                 onFocus={stopProp}
+                MenuProps={{
+                  disablePortal: true,
+                  onMouseDown: stopProp,
+                  onClick: stopProp,
+                  PaperProps: {
+                    onMouseDown: stopProp,
+                    onClick: stopProp,
+                    sx: {
+                      pointerEvents: 'auto',
+                    },
+                  },
+                }}
               >
-                <MenuItem value="GET">GET</MenuItem>
-                <MenuItem value="POST">POST</MenuItem>
-                <MenuItem value="PUT">PUT</MenuItem>
-                <MenuItem value="PATCH">PATCH</MenuItem>
-                <MenuItem value="DELETE">DELETE</MenuItem>
+                <MenuItem 
+                  value="GET"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('method', 'GET');
+                  }}
+                >
+                  GET
+                </MenuItem>
+                <MenuItem 
+                  value="POST"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('method', 'POST');
+                  }}
+                >
+                  POST
+                </MenuItem>
+                <MenuItem 
+                  value="PUT"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('method', 'PUT');
+                  }}
+                >
+                  PUT
+                </MenuItem>
+                <MenuItem 
+                  value="PATCH"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('method', 'PATCH');
+                  }}
+                >
+                  PATCH
+                </MenuItem>
+                <MenuItem 
+                  value="DELETE"
+                  onMouseDown={stopProp}
+                  onClick={(e) => {
+                    stopProp(e);
+                    handleConfigChange('method', 'DELETE');
+                  }}
+                >
+                  DELETE
+                </MenuItem>
               </Select>
             </FormControl>
             <TextField
