@@ -61,43 +61,6 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
 
   if (!node) return null;
 
-  const drawerContent = (
-    <Drawer
-      anchor="right"
-      open={!!node}
-      onClose={onClose}
-      variant="persistent"
-      hideBackdrop={true}
-      container={() => document.getElementById('drawer-portal-root') || document.body}
-      disablePortal={false}
-      ModalProps={{
-        disableEnforceFocus: true,
-        disableAutoFocus: true,
-        disableRestoreFocus: true,
-        keepMounted: false,
-      }}
-      PaperProps={{
-        sx: {
-          pointerEvents: 'auto',
-        },
-      }}
-      sx={{
-        zIndex: 9999,
-        '& .MuiDrawer-paper': {
-          width: 400,
-          boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.1)',
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          height: '100vh',
-          pointerEvents: 'auto',
-        },
-      }}
-    >
-      {renderDrawerContent()}
-    </Drawer>
-  );
-
   const getNodeIcon = (type: string) => {
     switch (type) {
       case 'trigger':
@@ -179,13 +142,15 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
     }
   };
 
-  return (
+  const drawerContent = (
     <Drawer
       anchor="right"
       open={!!node}
       onClose={onClose}
       variant="persistent"
       hideBackdrop={true}
+      container={() => document.getElementById('drawer-portal-root') || document.body}
+      disablePortal={false}
       ModalProps={{
         disableEnforceFocus: true,
         disableAutoFocus: true,
@@ -193,29 +158,12 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
         keepMounted: false,
       }}
       PaperProps={{
-        className: "nodrag nowheel nopan",
         sx: {
           pointerEvents: 'auto',
-        },
-        onMouseDown: (e) => {
-          e.stopPropagation();
-        },
-        onClick: (e) => {
-          e.stopPropagation();
-        },
-        onWheel: (e) => {
-          e.stopPropagation();
-        },
-        onTouchStart: (e) => {
-          e.stopPropagation();
-        },
-        onTouchMove: (e) => {
-          e.stopPropagation();
         },
       }}
       sx={{
         zIndex: 9999,
-        pointerEvents: 'none',
         '& .MuiDrawer-paper': {
           width: 400,
           boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.1)',
@@ -330,7 +278,7 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
       <Box sx={{ flex: 1, overflow: 'auto' }}>
         {renderConfig()}
       </Box>
-    </>
+    </Drawer>
   );
 
   // Render using React Portal to escape React Flow's event handling
