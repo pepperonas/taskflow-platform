@@ -21,6 +21,7 @@ import {
   Check as CheckIcon,
   Send as SendIcon 
 } from '@mui/icons-material';
+import axiosInstance from '../api/axios';
 
 const EmailIntegrationPage: React.FC = () => {
   const navigate = useNavigate();
@@ -89,18 +90,30 @@ TaskFlow Team`,
     setResult(null);
 
     try {
-      // Simulate email sending
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      setResult({
-        success: true,
-        messageId: `msg-${Date.now()}`,
-        sentAt: new Date().toISOString(),
+      const response = await axiosInstance.post('/v1/email/send', {
         to: formData.to,
         subject: formData.subject,
+        body: formData.body,
+        from: 'martin.pfeffer@celox.io',
+        triggerData: {}
       });
+
+      if (response.data.success) {
+        setResult({
+          success: true,
+          messageId: `msg-${Date.now()}`,
+          sentAt: new Date().toISOString(),
+          to: response.data.to,
+          subject: response.data.subject,
+          executionTime: response.data.executionTimeMs,
+        });
+      } else {
+        setError(response.data.error || 'Failed to send email');
+      }
     } catch (err: any) {
-      setError(err.message || 'Failed to send email');
+      console.error('Email sending error:', err);
+      const errorMessage = err.response?.data?.error || err.message || 'Failed to send email';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
