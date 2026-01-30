@@ -28,28 +28,28 @@ const DatabaseIntegrationPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
-  const [query, setQuery] = useState(`SELECT id, name, status, created_at 
+  const [query, setQuery] = useState(`SELECT id, title, status, created_at 
 FROM tasks 
-WHERE status = 'pending' 
+WHERE status = 'OPEN' 
 ORDER BY created_at DESC 
 LIMIT 10;`);
 
   const examples = [
     {
       title: 'Select Tasks',
-      query: `SELECT id, name, status, created_at 
+      query: `SELECT id, title, status, created_at 
 FROM tasks 
-WHERE status = 'pending' 
+WHERE status = 'OPEN' 
 ORDER BY created_at DESC 
 LIMIT 10;`,
-      description: 'Fetch pending tasks',
+      description: 'Fetch open tasks',
     },
     {
       title: 'Count Workflows',
       query: `SELECT 
   COUNT(*) as total,
-  COUNT(CASE WHEN active = true THEN 1 END) as active,
-  COUNT(CASE WHEN active = false THEN 1 END) as inactive
+  COUNT(CASE WHEN status = 'ACTIVE' THEN 1 END) as active,
+  COUNT(CASE WHEN status = 'DRAFT' THEN 1 END) as draft
 FROM workflows;`,
       description: 'Get workflow statistics',
     },
@@ -57,13 +57,14 @@ FROM workflows;`,
       title: 'Join Query',
       query: `SELECT 
   t.id,
-  t.name,
+  t.title,
+  t.status,
   u.email as assigned_to,
   w.name as workflow_name
 FROM tasks t
-LEFT JOIN users u ON t.assigned_user_id = u.id
-LEFT JOIN workflows w ON t.workflow_id = w.id
-WHERE t.status = 'in_progress';`,
+LEFT JOIN users u ON t.assignee_id = u.id
+LEFT JOIN workflows w ON t.id = w.id
+WHERE t.status = 'IN_PROGRESS';`,
       description: 'Join tasks with users and workflows',
     },
   ];
