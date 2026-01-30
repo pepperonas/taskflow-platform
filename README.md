@@ -33,6 +33,9 @@
 - 🚀 **CI/CD Pipeline** with GitHub Actions
 - 📧 **Email Integration** with SMTP support
 - 🗄️ **Database Integration** with secure query execution
+- 💻 **JavaScript Code Execution** with GraalVM sandboxing
+- 📊 **Interactive Dashboard** with charts and analytics
+- 🎨 **Showcase Page** with project overview and technologies
 
 ## 📋 Tech Stack
 
@@ -49,6 +52,8 @@
 - **React 18** with **TypeScript**
 - **Redux Toolkit** for State Management
 - **Material-UI (MUI)** as UI Framework
+- **React Flow** for Workflow Visualization
+- **Recharts** for Data Visualization
 - **Axios** for HTTP Client
 - **React Hook Form** for Form Handling
 - **React Router** for Navigation
@@ -106,6 +111,8 @@ docker-compose up -d
 
 **Production (Live Demo)**:
 - **Frontend**: https://taskflow.celox.io
+- **Dashboard**: https://taskflow.celox.io/dashboard
+- **Showcase**: https://taskflow.celox.io/showcase
 - **Backend API**: https://taskflow.celox.io/api
 - **Swagger UI**: https://taskflow.celox.io/swagger-ui.html
 
@@ -169,6 +176,9 @@ mvn verify
 **Database Integration**:
 - `POST /api/v1/database/query` - Execute SQL query (SELECT only, with security validation)
 
+**Code Execution**:
+- `POST /api/v1/code/execute` - Execute JavaScript code in sandboxed GraalVM environment
+
 **Credentials**:
 - `GET /api/v1/credentials` - Get user credentials
 - `POST /api/v1/credentials` - Create credential
@@ -217,6 +227,7 @@ docker-compose up -d
 - [Testing Guide](docs/TESTING.md)
 - [Security Documentation](docs/SECURITY.md)
 - [Database Integration Guide](docs/DATABASE_INTEGRATION.md)
+- [Code Execution Guide](docs/CODE_EXECUTION.md)
 
 ## 🔧 Development
 
