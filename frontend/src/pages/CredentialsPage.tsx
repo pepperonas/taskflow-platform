@@ -34,7 +34,7 @@ interface Credential {
 const CredentialsPage: React.FC = () => {
   const [credentials, setCredentials] = useState<Credential[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
 
@@ -53,16 +53,40 @@ const CredentialsPage: React.FC = () => {
   }, []);
 
   const fetchCredentials = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const response = await axiosInstance.get('/v1/credentials');
-      setCredentials(response.data);
+      setCredentials(response.data || []);
     } catch (err: any) {
       console.error('Failed to fetch credentials:', err);
-      if (err.response?.status === 401 || err.response?.status === 403) {
-        setError('Please log in to view credentials');
-      } else {
-        setError('Failed to load credentials');
+      
+      // Handle network errors (502, 503, etc.)
+      if (!err.response) {
+        setError('Unable to connect to server. Please check your connection and try again.');
+        return;
       }
+      
+      // Handle authentication errors
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        // Don't set error here - axiosInstance will handle redirect
+        setError('Authentication required. Please log in.');
+        return;
+      }
+      
+      // Handle server errors
+      if (err.response?.status >= 500) {
+        setError('Server error. Please try again later.');
+        return;
+      }
+      
+      // Handle other errors
+      const errorMessage = err.response?.data?.message || 
+                          err.response?.data?.error || 
+                          'Failed to load credentials';
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,7 +131,24 @@ const CredentialsPage: React.FC = () => {
       fetchCredentials();
     } catch (err: any) {
       console.error('Failed to create credential:', err);
-      setError(err.response?.data?.message || 'Failed to create credential');
+      
+      // Handle network errors
+      if (!err.response) {
+        setError('Unable to connect to server. Please check your connection and try again.');
+        return;
+      }
+      
+      // Handle server errors
+      if (err.response?.status >= 500) {
+        setError('Server error. Please try again later.');
+        return;
+      }
+      
+      // Handle validation errors
+      const errorMessage = err.response?.data?.message || 
+                          err.response?.data?.error || 
+                          'Failed to create credential';
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }
@@ -124,7 +165,24 @@ const CredentialsPage: React.FC = () => {
       fetchCredentials();
     } catch (err: any) {
       console.error('Failed to delete credential:', err);
-      setError('Failed to delete credential');
+      
+      // Handle network errors
+      if (!err.response) {
+        setError('Unable to connect to server. Please check your connection and try again.');
+        return;
+      }
+      
+      // Handle server errors
+      if (err.response?.status >= 500) {
+        setError('Server error. Please try again later.');
+        return;
+      }
+      
+      // Handle other errors
+      const errorMessage = err.response?.data?.message || 
+                          err.response?.data?.error || 
+                          'Failed to delete credential';
+      setError(errorMessage);
     }
   };
 
@@ -174,7 +232,13 @@ const CredentialsPage: React.FC = () => {
         </Alert>
       )}
 
-      {credentials.length === 0 ? (
+      {loading ? (
+        <Paper sx={{ p: 4, textAlign: 'center' }}>
+          <Typography variant="body1" sx={{ color: '#6b7280' }}>
+            Loading credentials...
+          </Typography>
+        </Paper>
+      ) : credentials.length === 0 ? (
         <Paper sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body1" sx={{ color: '#6b7280', mb: 2 }}>
             No credentials yet

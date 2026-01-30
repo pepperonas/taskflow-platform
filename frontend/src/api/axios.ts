@@ -25,11 +25,22 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
+    // Handle network errors (502, 503, etc.) - don't redirect, let the component handle it
+    if (!error.response) {
+      return Promise.reject(error);
+    }
+    
     // Handle authentication errors (401 Unauthorized)
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
+      // Only redirect if we're not already on the login page
+      if (window.location.pathname !== '/login') {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        // Small delay to allow error message to be displayed
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 100);
+      }
       return Promise.reject(error);
     }
     
@@ -42,9 +53,15 @@ axiosInstance.interceptors.response.use(
           errorMessage.includes('authenticated') ||
           errorMessage.includes('token') ||
           errorMessage.includes('login')) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        window.location.href = '/login';
+        // Only redirect if we're not already on the login page
+        if (window.location.pathname !== '/login') {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          // Small delay to allow error message to be displayed
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 100);
+        }
         return Promise.reject(error);
       }
     }
