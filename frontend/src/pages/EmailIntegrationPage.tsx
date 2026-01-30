@@ -104,9 +104,11 @@ TaskFlow Team`,
         triggerData: {}
       });
       
-      console.log('Email response:', response.data);
+      console.log('Email response:', response);
+      console.log('Email response data:', response.data);
+      console.log('Email response status:', response.status);
 
-      if (response.data.success) {
+      if (response.data && response.data.success) {
         setResult({
           success: true,
           messageId: `msg-${Date.now()}`,
@@ -116,11 +118,32 @@ TaskFlow Team`,
           executionTime: response.data.executionTimeMs,
         });
       } else {
-        setError(response.data.error || 'Failed to send email');
+        const errorMsg = response.data?.error || response.data?.message || 'Failed to send email';
+        console.error('Email sending failed:', errorMsg);
+        setError(errorMsg);
       }
     } catch (err: any) {
       console.error('Email sending error:', err);
-      const errorMessage = err.response?.data?.error || err.message || 'Failed to send email';
+      console.error('Error response:', err.response);
+      console.error('Error response data:', err.response?.data);
+      console.error('Error status:', err.response?.status);
+      
+      // Check if it's a network error
+      if (!err.response) {
+        setError('Network error: Unable to connect to server. Please check your connection.');
+        return;
+      }
+      
+      // Check if it's an authentication error
+      if (err.response?.status === 401 || err.response?.status === 403) {
+        setError('Authentication required. Please log in and try again.');
+        return;
+      }
+      
+      const errorMessage = err.response?.data?.error || 
+                          err.response?.data?.message || 
+                          err.message || 
+                          'Failed to send email';
       setError(errorMessage);
     } finally {
       setLoading(false);
