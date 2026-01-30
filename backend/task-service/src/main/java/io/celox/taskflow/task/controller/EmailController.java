@@ -36,12 +36,17 @@ public class EmailController {
         @ApiResponse(responseCode = "400", description = "Invalid email request")
     })
     public ResponseEntity<EmailResponse> sendEmail(@RequestBody EmailRequest request) {
+        log.info("=== EMAIL CONTROLLER: Received email send request ===");
+        log.info("Request: to={}, subject={}, from={}", request.getTo(), request.getSubject(), request.getFrom());
+        
         long startTime = System.currentTimeMillis();
         String userId = getCurrentUserId();
+        log.info("User ID: {}", userId);
 
         try {
             // Validate request
             if (request.getTo() == null || request.getTo().trim().isEmpty()) {
+                log.warn("Email request rejected: No recipient specified");
                 return ResponseEntity.badRequest()
                     .body(new EmailResponse(false, null, null, "Recipient email address is required", System.currentTimeMillis() - startTime));
             }
@@ -66,9 +71,11 @@ public class EmailController {
             }
 
             // Execute email sending
+            log.info("Calling EmailExecutor.execute() for node: {}", node.getId());
             @SuppressWarnings("unchecked")
             Map<String, Object> result = (Map<String, Object>) emailExecutor.execute(node, context);
             long executionTime = System.currentTimeMillis() - startTime;
+            log.info("EmailExecutor returned result: {}", result);
 
             Boolean sent = (Boolean) result.getOrDefault("sent", false);
             String error = (String) result.get("error");
