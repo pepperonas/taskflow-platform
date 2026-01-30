@@ -325,4 +325,42 @@
             <column name="status"/>
         </createIndex>
     </changeSet>
+
+    <!-- Create credentials table for secure API key storage -->
+    <changeSet id="5" author="martin">
+        <createTable tableName="credentials">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="type" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="encrypted_data" type="text"/>
+            <column name="owner_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="credentials"
+                baseColumnNames="owner_id"
+                constraintName="fk_credentials_owner"
+                referencedTableName="users"
+                referencedColumnNames="id"
+                onDelete="CASCADE"/>
+
+        <createIndex tableName="credentials" indexName="idx_credentials_owner">
+            <column name="owner_id"/>
+        </createIndex>
+
+        <createIndex tableName="credentials" indexName="idx_credentials_type">
+            <column name="type"/>
+        </createIndex>
+    </changeSet>
 </databaseChangeLog>

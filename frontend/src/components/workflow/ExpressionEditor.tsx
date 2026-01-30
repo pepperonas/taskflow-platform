@@ -28,6 +28,12 @@ const ExpressionEditor: React.FC<ExpressionEditorProps> = ({
   const [cursorPosition, setCursorPosition] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const handleClick = () => {
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
   // Available variables for autocomplete
   const variables = [
     { category: 'Trigger', items: [
@@ -76,7 +82,7 @@ const ExpressionEditor: React.FC<ExpressionEditorProps> = ({
   };
 
   return (
-    <Box>
+    <Box sx={{ position: 'relative', zIndex: 1 }}>
       <TextField
         fullWidth
         label={label}
@@ -86,11 +92,15 @@ const ExpressionEditor: React.FC<ExpressionEditorProps> = ({
           setCursorPosition(e.target.selectionStart || 0);
         }}
         onKeyDown={handleKeyDown}
+        onFocus={(e) => {
+          setCursorPosition(e.target.selectionStart || 0);
+        }}
         placeholder={placeholder}
         helperText={helperText || 'Press Ctrl+Space for variable suggestions, or type {{ to insert expressions'}
         multiline={multiline}
         rows={multiline ? rows : undefined}
         inputRef={inputRef}
+        autoComplete="off"
       />
 
       {showAutocomplete && (

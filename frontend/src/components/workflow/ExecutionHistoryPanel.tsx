@@ -38,7 +38,7 @@ const ExecutionHistoryPanel: React.FC<ExecutionHistoryPanelProps> = ({
       setLoading(true);
       setError(null);
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
 
       const response = await axios.get(
         `${apiUrl}/v1/workflows/${workflowId}/executions`,

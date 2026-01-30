@@ -2,6 +2,12 @@
   "name": "taskflow-frontend",
   "version": "1.0.0",
   "private": true,
+  "author": "Martin Pfeffer",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pepperonas/taskflow-platform.git"
+  },
   "dependencies": {
     "@emotion/react": "^11.11.3",
     "@emotion/styled": "^11.11.0",
@@ -39,6 +45,9 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
+    "test:coverage": "craco test --coverage --watchAll=false",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {

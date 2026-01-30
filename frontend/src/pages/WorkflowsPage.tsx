@@ -12,13 +12,10 @@ import {
   ListItemButton,
   Chip,
   CircularProgress,
-  AppBar,
-  Toolbar,
   Alert,
 } from '@mui/material';
 import {
   Add as AddIcon,
-  ArrowBack as ArrowBackIcon,
   PlayArrow as PlayIcon,
   Edit as EditIcon,
 } from '@mui/icons-material';
@@ -45,7 +42,7 @@ const WorkflowsPage: React.FC = () => {
   const fetchWorkflows = async () => {
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
 
       const response = await axios.get(`${apiUrl}/v1/workflows`, {
         headers: {
@@ -67,7 +64,7 @@ const WorkflowsPage: React.FC = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
 
       await axios.post(
         `${apiUrl}/v1/workflows/${id}/execute`,
@@ -100,36 +97,30 @@ const WorkflowsPage: React.FC = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
-        <Toolbar>
-          <Button
-            color="inherit"
-            startIcon={<ArrowBackIcon />}
-            onClick={() => navigate('/dashboard')}
-          >
-            Back to Dashboard
-          </Button>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, ml: 2 }}>
-            Workflows
-          </Typography>
-        </Toolbar>
-      </AppBar>
+    <Container maxWidth="lg" sx={{ py: 4 }}>
+      <Box sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
+          Workflows
+        </Typography>
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
+          Create and manage automated workflows with visual editor
+        </Typography>
+        <Button
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => navigate('/workflows/new')}
+          sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
+        >
+          Create Workflow
+        </Button>
+      </Box>
 
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-        <Paper sx={{ p: 3 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
-            <Typography variant="h5">
-              Workflow Automation
-            </Typography>
-            <Button
-              variant="contained"
-              startIcon={<AddIcon />}
-              onClick={() => navigate('/workflows/new')}
-            >
-              Create Workflow
-            </Button>
-          </Box>
+      <Paper sx={{ p: 3 }}>
+        <Box sx={{ mb: 3 }}>
+          <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            Your Workflows
+          </Typography>
+        </Box>
 
           {loading && (
             <Box display="flex" justifyContent="center" p={4}>
@@ -211,8 +202,7 @@ const WorkflowsPage: React.FC = () => {
             </List>
           )}
         </Paper>
-      </Container>
-    </Box>
+    </Container>
   );
 };
 

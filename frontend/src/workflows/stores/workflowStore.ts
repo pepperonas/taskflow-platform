@@ -75,7 +75,7 @@ export const useWorkflowStore = defineStore('workflow', () => {
     try {
       const token = localStorage.getItem('token');
       const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
 
       const payload = {
         name: workflowName.value,
@@ -121,7 +121,7 @@ export const useWorkflowStore = defineStore('workflow', () => {
   async function loadWorkflow(id: string) {
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
 
       const response = await axios.get(`${apiUrl}/v1/workflows/${id}`, {
         headers: {

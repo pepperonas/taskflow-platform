@@ -70,8 +70,8 @@ EOF
 echo "🏗️ Building and starting Docker containers..."
 ssh ${VPS_USER}@${VPS_HOST} << EOF
 cd ${DEPLOY_DIR}/infrastructure/docker
-docker-compose down || true
-docker-compose up -d --build
+docker-compose -f docker-compose.prod.yml down || true
+docker-compose -f docker-compose.prod.yml up -d --build
 EOF
 
 echo "⏳ Waiting for services to start..."
@@ -80,17 +80,45 @@ sleep 30
 echo "🔍 Checking container status..."
 ssh ${VPS_USER}@${VPS_HOST} << EOF
 cd ${DEPLOY_DIR}/infrastructure/docker
-docker-compose ps
+docker-compose -f docker-compose.prod.yml ps
+EOF
+
+echo "🌐 Setting up Nginx configuration..."
+ssh ${VPS_USER}@${VPS_HOST} << EOF
+# Copy nginx config
+cp ${DEPLOY_DIR}/infrastructure/nginx/nginx.conf ${NGINX_CONF}
+
+# Create symlink if it doesn't exist
+if [ ! -L /etc/nginx/sites-enabled/taskflow ]; then
+    ln -s ${NGINX_CONF} /etc/nginx/sites-enabled/taskflow
+fi
+
+# Test nginx configuration
+nginx -t
+
+# Reload nginx
+systemctl reload nginx || service nginx reload
+EOF
+
+echo "🔒 Setting up SSL with Let's Encrypt (if not already configured)..."
+ssh ${VPS_USER}@${VPS_HOST} << 'EOF'
+if ! [ -d /etc/letsencrypt/live/taskflow.celox.io ]; then
+    echo "⚠️  SSL certificate not found. Please run:"
+    echo "   certbot --nginx -d taskflow.celox.io"
+    echo "   Or configure SSL manually"
+else
+    echo "✅ SSL certificate already configured"
+fi
 EOF
 
 echo "✅ Deployment complete!"
 echo ""
 echo "📝 Access your application:"
-echo "   Frontend: http://${VPS_HOST}:3001"
-echo "   Backend API: http://${VPS_HOST}:8080/api"
-echo "   Swagger UI: http://${VPS_HOST}:8080/swagger-ui.html"
+echo "   Frontend: https://taskflow.celox.io"
+echo "   Backend API: https://taskflow.celox.io/api"
+echo "   Swagger UI: https://taskflow.celox.io/swagger-ui.html"
 echo ""
 echo "📊 To view logs:"
 echo "   ssh ${VPS_USER}@${VPS_HOST}"
 echo "   cd ${DEPLOY_DIR}/infrastructure/docker"
-echo "   docker-compose logs -f"
+echo "   docker-compose -f docker-compose.prod.yml logs -f"

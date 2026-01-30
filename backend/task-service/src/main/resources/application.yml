@@ -32,10 +32,30 @@ spring:
       properties:
         spring.json.add.type.headers: false
 
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            trust: ${MAIL_HOST:smtp.gmail.com}
+
 app:
   jwt:
     secret: ${JWT_SECRET:your-secret-key-must-be-at-least-256-bits-long-for-HS512}
     expiration: ${JWT_EXPIRATION:86400000}
+
+security:
+  encryption:
+    # IMPORTANT: Change this in production! Must be exactly 32 characters.
+    key: ${ENCRYPTION_KEY:your-32-character-secret-key!!}
 
 springdoc:
   api-docs:

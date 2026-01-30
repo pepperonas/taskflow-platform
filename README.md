@@ -241,14 +241,17 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+
+Copyright © 2026 Martin Pfeffer
 
 ## 👤 Author
 
-**Martin Pfeffer**
+**Martin Pfeffer** © 2026
 
 - Website: [celox.io](https://celox.io)
 - GitHub: [@pepperonas](https://github.com/pepperonas)
+- Repository: [https://github.com/pepperonas/taskflow-platform](https://github.com/pepperonas/taskflow-platform)
 
 ## 🙏 Acknowledgments
 

@@ -101,7 +101,7 @@ const CreateWorkflowPage: React.FC = () => {
     try {
       const token = localStorage.getItem('token');
       const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
 
       const edges = generateEdges();
 

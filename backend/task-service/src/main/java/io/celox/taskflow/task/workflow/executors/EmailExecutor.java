@@ -1,0 +1,102 @@
+package io.celox.taskflow.task.workflow.executors;
+
+import io.celox.taskflow.task.workflow.ExecutionContext;
+import io.celox.taskflow.task.workflow.NodeExecutor;
+import io.celox.taskflow.task.workflow.WorkflowNode;
+import jakarta.mail.internet.MimeMessage;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class EmailExecutor implements NodeExecutor {
+
+    private final JavaMailSender mailSender;
+
+    @Override
+    public Object execute(WorkflowNode node, ExecutionContext context) {
+        Map<String, Object> data = node.getData();
+
+        context.log("Executing Email node: " + node.getId());
+
+        String to = resolveTemplate((String) data.get("to"), context);
+        String subject = resolveTemplate((String) data.get("subject"), context);
+        String body = resolveTemplate((String) data.get("body"), context);
+        String from = (String) data.getOrDefault("from", "noreply@taskflow.celox.io");
+
+        if (to == null || to.trim().isEmpty()) {
+            context.log("WARNING: No recipient email address specified");
+            return Map.of("sent", false, "error", "No recipient specified");
+        }
+
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+            helper.setTo(to);
+            helper.setSubject(subject != null ? subject : "Notification from TaskFlow");
+            helper.setText(body != null ? body : "", true); // HTML
+            helper.setFrom(from);
+
+            mailSender.send(message);
+
+            Map<String, Object> result = new HashMap<>();
+            result.put("sent", true);
+            result.put("to", to);
+            result.put("subject", subject);
+
+            context.log("Email sent successfully to: " + to);
+            context.setVariable(node.getId() + "_result", result);
+
+            return result;
+
+        } catch (Exception e) {
+            log.error("Failed to send email", e);
+            context.log("ERROR: Failed to send email - " + e.getMessage());
+
+            Map<String, Object> errorResult = new HashMap<>();
+            errorResult.put("sent", false);
+            errorResult.put("error", e.getMessage());
+
+            return errorResult;
+        }
+    }
+
+    @Override
+    public String getNodeType() {
+        return "email";
+    }
+
+    private String resolveTemplate(String template, ExecutionContext context) {
+        if (template == null) {
+            return null;
+        }
+
+        String result = template;
+
+        if (template.contains("{{")) {
+            for (Map.Entry<String, Object> entry : context.getVariables().entrySet()) {
+                String placeholder = "{{" + entry.getKey() + "}}";
+                if (result.contains(placeholder)) {
+                    result = result.replace(placeholder, String.valueOf(entry.getValue()));
+                }
+            }
+
+            for (Map.Entry<String, Object> entry : context.getTriggerData().entrySet()) {
+                String placeholder = "{{" + entry.getKey() + "}}";
+                if (result.contains(placeholder)) {
+                    result = result.replace(placeholder, String.valueOf(entry.getValue()));
+                }
+            }
+        }
+
+        return result;
+    }
+}

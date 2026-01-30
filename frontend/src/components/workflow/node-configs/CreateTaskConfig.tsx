@@ -74,6 +74,9 @@ const CreateTaskConfig: React.FC<CreateTaskConfigProps> = ({ node, onUpdate }) =
         label="Assignee ID (optional)"
         value={config.assigneeId}
         onChange={(e) => handleConfigChange('assigneeId', e.target.value)}
+        onClick={(e) => {
+          e.currentTarget.querySelector('input')?.focus();
+        }}
         placeholder="e.g., {{ $trigger.assigneeId }}"
         helperText="Leave empty for unassigned"
         sx={{ mb: 2 }}

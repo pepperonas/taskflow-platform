@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ReactFlow, {
   Node,
@@ -448,12 +448,184 @@ const UpdateTaskNode = ({ data, id }: any) => {
   );
 };
 
+const HttpRequestNode = ({ data, id }: any) => {
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        position: 'relative',
+        padding: '15px 20px',
+        borderRadius: '8px',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        border: data.disabled ? '2px dashed #9ca3af' : 'none',
+        color: 'white',
+        minWidth: '200px',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        opacity: data.disabled ? 0.4 : 1,
+      }}
+    >
+      {isHovered && !data.disabled && (
+        <div
+          style={{
+            position: 'absolute',
+            top: -40,
+            right: 0,
+            display: 'flex',
+            gap: '4px',
+            background: 'white',
+            padding: '4px',
+            borderRadius: '6px',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+            zIndex: 1000,
+          }}
+        >
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              data.onToggleDisable?.(id);
+            }}
+            style={{
+              padding: '4px 8px',
+              border: 'none',
+              background: '#f3f4f6',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '12px',
+            }}
+            title="Disable"
+          >
+            ⏸️
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              data.onDelete?.(id);
+            }}
+            style={{
+              padding: '4px 8px',
+              border: 'none',
+              background: '#fee2e2',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '12px',
+            }}
+            title="Delete"
+          >
+            🗑️
+          </button>
+        </div>
+      )}
+      <Handle type="target" position={Position.Left} style={{ background: '#764ba2' }} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <span style={{ fontSize: '24px' }}>🌐</span>
+        <div>
+          <div style={{ fontWeight: 600 }}>{data.label || 'HTTP Request'}</div>
+          {data.method && data.url && (
+            <div style={{ fontSize: '11px', opacity: 0.9, marginTop: '4px' }}>
+              {data.method} {data.url.substring(0, 30)}{data.url.length > 30 ? '...' : ''}
+            </div>
+          )}
+        </div>
+      </div>
+      <Handle type="source" position={Position.Right} style={{ background: '#764ba2' }} />
+    </div>
+  );
+};
+
+const CodeNode = ({ data, id }: any) => {
+  const [isHovered, setIsHovered] = React.useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        position: 'relative',
+        padding: '12px 16px',
+        borderRadius: '8px',
+        background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+        border: data.disabled ? '2px dashed #9ca3af' : 'none',
+        color: 'white',
+        minWidth: '180px',
+        boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+        opacity: data.disabled ? 0.4 : 1,
+      }}
+    >
+      {isHovered && !data.disabled && (
+        <div
+          style={{
+            position: 'absolute',
+            top: -40,
+            right: 0,
+            display: 'flex',
+            gap: '4px',
+            background: 'white',
+            padding: '4px',
+            borderRadius: '6px',
+            boxShadow: '0 2px 8px rgba(0, 0, 0, 0.15)',
+            zIndex: 1000,
+          }}
+        >
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              data.onToggleDisable?.(id);
+            }}
+            style={{
+              padding: '4px 8px',
+              border: 'none',
+              background: '#f3f4f6',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '12px',
+            }}
+            title="Disable"
+          >
+            ⏸️
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              data.onDelete?.(id);
+            }}
+            style={{
+              padding: '4px 8px',
+              border: 'none',
+              background: '#fee2e2',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              fontSize: '12px',
+            }}
+            title="Delete"
+          >
+            🗑️
+          </button>
+        </div>
+      )}
+      <Handle type="target" position={Position.Left} style={{ background: '#334155' }} />
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <span style={{ fontSize: '20px' }}>💻</span>
+        <div>
+          <div style={{ fontWeight: 600, fontSize: '14px' }}>{data.label || 'Code'}</div>
+          <div style={{ fontSize: '10px', opacity: 0.8, marginTop: '2px' }}>JavaScript</div>
+        </div>
+      </div>
+      <Handle type="source" position={Position.Right} style={{ background: '#334155' }} />
+    </div>
+  );
+};
+
 const nodeTypes: NodeTypes = {
   trigger: TriggerNode,
   createTask: CreateTaskNode,
   updateTask: UpdateTaskNode,
   condition: ConditionNode,
   delay: DelayNode,
+  httpRequest: HttpRequestNode,
+  code: CodeNode,
   stickyNote: StickyNoteNode,
 };
 
@@ -499,9 +671,13 @@ const WorkflowEditorPageV2: React.FC = () => {
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [notification, setNotification] = useState<{ message: string; severity: 'success' | 'error' | 'info' } | null>(null);
 
-  console.log('[WorkflowEditorV2] Component rendered');
-  console.log('[WorkflowEditorV2] Nodes:', nodes.length);
-  console.log('[WorkflowEditorV2] Edges:', edges.length);
+  // Debug logs only in development
+  React.useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      // Only log significant changes, not every render
+      console.log('[WorkflowEditorV2] Nodes:', nodes.length, 'Edges:', edges.length);
+    }
+  }, [nodes.length, edges.length]);
 
   const handleNodeToggleDisable = useCallback((nodeId: string) => {
     setNodes(prev =>
@@ -545,7 +721,7 @@ const WorkflowEditorPageV2: React.FC = () => {
   const loadWorkflow = useCallback(async (workflowId: string) => {
     try {
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
 
       const response = await axios.get(`${apiUrl}/v1/workflows/${workflowId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -555,7 +731,7 @@ const WorkflowEditorPageV2: React.FC = () => {
       setWorkflowName(workflow.name);
 
       // Add handlers to loaded nodes
-      const loadedNodes = JSON.parse(workflow.nodesJson).map((node: Node) => ({
+      const loadedNodes = JSON.parse(workflow.nodesJson || '[]').map((node: Node) => ({
         ...node,
         position: node.position || { x: 0, y: 0 }, // Ensure position is always defined
         data: {
@@ -566,7 +742,7 @@ const WorkflowEditorPageV2: React.FC = () => {
       }));
 
       setNodes(loadedNodes);
-      setEdges(JSON.parse(workflow.edgesJson));
+      setEdges(JSON.parse(workflow.edgesJson || '[]'));
     } catch (error) {
       console.error('Error loading workflow:', error);
       setNotification({ message: 'Failed to load workflow', severity: 'error' });
@@ -577,8 +753,21 @@ const WorkflowEditorPageV2: React.FC = () => {
     try {
       setSaving(true);
       const token = localStorage.getItem('token');
-      const user = JSON.parse(localStorage.getItem('user') || '{}');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+      const user = JSON.parse(localStorage.getItem('user') || 'null');
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
+
+      // Validation: Check if user is logged in
+      if (!user || !user.id) {
+        console.error('User not authenticated - user object:', user);
+        setNotification({
+          message: 'Please log in to save workflows',
+          severity: 'error'
+        });
+        setSaving(false);
+        // Redirect to login
+        window.location.href = '/login';
+        return;
+      }
 
       const payload = {
         name: workflowName,
@@ -603,10 +792,13 @@ const WorkflowEditorPageV2: React.FC = () => {
       if (!silent) {
         setNotification({ message: 'Workflow saved successfully', severity: 'success' });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving workflow:', error);
+      console.error('Error response:', error.response?.data);
+      console.error('Error status:', error.response?.status);
       if (!silent) {
-        setNotification({ message: 'Failed to save workflow', severity: 'error' });
+        const errorMessage = error.response?.data?.message || error.message || 'Failed to save workflow';
+        setNotification({ message: errorMessage, severity: 'error' });
       }
     } finally {
       setSaving(false);
@@ -625,9 +817,11 @@ const WorkflowEditorPageV2: React.FC = () => {
     try {
       setExecuting(true);
       const token = localStorage.getItem('token');
-      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api';
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
 
-      console.log('[WorkflowEditorV2] Executing workflow:', id);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[WorkflowEditorV2] Executing workflow:', id);
+      }
 
       const response = await axios.post(
         `${apiUrl}/v1/workflows/${id}/execute`,
@@ -635,7 +829,9 @@ const WorkflowEditorPageV2: React.FC = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      console.log('[WorkflowEditorV2] Execution response:', response.data);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[WorkflowEditorV2] Execution response:', response.data);
+      }
 
       const executionStatus = response.data.status;
 
@@ -672,20 +868,38 @@ const WorkflowEditorPageV2: React.FC = () => {
       },
     };
 
-    console.log('[WorkflowEditorV2] Adding node:', newNode);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[WorkflowEditorV2] Adding node:', newNode);
+    }
     setNodes((nds) => [...nds, newNode]);
   }, [handleNodeToggleDisable, handleNodeDelete, handleStickyNoteChange, setNodes]);
 
+  // Load workflow only once when id changes
+  const workflowLoadedRef = useRef<string | null>(null);
   useEffect(() => {
-    if (id && id !== 'new') {
+    if (id && id !== 'new' && workflowLoadedRef.current !== id) {
       loadWorkflow(id);
+      workflowLoadedRef.current = id;
+    } else if (!id || id === 'new') {
+      workflowLoadedRef.current = null;
     }
   }, [id, loadWorkflow]);
 
-  // Track changes to mark as dirty
+  // Track changes to mark as dirty (only when actually changed, not on initial load)
+  const prevNodesRef = React.useRef<Node[]>([]);
+  const prevEdgesRef = React.useRef<Edge[]>([]);
+  const prevWorkflowNameRef = React.useRef<string>('Untitled Workflow');
+  
   useEffect(() => {
-    if (nodes.length > 0 || edges.length > 0 || workflowName) {
+    const nodesChanged = JSON.stringify(nodes) !== JSON.stringify(prevNodesRef.current);
+    const edgesChanged = JSON.stringify(edges) !== JSON.stringify(prevEdgesRef.current);
+    const nameChanged = workflowName !== prevWorkflowNameRef.current;
+    
+    if (nodesChanged || edgesChanged || nameChanged) {
       setIsDirty(true);
+      prevNodesRef.current = nodes;
+      prevEdgesRef.current = edges;
+      prevWorkflowNameRef.current = workflowName;
     }
   }, [nodes, edges, workflowName]);
 
@@ -700,9 +914,14 @@ const WorkflowEditorPageV2: React.FC = () => {
     return () => clearInterval(interval);
   }, [isDirty, id, saving, handleSave]);
 
-  // Save to history when nodes or edges change
+  // Save to history when nodes or edges change (debounced to avoid excessive updates)
   useEffect(() => {
-    if (nodes.length > 0 || edges.length > 0) {
+    // Skip if this is the initial load or if nodes/edges are empty
+    if (nodes.length === 0 && edges.length === 0) {
+      return;
+    }
+
+    const timeoutId = setTimeout(() => {
       const newHistoryEntry = { nodes, edges };
 
       // Only save if actually different from current history state
@@ -720,8 +939,10 @@ const WorkflowEditorPageV2: React.FC = () => {
         setHistory(newHistory);
         setHistoryIndex(newHistory.length - 1);
       }
-    }
-  }, [nodes, edges, history, historyIndex, setHistory, setHistoryIndex]);
+    }, 300); // Debounce by 300ms
+
+    return () => clearTimeout(timeoutId);
+  }, [nodes, edges, history, historyIndex]);
 
   const undo = useCallback(() => {
     if (historyIndex > 0) {
@@ -756,8 +977,33 @@ const WorkflowEditorPageV2: React.FC = () => {
   // Keyboard shortcuts for copy/paste/duplicate
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Check if user is typing in an input field
+      const activeElement = document.activeElement;
+      const isInputFocused =
+        activeElement?.tagName === 'INPUT' ||
+        activeElement?.tagName === 'TEXTAREA' ||
+        activeElement?.hasAttribute('contenteditable') ||
+        activeElement?.closest('.MuiDrawer-paper') !== null;
+
       const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
       const cmdOrCtrl = isMac ? e.metaKey : e.ctrlKey;
+
+      // Exit early if in input field - let the input handle the key
+      // Exception: Command Palette (Cmd+K) should always work
+      if (isInputFocused) {
+        if (cmdOrCtrl && e.key === 'k') {
+          // Allow Command Palette to open even from input
+          e.preventDefault();
+          setShowCommandPalette(true);
+          return;
+        }
+        // Allow Escape to bubble (e.g., close autocomplete)
+        if (e.key === 'Escape') {
+          return;
+        }
+        // For all other keys, let the input handle them
+        return;
+      }
 
       // Copy (Ctrl/Cmd+C)
       if (cmdOrCtrl && e.key === 'c' && !e.shiftKey) {
@@ -769,7 +1015,6 @@ const WorkflowEditorPageV2: React.FC = () => {
             message: `Copied ${selectedNodes.length} node(s)`,
             severity: 'success'
           });
-          console.log('[WorkflowEditorV2] Copied nodes:', selectedNodes);
         }
       }
 
@@ -790,7 +1035,6 @@ const WorkflowEditorPageV2: React.FC = () => {
           message: `Pasted ${newNodes.length} node(s)`,
           severity: 'success'
         });
-        console.log('[WorkflowEditorV2] Pasted nodes:', newNodes);
       }
 
       // Duplicate (Ctrl/Cmd+D)
@@ -812,7 +1056,6 @@ const WorkflowEditorPageV2: React.FC = () => {
             message: `Duplicated ${duplicatedNodes.length} node(s)`,
             severity: 'success'
           });
-          console.log('[WorkflowEditorV2] Duplicated nodes:', duplicatedNodes);
         }
       }
 
@@ -882,7 +1125,9 @@ const WorkflowEditorPageV2: React.FC = () => {
 
   const onConnect = useCallback(
     (params: Connection) => {
-      console.log('[WorkflowEditorV2] Connecting:', params);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('[WorkflowEditorV2] Connecting:', params);
+      }
       setEdges((eds) =>
         addEdge(
           {
@@ -944,7 +1189,9 @@ const WorkflowEditorPageV2: React.FC = () => {
   }, [nodes, edges, setNodes]);
 
   const onNodeClick = useCallback((_event: React.MouseEvent, node: Node) => {
-    console.log('[WorkflowEditorV2] Node clicked:', node);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[WorkflowEditorV2] Node clicked:', node);
+    }
     setSelectedNode(node);
   }, []);
 
@@ -957,7 +1204,9 @@ const WorkflowEditorPageV2: React.FC = () => {
   }, []);
 
   const handleContextMenuAction = useCallback((action: string, node: Node) => {
-    console.log('[WorkflowEditorV2] Context menu action:', action, node);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('[WorkflowEditorV2] Context menu action:', action, node);
+    }
 
     switch (action) {
       case 'execute':
@@ -1011,7 +1260,7 @@ const WorkflowEditorPageV2: React.FC = () => {
   }, [setNodes, setEdges]);
 
   const updateNodeData = useCallback((nodeId: string, data: any) => {
-    console.log('[WorkflowEditorV2] Updating node data:', nodeId, data);
+    // Use functional update to avoid stale closure issues
     setNodes((nds) =>
       nds.map((node) => {
         if (node.id === nodeId) {
@@ -1052,6 +1301,20 @@ const WorkflowEditorPageV2: React.FC = () => {
       description: 'Add an update task node to the canvas',
       category: 'Nodes',
       action: () => addNode('updateTask'),
+    },
+    {
+      id: 'add-http-request',
+      label: 'Add HTTP Request Node',
+      description: 'Add an HTTP request node to call external APIs',
+      category: 'Nodes',
+      action: () => addNode('httpRequest'),
+    },
+    {
+      id: 'add-code',
+      label: 'Add Code Node',
+      description: 'Add a code node to run custom JavaScript',
+      category: 'Nodes',
+      action: () => addNode('code'),
     },
     {
       id: 'add-condition',
@@ -1349,6 +1612,26 @@ const WorkflowEditorPageV2: React.FC = () => {
               </Box>
             </Paper>
 
+            <Paper
+              sx={{ p: 1.5, mb: 1, cursor: 'pointer', '&:hover': { bgcolor: '#f0f9ff' } }}
+              onClick={() => addNode('httpRequest')}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <span>🌐</span>
+                <span>HTTP Request</span>
+              </Box>
+            </Paper>
+
+            <Paper
+              sx={{ p: 1.5, mb: 1, cursor: 'pointer', '&:hover': { bgcolor: '#f0f9ff' } }}
+              onClick={() => addNode('code')}
+            >
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <span>💻</span>
+                <span>Code (JavaScript)</span>
+              </Box>
+            </Paper>
+
             <Typography variant="caption" sx={{ mb: 1, mt: 2, display: 'block', color: '#6b7280' }}>
               LOGIC
             </Typography>
@@ -1391,7 +1674,12 @@ const WorkflowEditorPageV2: React.FC = () => {
         </Drawer>
 
         {/* Center - React Flow Canvas */}
-        <Box sx={{ flex: 1, position: 'relative' }}>
+        <Box sx={{
+          flex: 1,
+          position: 'relative',
+          marginRight: selectedNode ? '400px' : 0,
+          transition: 'margin-right 0.2s',
+        }}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -1400,11 +1688,20 @@ const WorkflowEditorPageV2: React.FC = () => {
             onConnect={onConnect}
             onNodeClick={onNodeClick}
             onNodeContextMenu={onNodeContextMenu}
+            onPaneClick={() => {
+              // Allow clicks on pane to deselect nodes
+              if (selectedNode) {
+                setSelectedNode(null);
+              }
+            }}
             nodeTypes={nodeTypes}
             fitView
             defaultViewport={{ x: 0, y: 0, zoom: 0.8 }}
             snapToGrid={true}
             snapGrid={[15, 15]}
+            nodesDraggable={true}
+            nodesConnectable={true}
+            elementsSelectable={true}
           >
             <Background variant={BackgroundVariant.Dots} gap={16} size={1} color="#e5e7eb" />
             <Controls />

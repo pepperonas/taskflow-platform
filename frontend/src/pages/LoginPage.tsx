@@ -25,7 +25,10 @@ const LoginPage: React.FC = () => {
   const onSubmit = async (data: LoginDto) => {
     const result = await dispatch(login(data));
     if (login.fulfilled.match(result)) {
-      navigate('/dashboard');
+      // Use setTimeout to ensure state updates before navigation
+      setTimeout(() => {
+        navigate('/dashboard', { replace: true });
+      }, 100);
     }
   };
 

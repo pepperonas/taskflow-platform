@@ -45,6 +45,23 @@ frontend/src/
     └── graphLayout.ts                   # Auto-arrange using Dagre
 \`\`\`
 
+## Known Issues & Solutions
+
+### Node Name Input Field
+
+**Issue**: The "Node Name" input field in the NodePropertiesPanel was not editable due to React Flow event handling conflicts.
+
+**Solution**: 
+- Replaced Material-UI TextField with native HTML input element
+- Implemented local state management (`localLabel`) for controlled input
+- Added `stopPropagation()` to all event handlers to prevent React Flow from intercepting events
+- Configured Drawer with `hideBackdrop={true}` and proper `pointerEvents` settings
+
+**Implementation Details**:
+- Uses native `<input>` element instead of Material-UI TextField
+- Local state synchronizes with node data model
+- All mouse and keyboard events properly isolated from React Flow canvas
+
 ---
 
 ## Extending the Editor

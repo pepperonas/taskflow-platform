@@ -519,6 +519,15 @@ Access output from previous nodes
 - Manually save with `Ctrl/Cmd+S`
 - Check browser console for errors
 
+### Node Name Input Field Not Editable
+
+**Issue**: Cannot type in the "Node Name" field in the properties panel
+
+**Solution**: This issue has been fixed in version 1.0. The input field now uses a native HTML input element that properly handles events. If you still experience issues:
+- Refresh the page (Ctrl/Cmd+R)
+- Clear browser cache
+- Check browser console for errors
+
 ---
 
 ### Expression Not Working

@@ -35,7 +35,7 @@ services:
       POSTGRES_USER: taskflow
       POSTGRES_PASSWORD: taskflow123
     ports:
-      - "5433:5432"
+      - "5435:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     networks:
@@ -51,7 +51,7 @@ services:
       context: ../../backend
       dockerfile: task-service/Dockerfile
     ports:
-      - "8080:8080"
+      - "8082:8080"
     environment:
       DB_HOST: postgres
       DB_PORT: 5432
@@ -61,6 +61,11 @@ services:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       JWT_SECRET: taskflow-super-secret-key-change-in-production-12345678901234567890
       JWT_EXPIRATION: 86400000
+      ENCRYPTION_KEY: "taskflow-32-char-encryption!!"
+      MAIL_HOST: smtp.gmail.com
+      MAIL_PORT: 587
+      MAIL_USERNAME: ""
+      MAIL_PASSWORD: ""
     depends_on:
       postgres:
         condition: service_healthy
@@ -75,7 +80,7 @@ services:
       context: ../../backend
       dockerfile: notification-service/Dockerfile
     ports:
-      - "8081:8081"
+      - "8083:8081"
     environment:
       KAFKA_BOOTSTRAP_SERVERS: kafka:29092
       KAFKA_GROUP_ID: notification-service
@@ -89,10 +94,8 @@ services:
     build:
       context: ../../frontend
       dockerfile: Dockerfile
-      args:
-        REACT_APP_API_URL: https://taskflow.celox.io/api
     ports:
-      - "8090:80"
+      - "8091:80"
     depends_on:
       - task-service
     networks:
