@@ -159,6 +159,7 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
           height: '100vh',
         },
       }}
+      className="nodrag nowheel"
     >
       {/* Header */}
       <Box
@@ -182,6 +183,7 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
       {/* Node Name */}
       <Box 
         sx={{ p: 2, borderBottom: '1px solid #e5e7eb' }}
+        className="nodrag nowheel"
         onMouseDown={(e) => {
           e.stopPropagation();
         }}
@@ -189,7 +191,7 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
           e.stopPropagation();
         }}
       >
-        <Box sx={{ mb: 1 }}>
+        <Box sx={{ mb: 1 }} className="nodrag nowheel">
           <Typography variant="caption" sx={{ color: '#6b7280', display: 'block', mb: 0.5 }}>
             Node Name
           </Typography>
@@ -197,6 +199,7 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
             ref={inputRef}
             type="text"
             value={localLabel}
+            className="nodrag nowheel"
             onChange={(e) => {
               const newValue = e.target.value;
               setLocalLabel(newValue);

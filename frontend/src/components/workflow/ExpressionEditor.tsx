@@ -116,7 +116,9 @@ const ExpressionEditor: React.FC<ExpressionEditorProps> = ({
         rows={multiline ? rows : undefined}
         inputRef={inputRef}
         autoComplete="off"
+        className="nodrag nowheel"
         InputProps={{
+          className: "nodrag nowheel",
           onMouseDown: (e) => {
             e.stopPropagation();
           },
@@ -125,6 +127,7 @@ const ExpressionEditor: React.FC<ExpressionEditorProps> = ({
           },
         }}
         inputProps={{
+          className: "nodrag nowheel",
           onMouseDown: (e) => {
             e.stopPropagation();
           },

@@ -70,6 +70,7 @@ const CreateTaskConfig: React.FC<CreateTaskConfigProps> = ({ node, onUpdate }) =
       <FormControl 
         fullWidth 
         sx={{ mb: 2 }}
+        className="nodrag nowheel"
         onMouseDown={(e) => e.stopPropagation()}
         onClick={(e) => e.stopPropagation()}
       >
@@ -77,6 +78,7 @@ const CreateTaskConfig: React.FC<CreateTaskConfigProps> = ({ node, onUpdate }) =
         <Select
           value={config.priority}
           label="Priority"
+          className="nodrag nowheel"
           onChange={(e) => {
             e.stopPropagation();
             handleConfigChange('priority', e.target.value);
@@ -102,6 +104,7 @@ const CreateTaskConfig: React.FC<CreateTaskConfigProps> = ({ node, onUpdate }) =
         fullWidth
         label="Assignee ID (optional)"
         value={config.assigneeId}
+        className="nodrag nowheel"
         onChange={(e) => {
           e.stopPropagation();
           handleConfigChange('assigneeId', e.target.value);
@@ -126,6 +129,7 @@ const CreateTaskConfig: React.FC<CreateTaskConfigProps> = ({ node, onUpdate }) =
         helperText="Leave empty for unassigned"
         sx={{ mb: 2 }}
         InputProps={{
+          className: "nodrag nowheel",
           onMouseDown: (e) => {
             e.stopPropagation();
           },
@@ -134,6 +138,7 @@ const CreateTaskConfig: React.FC<CreateTaskConfigProps> = ({ node, onUpdate }) =
           },
         }}
         inputProps={{
+          className: "nodrag nowheel",
           onMouseDown: (e) => {
             e.stopPropagation();
           },
