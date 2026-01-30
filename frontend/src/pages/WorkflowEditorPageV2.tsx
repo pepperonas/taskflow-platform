@@ -1800,6 +1800,8 @@ const WorkflowEditorPageV2: React.FC = () => {
             nodesDraggable={true}
             nodesConnectable={true}
             elementsSelectable={true}
+            deleteKeyCode={null}
+            multiSelectionKeyCode={null}
           >
             <Background variant={BackgroundVariant.Dots} gap={16} size={1} color="#e5e7eb" />
             <Controls />

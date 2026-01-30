@@ -137,19 +137,32 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
         disableEnforceFocus: true,
         disableAutoFocus: true,
         disableRestoreFocus: true,
-        disablePortal: true,
-        keepMounted: true,
+        keepMounted: false,
       }}
       PaperProps={{
+        className: "nodrag nowheel nopan",
+        sx: {
+          pointerEvents: 'auto',
+        },
         onMouseDown: (e) => {
           e.stopPropagation();
         },
         onClick: (e) => {
           e.stopPropagation();
         },
+        onWheel: (e) => {
+          e.stopPropagation();
+        },
+        onTouchStart: (e) => {
+          e.stopPropagation();
+        },
+        onTouchMove: (e) => {
+          e.stopPropagation();
+        },
       }}
       sx={{
-        zIndex: 1300,
+        zIndex: 9999,
+        pointerEvents: 'none',
         '& .MuiDrawer-paper': {
           width: 400,
           boxShadow: '-2px 0 8px rgba(0, 0, 0, 0.1)',
@@ -157,9 +170,9 @@ const NodePropertiesPanel: React.FC<NodePropertiesPanelProps> = ({
           top: 0,
           right: 0,
           height: '100vh',
+          pointerEvents: 'auto',
         },
       }}
-      className="nodrag nowheel"
     >
       {/* Header */}
       <Box

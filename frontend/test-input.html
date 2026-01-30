@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Test - React Flow</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .test-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .nodrag {
+            cursor: text !important;
+        }
+        .status {
+            padding: 10px;
+            margin-top: 20px;
+            background: #f0f9ff;
+            border: 1px solid #38bdf8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Input Field Test</h1>
+        <p>Test if input fields are editable with and without nodrag class:</p>
+        
+        <div class="input-group">
+            <label>Normal Input (without nodrag):</label>
+            <input type="text" value="Test without nodrag" />
+        </div>
+        
+        <div class="input-group">
+            <label>Input with nodrag class:</label>
+            <input type="text" class="nodrag" value="Test with nodrag" />
+        </div>
+        
+        <div class="input-group">
+            <label>Textarea with nodrag:</label>
+            <textarea class="nodrag" rows="3">Test textarea with nodrag</textarea>
+        </div>
+        
+        <div class="input-group">
+            <label>Select with nodrag:</label>
+            <select class="nodrag">
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+            </select>
+        </div>
+        
+        <div class="status">
+            <strong>Status:</strong> All fields should be editable. Click and type to test.
+        </div>
+    </div>
+    
+    <script>
+        // Test event listeners
+        document.querySelectorAll('input, textarea, select').forEach(el => {
+            el.addEventListener('focus', () => {
+                console.log('Focused:', el.className || 'no class');
+            });
+            el.addEventListener('input', () => {
+                console.log('Input changed:', el.value);
+            });
+        });
+    </script>
+</body>
+</html>
