@@ -18,23 +18,74 @@ import java.util.concurrent.TimeoutException;
 public class CodeExecutor implements NodeExecutor {
 
     private static final int MAX_EXECUTION_TIME_MS = 5000;
+    
+    // Dangerous JavaScript patterns to block
+    private static final List<String> DANGEROUS_PATTERNS = Arrays.asList(
+        "eval\\s*\\(",
+        "Function\\s*\\(",
+        "setTimeout\\s*\\(",
+        "setInterval\\s*\\(",
+        "require\\s*\\(",
+        "import\\s+",
+        "process\\.",
+        "global\\.",
+        "window\\.",
+        "document\\.",
+        "XMLHttpRequest",
+        "fetch\\s*\\(",
+        "WebSocket",
+        "child_process",
+        "fs\\.",
+        "os\\.",
+        "__dirname",
+        "__filename"
+    );
 
     @Override
     public Object execute(WorkflowNode node, ExecutionContext context) {
         Map<String, Object> data = node.getData();
-
+        
         context.log("Executing Code node: " + node.getId());
 
-        String code = (String) data.get("code");
+        // Read code from config (like EmailExecutor does)
+        String code = null;
+        if (data.containsKey("config")) {
+            Object configObj = data.get("config");
+            if (configObj instanceof Map) {
+                @SuppressWarnings("unchecked")
+                Map<String, Object> config = (Map<String, Object>) configObj;
+                code = (String) config.get("code");
+            }
+        }
+        
+        // Fallback to direct code field for backwards compatibility
+        if (code == null || code.trim().isEmpty()) {
+            code = (String) data.get("code");
+        }
+        
         if (code == null || code.trim().isEmpty()) {
             context.log("Warning: No code provided");
-            return null;
+            throw new RuntimeException("No code provided in Code node");
+        }
+
+        // Validate code for dangerous patterns
+        String validationError = validateCode(code);
+        if (validationError != null) {
+            String error = "Code validation failed: " + validationError;
+            log.warn("SECURITY ALERT: Dangerous code detected in node {}: {}", node.getId(), code);
+            log.warn("SECURITY ALERT: {}", error);
+            context.log("ERROR: " + error);
+            throw new RuntimeException(error);
         }
 
         try {
             // Create a sandboxed JavaScript context
             Context jsContext = Context.newBuilder("js")
                     .allowAllAccess(false)  // SECURITY: No file/network access
+                    .allowIO(false)          // SECURITY: No I/O operations
+                    .allowNativeAccess(false) // SECURITY: No native code access
+                    .allowCreateProcess(false) // SECURITY: No process creation
+                    .allowCreateThread(false)  // SECURITY: No thread creation
                     .option("js.strict", "true")
                     .option("js.ecmascript-version", "2022")
                     .build();
@@ -45,17 +96,40 @@ public class CodeExecutor implements NodeExecutor {
 
                 // Make trigger data available
                 Map<String, Object> triggerData = context.getTriggerData();
-                bindings.putMember("$trigger", jsContext.asValue(triggerData));
+                if (triggerData != null) {
+                    bindings.putMember("$trigger", jsContext.asValue(triggerData));
+                }
 
-                // Make variables available
+                // Make previous node outputs available
                 Map<String, Object> variables = context.getVariables();
-                bindings.putMember("$vars", jsContext.asValue(variables));
+                if (variables != null) {
+                    // Add all variables as $nodeId
+                    for (Map.Entry<String, Object> entry : variables.entrySet()) {
+                        String key = entry.getKey();
+                        if (key.endsWith("_result")) {
+                            String nodeId = key.substring(0, key.length() - "_result".length());
+                            bindings.putMember("$" + nodeId, jsContext.asValue(entry.getValue()));
+                        }
+                    }
+                    // Also add as $vars for convenience
+                    bindings.putMember("$vars", jsContext.asValue(variables));
+                }
+
+                // Add workflow context
+                bindings.putMember("$context", jsContext.asValue(Map.of(
+                    "nodeId", node.getId()
+                )));
 
                 context.log("Executing JavaScript code (timeout: " + MAX_EXECUTION_TIME_MS + "ms)");
 
-                // Execute with timeout
+                // Execute with timeout - make code final for lambda
+                final String finalCode = code;
                 CompletableFuture<Value> future = CompletableFuture.supplyAsync(() -> {
-                    return jsContext.eval("js", code);
+                    try {
+                        return jsContext.eval("js", finalCode);
+                    } catch (Exception e) {
+                        throw new RuntimeException("JavaScript execution error: " + e.getMessage(), e);
+                    }
                 });
 
                 Value result = future.get(MAX_EXECUTION_TIME_MS, TimeUnit.MILLISECONDS);
@@ -81,6 +155,32 @@ public class CodeExecutor implements NodeExecutor {
             context.log("ERROR: " + error);
             throw new RuntimeException(error, e);
         }
+    }
+
+    /**
+     * Validate code for dangerous patterns
+     */
+    private String validateCode(String code) {
+        String codeLower = code.toLowerCase();
+        
+        // Use word boundaries to avoid false positives (e.g., "evaluate" shouldn't match "eval")
+        for (String pattern : DANGEROUS_PATTERNS) {
+            // Escape special regex characters in pattern
+            String escapedPattern = pattern.replace("\\", "\\\\");
+            // Use word boundary to match whole words only
+            if (code.matches("(?s).*\\b" + escapedPattern + "\\b.*")) {
+                log.warn("SECURITY ALERT: Dangerous code pattern detected: {}", pattern);
+                return "Dangerous pattern detected: " + pattern.replace("\\", "");
+            }
+        }
+        
+        // Check for suspicious function calls (with word boundaries)
+        if (codeLower.matches("(?s).*\\bsystem\\b.*") && codeLower.matches("(?s).*\\bexit\\b.*")) {
+            log.warn("SECURITY ALERT: Suspicious system exit call detected");
+            return "Suspicious system exit call detected";
+        }
+        
+        return null;
     }
 
     @Override
