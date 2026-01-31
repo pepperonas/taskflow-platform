@@ -658,9 +658,10 @@ return result;`,
             </Grid>
           </TabPanel>
 
-          {/* Tab 4: Technologies */}
+          {/* Tab 4: Technologies & Architecture */}
           <TabPanel value={tabValue} index={3}>
-            <Grid container spacing={4}>
+            {/* Technologies Section */}
+            <Grid container spacing={4} sx={{ mb: 4 }}>
               {/* Backend Technologies */}
               <Grid item xs={12} md={4}>
                 <Paper sx={{ p: 3, height: '100%' }}>
@@ -670,6 +671,9 @@ return result;`,
                       Backend
                     </Typography>
                   </Box>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    Die Server-Seite der Anwendung - verarbeitet Anfragen, speichert Daten und führt Workflows aus.
+                  </Typography>
                   <List>
                     {techStack.backend.map((tech, idx) => (
                       <ListItem key={idx} sx={{ px: 0 }}>
@@ -695,6 +699,9 @@ return result;`,
                       Frontend
                     </Typography>
                   </Box>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    Die Benutzeroberfläche - das, was Sie im Browser sehen und mit dem Sie interagieren.
+                  </Typography>
                   <List>
                     {techStack.frontend.map((tech, idx) => (
                       <ListItem key={idx} sx={{ px: 0 }}>
@@ -720,6 +727,9 @@ return result;`,
                       DevOps
                     </Typography>
                   </Box>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    Tools für Deployment, Containerisierung und Automatisierung der Software-Entwicklung.
+                  </Typography>
                   <List>
                     {techStack.devops.map((tech, idx) => (
                       <ListItem key={idx} sx={{ px: 0 }}>
@@ -737,37 +747,326 @@ return result;`,
               </Grid>
             </Grid>
 
-            {/* Architecture Diagram */}
-            <Paper sx={{ p: 4, mt: 4, background: 'linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%)' }}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, textAlign: 'center' }}>
-                System Architecture
+            {/* Architecture Section */}
+            <Paper sx={{ p: 4, background: 'linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%)' }}>
+              <Typography variant="h5" sx={{ fontWeight: 700, mb: 1, textAlign: 'center' }}>
+                System-Architektur
               </Typography>
-              <Box
-                sx={{
-                  fontFamily: 'monospace',
-                  fontSize: '14px',
-                  bgcolor: '#1e1e1e',
-                  color: '#d4d4d4',
-                  p: 3,
-                  borderRadius: 1,
-                  overflow: 'auto',
-                }}
-              >
-                <pre>{`┌─────────────┐      ┌──────────────┐      ┌─────────────────┐
-│   Frontend  │─────▶│ Task Service │─────▶│   PostgreSQL    │
-│  (React)    │      │ (Spring Boot)│      │                 │
-└─────────────┘      └──────┬───────┘      └─────────────────┘
-                            │
-                            ▼
-                     ┌─────────────┐
-                     │Apache Kafka │
-                     └──────┬──────┘
-                            │
-                            ▼
-                ┌───────────────────────┐
-                │ Notification Service  │
-                │   (Kafka Consumer)    │
-                └───────────────────────┘`}</pre>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 4, textAlign: 'center', maxWidth: 800, mx: 'auto' }}>
+                TaskFlow verwendet eine moderne, event-driven Architektur. Hier sehen Sie, wie die einzelnen Komponenten zusammenarbeiten.
+              </Typography>
+
+              {/* Visual Architecture Diagram */}
+              <Box sx={{ mb: 4 }}>
+                <Grid container spacing={3} sx={{ mb: 3 }}>
+                  {/* Frontend Box */}
+                  <Grid item xs={12} md={3}>
+                    <Paper
+                      sx={{
+                        p: 3,
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                        color: 'white',
+                        height: '100%',
+                      }}
+                    >
+                      <WebIcon sx={{ fontSize: 48, mb: 2 }} />
+                      <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+                        Frontend
+                      </Typography>
+                      <Typography variant="body2" sx={{ opacity: 0.9, mb: 2 }}>
+                        React 18 + TypeScript
+                      </Typography>
+                      <Typography variant="caption" sx={{ opacity: 0.8 }}>
+                        Die Benutzeroberfläche, die Sie im Browser sehen. Hier erstellen Sie Workflows, verwalten Tasks und sehen Ergebnisse.
+                      </Typography>
+                    </Paper>
+                  </Grid>
+
+                  {/* Arrow */}
+                  <Grid item xs={12} md={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography variant="h4" sx={{ color: 'primary.main' }}>→</Typography>
+                  </Grid>
+
+                  {/* Task Service Box */}
+                  <Grid item xs={12} md={3}>
+                    <Paper
+                      sx={{
+                        p: 3,
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                        color: 'white',
+                        height: '100%',
+                      }}
+                    >
+                      <CloudIcon sx={{ fontSize: 48, mb: 2 }} />
+                      <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+                        Task Service
+                      </Typography>
+                      <Typography variant="body2" sx={{ opacity: 0.9, mb: 2 }}>
+                        Spring Boot 3.2.1
+                      </Typography>
+                      <Typography variant="caption" sx={{ opacity: 0.8 }}>
+                        Der Hauptserver. Verarbeitet alle Anfragen, führt Workflows aus, verwaltet Tasks und authentifiziert Benutzer.
+                      </Typography>
+                    </Paper>
+                  </Grid>
+
+                  {/* Arrow */}
+                  <Grid item xs={12} md={1} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Typography variant="h4" sx={{ color: 'primary.main' }}>→</Typography>
+                  </Grid>
+
+                  {/* Database Box */}
+                  <Grid item xs={12} md={3}>
+                    <Paper
+                      sx={{
+                        p: 3,
+                        textAlign: 'center',
+                        background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                        color: 'white',
+                        height: '100%',
+                      }}
+                    >
+                      <StorageIcon sx={{ fontSize: 48, mb: 2 }} />
+                      <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
+                        PostgreSQL
+                      </Typography>
+                      <Typography variant="body2" sx={{ opacity: 0.9, mb: 2 }}>
+                        Datenbank 15
+                      </Typography>
+                      <Typography variant="caption" sx={{ opacity: 0.8 }}>
+                        Speichert alle Daten: Tasks, Workflows, Benutzer, Credentials. Sicher und zuverlässig.
+                      </Typography>
+                    </Paper>
+                  </Grid>
+                </Grid>
+
+                {/* Kafka Section */}
+                <Box sx={{ textAlign: 'center', my: 4 }}>
+                  <Typography variant="h6" sx={{ mb: 2, color: 'primary.main' }}>
+                    Event-Streaming mit Apache Kafka
+                  </Typography>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={4}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          color: 'white',
+                        }}
+                      >
+                        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+                          Task Service
+                        </Typography>
+                        <Typography variant="caption" sx={{ opacity: 0.9 }}>
+                          Sendet Events (z.B. "Task erstellt", "Task abgeschlossen")
+                        </Typography>
+                      </Paper>
+                    </Grid>
+                    <Grid item xs={12} md={4} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <Box
+                        sx={{
+                          p: 3,
+                          borderRadius: 2,
+                          background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+                          color: 'white',
+                          textAlign: 'center',
+                        }}
+                      >
+                        <BoltIcon sx={{ fontSize: 40, mb: 1 }} />
+                        <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                          Apache Kafka
+                        </Typography>
+                        <Typography variant="caption" sx={{ opacity: 0.9 }}>
+                          Event-Messaging System
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid item xs={12} md={4}>
+                      <Paper
+                        sx={{
+                          p: 2,
+                          background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                          color: 'white',
+                        }}
+                      >
+                        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+                          Notification Service
+                        </Typography>
+                        <Typography variant="caption" sx={{ opacity: 0.9 }}>
+                          Empfängt Events und sendet Benachrichtigungen
+                        </Typography>
+                      </Paper>
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                {/* Architecture Explanation */}
+                <Box sx={{ mt: 4, p: 3, bgcolor: '#eff6ff', borderRadius: 2 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'primary.main' }}>
+                    Wie funktioniert die Architektur? (Für Nicht-Techniker)
+                  </Typography>
+                  <Grid container spacing={3}>
+                    <Grid item xs={12} md={6}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+                        1. Frontend (React)
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                        Das ist die Webseite, die Sie im Browser sehen. Wenn Sie einen Workflow erstellen oder eine Task anlegen, 
+                        sendet der Browser diese Information an den Server.
+                      </Typography>
+
+                      <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+                        2. Task Service (Spring Boot)
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                        Der Server empfängt Ihre Anfrage, prüft ob Sie eingeloggt sind, führt den Workflow aus oder speichert 
+                        die Task in der Datenbank. Er ist das "Gehirn" der Anwendung.
+                      </Typography>
+
+                      <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+                        3. PostgreSQL (Datenbank)
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        Wie ein digitales Archiv. Hier werden alle Tasks, Workflows und Benutzerdaten sicher gespeichert. 
+                        Wenn Sie später etwas ansehen, holt der Server die Daten aus der Datenbank.
+                      </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={6}>
+                      <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+                        4. Apache Kafka (Event-Streaming)
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                        Stellen Sie sich Kafka wie ein Postsystem vor: Wenn etwas Wichtiges passiert (z.B. eine Task wird 
+                        abgeschlossen), sendet der Task Service eine "Nachricht" an Kafka. Andere Services können diese 
+                        Nachrichten empfangen und darauf reagieren.
+                      </Typography>
+
+                      <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+                        5. Notification Service
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                        Ein separater Service, der auf Events von Kafka "hört". Wenn eine Task abgeschlossen wird, 
+                        kann dieser Service automatisch eine E-Mail senden oder eine Benachrichtigung erstellen.
+                      </Typography>
+
+                      <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>
+                        Warum diese Architektur?
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        <strong>Skalierbarkeit:</strong> Jede Komponente kann unabhängig erweitert werden.<br/>
+                        <strong>Zuverlässigkeit:</strong> Wenn ein Service ausfällt, funktionieren die anderen weiter.<br/>
+                        <strong>Flexibilität:</strong> Neue Features können einfach hinzugefügt werden.
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Box>
+
+                {/* Data Flow Diagram */}
+                <Box sx={{ mt: 4 }}>
+                  <Typography variant="h6" sx={{ fontWeight: 600, mb: 3, textAlign: 'center' }}>
+                    Datenfluss: Was passiert, wenn Sie einen Workflow ausführen?
+                  </Typography>
+                  <Stepper orientation="vertical" sx={{ maxWidth: 600, mx: 'auto' }}>
+                    <Step active completed>
+                      <StepLabel
+                        StepIconComponent={() => (
+                          <Avatar sx={{ bgcolor: 'primary.main' }}>
+                            <Typography variant="body2" sx={{ color: 'white' }}>1</Typography>
+                          </Avatar>
+                        )}
+                      >
+                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                          Sie klicken auf "Execute" im Frontend
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Der Browser sendet eine Anfrage an den Task Service
+                        </Typography>
+                      </StepLabel>
+                    </Step>
+                    <Step active completed>
+                      <StepLabel
+                        StepIconComponent={() => (
+                          <Avatar sx={{ bgcolor: 'primary.main' }}>
+                            <Typography variant="body2" sx={{ color: 'white' }}>2</Typography>
+                          </Avatar>
+                        )}
+                      >
+                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                          Task Service authentifiziert Sie
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Prüft Ihr Login-Token und lädt den Workflow aus der Datenbank
+                        </Typography>
+                      </StepLabel>
+                    </Step>
+                    <Step active completed>
+                      <StepLabel
+                        StepIconComponent={() => (
+                          <Avatar sx={{ bgcolor: 'primary.main' }}>
+                            <Typography variant="body2" sx={{ color: 'white' }}>3</Typography>
+                          </Avatar>
+                        )}
+                      >
+                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                          Workflow wird Schritt für Schritt ausgeführt
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Jeder Node (HTTP Request, Code, Email, etc.) wird nacheinander ausgeführt
+                        </Typography>
+                      </StepLabel>
+                    </Step>
+                    <Step active completed>
+                      <StepLabel
+                        StepIconComponent={() => (
+                          <Avatar sx={{ bgcolor: 'primary.main' }}>
+                            <Typography variant="body2" sx={{ color: 'white' }}>4</Typography>
+                          </Avatar>
+                        )}
+                      >
+                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                          Events werden an Kafka gesendet
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Wichtige Ereignisse (z.B. "Task erstellt") werden als Events gesendet
+                        </Typography>
+                      </StepLabel>
+                    </Step>
+                    <Step active completed>
+                      <StepLabel
+                        StepIconComponent={() => (
+                          <Avatar sx={{ bgcolor: 'primary.main' }}>
+                            <Typography variant="body2" sx={{ color: 'white' }}>5</Typography>
+                          </Avatar>
+                        )}
+                      >
+                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                          Notification Service reagiert
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Empfängt Events von Kafka und sendet Benachrichtigungen
+                        </Typography>
+                      </StepLabel>
+                    </Step>
+                    <Step active completed>
+                      <StepLabel
+                        StepIconComponent={() => (
+                          <Avatar sx={{ bgcolor: 'success.main' }}>
+                            <CheckIcon sx={{ color: 'white' }} />
+                          </Avatar>
+                        )}
+                      >
+                        <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                          Ergebnisse werden an das Frontend zurückgesendet
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          Sie sehen die Ausführungsergebnisse in Echtzeit
+                        </Typography>
+                      </StepLabel>
+                    </Step>
+                  </Stepper>
+                </Box>
               </Box>
             </Paper>
           </TabPanel>
