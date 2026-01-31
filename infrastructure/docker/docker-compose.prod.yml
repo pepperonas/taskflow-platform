@@ -93,7 +93,7 @@ services:
   frontend:
     build:
       context: ../../frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.fast
     ports:
       - "3003:80"
     depends_on:
