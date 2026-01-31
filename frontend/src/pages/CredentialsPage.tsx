@@ -70,7 +70,7 @@ const CredentialsPage: React.FC = () => {
       // Handle authentication errors
       if (err.response?.status === 401 || err.response?.status === 403) {
         // Don't set error here - axiosInstance will handle redirect
-        setError('Authentication required. Please log in.');
+        setError('Authentifizierung erforderlich. Bitte melde dich an.');
         return;
       }
       
@@ -83,7 +83,7 @@ const CredentialsPage: React.FC = () => {
       // Handle other errors
       const errorMessage = err.response?.data?.message || 
                           err.response?.data?.error || 
-                          'Failed to load credentials';
+                          'Zugangsdaten konnten nicht geladen werden';
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -92,17 +92,17 @@ const CredentialsPage: React.FC = () => {
 
   const handleCreate = async () => {
     if (!newCred.name.trim()) {
-      setError('Credential name is required');
+      setError('Name ist erforderlich');
       return;
     }
 
     if (newCred.type === 'api_key' && !newCred.data.apiKey.trim()) {
-      setError('API Key is required');
+      setError('API-Schlüssel ist erforderlich');
       return;
     }
 
     if (newCred.type === 'basic_auth' && (!newCred.data.username || !newCred.data.password)) {
-      setError('Username and password are required for basic auth');
+      setError('Benutzername und Passwort sind für Basic Auth erforderlich');
       return;
     }
 
@@ -121,7 +121,7 @@ const CredentialsPage: React.FC = () => {
         }
       );
 
-      setSuccess('Credential created successfully');
+      setSuccess('Zugangsdaten erfolgreich erstellt');
       setDialogOpen(false);
       setNewCred({
         name: '',
@@ -147,7 +147,7 @@ const CredentialsPage: React.FC = () => {
       // Handle validation errors
       const errorMessage = err.response?.data?.message || 
                           err.response?.data?.error || 
-                          'Failed to create credential';
+                          'Zugangsdaten konnten nicht erstellt werden';
       setError(errorMessage);
     } finally {
       setLoading(false);
@@ -155,13 +155,13 @@ const CredentialsPage: React.FC = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this credential?')) {
+    if (!window.confirm('Bist du sicher, dass du diese Zugangsdaten löschen möchtest?')) {
       return;
     }
 
     try {
       await axiosInstance.delete(`/v1/credentials/${id}`);
-      setSuccess('Credential deleted successfully');
+      setSuccess('Zugangsdaten erfolgreich gelöscht');
       fetchCredentials();
     } catch (err: any) {
       console.error('Failed to delete credential:', err);
@@ -181,7 +181,7 @@ const CredentialsPage: React.FC = () => {
       // Handle other errors
       const errorMessage = err.response?.data?.message || 
                           err.response?.data?.error || 
-                          'Failed to delete credential';
+                          'Zugangsdaten konnten nicht gelöscht werden';
       setError(errorMessage);
     }
   };
@@ -205,10 +205,10 @@ const CredentialsPage: React.FC = () => {
         <Box>
           <Typography variant="h4" sx={{ fontWeight: 600 }}>
             <KeyIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
-            Credentials
+            Zugangsdaten
           </Typography>
           <Typography variant="body2" sx={{ color: '#6b7280', mt: 1 }}>
-            Securely store API keys and authentication credentials
+            API-Schlüssel und Authentifizierungsdaten sicher speichern
           </Typography>
         </Box>
         <Button
@@ -216,7 +216,7 @@ const CredentialsPage: React.FC = () => {
           startIcon={<AddIcon />}
           onClick={() => setDialogOpen(true)}
         >
-          Add Credential
+          Zugangsdaten hinzufügen
         </Button>
       </Box>
 
@@ -235,16 +235,16 @@ const CredentialsPage: React.FC = () => {
       {loading ? (
         <Paper sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body1" sx={{ color: '#6b7280' }}>
-            Loading credentials...
+            Lade Zugangsdaten...
           </Typography>
         </Paper>
       ) : credentials.length === 0 ? (
         <Paper sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="body1" sx={{ color: '#6b7280', mb: 2 }}>
-            No credentials yet
+            Noch keine Zugangsdaten
           </Typography>
           <Typography variant="body2" sx={{ color: '#9ca3af' }}>
-            Create your first credential to use in HTTP Request nodes
+            Erstelle deine ersten Zugangsdaten für HTTP-Request-Nodes
           </Typography>
         </Paper>
       ) : (
@@ -267,7 +267,7 @@ const CredentialsPage: React.FC = () => {
                       />
                     </Box>
                   }
-                  secondary={`Created: ${new Date(cred.createdAt).toLocaleString()}`}
+                  secondary={`Erstellt: ${new Date(cred.createdAt).toLocaleString('de-DE')}`}
                 />
                 <ListItemSecondaryAction>
                   <IconButton
@@ -285,34 +285,34 @@ const CredentialsPage: React.FC = () => {
       )}
 
       <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)} maxWidth="sm" fullWidth>
-        <DialogTitle>Create New Credential</DialogTitle>
+        <DialogTitle>Neue Zugangsdaten erstellen</DialogTitle>
         <DialogContent>
           <TextField
             fullWidth
-            label="Credential Name"
+            label="Name"
             value={newCred.name}
             onChange={(e) => setNewCred({ ...newCred, name: e.target.value })}
             sx={{ mt: 2, mb: 2 }}
-            placeholder="e.g., OpenWeather API Key"
+            placeholder="z.B. OpenWeather API Key"
           />
 
           <TextField
             select
             fullWidth
-            label="Type"
+            label="Typ"
             value={newCred.type}
             onChange={(e) => setNewCred({ ...newCred, type: e.target.value })}
             sx={{ mb: 2 }}
           >
-            <MenuItem value="api_key">API Key</MenuItem>
-            <MenuItem value="basic_auth">Basic Auth (Username/Password)</MenuItem>
+            <MenuItem value="api_key">API-Schlüssel</MenuItem>
+            <MenuItem value="basic_auth">Basic Auth (Benutzername/Passwort)</MenuItem>
           </TextField>
 
           {newCred.type === 'api_key' && (
             <TextField
               fullWidth
               type="password"
-              label="API Key"
+              label="API-Schlüssel"
               value={newCred.data.apiKey}
               onChange={(e) =>
                 setNewCred({
@@ -320,8 +320,8 @@ const CredentialsPage: React.FC = () => {
                   data: { ...newCred.data, apiKey: e.target.value },
                 })
               }
-              placeholder="Enter your API key"
-              helperText="Your API key will be encrypted before storage"
+              placeholder="Gib deinen API-Schlüssel ein"
+              helperText="Dein API-Schlüssel wird vor dem Speichern verschlüsselt"
             />
           )}
 
@@ -329,7 +329,7 @@ const CredentialsPage: React.FC = () => {
             <>
               <TextField
                 fullWidth
-                label="Username"
+                label="Benutzername"
                 value={newCred.data.username}
                 onChange={(e) =>
                   setNewCred({
@@ -342,7 +342,7 @@ const CredentialsPage: React.FC = () => {
               <TextField
                 fullWidth
                 type="password"
-                label="Password"
+                label="Passwort"
                 value={newCred.data.password}
                 onChange={(e) =>
                   setNewCred({
@@ -350,19 +350,19 @@ const CredentialsPage: React.FC = () => {
                     data: { ...newCred.data, password: e.target.value },
                   })
                 }
-                helperText="Your credentials will be encrypted before storage"
+                helperText="Deine Zugangsdaten werden vor dem Speichern verschlüsselt"
               />
             </>
           )}
 
           <Alert severity="info" sx={{ mt: 2, fontSize: '12px' }}>
-            Credentials are encrypted using AES-256-GCM before being stored.
+            Zugangsdaten werden mit AES-256-GCM verschlüsselt gespeichert.
           </Alert>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setDialogOpen(false)}>Cancel</Button>
+          <Button onClick={() => setDialogOpen(false)}>Abbrechen</Button>
           <Button onClick={handleCreate} variant="contained" disabled={loading}>
-            {loading ? 'Creating...' : 'Create'}
+            {loading ? 'Wird erstellt...' : 'Erstellen'}
           </Button>
         </DialogActions>
       </Dialog>

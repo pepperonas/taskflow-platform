@@ -27,10 +27,10 @@ const SettingsPage: React.FC = () => {
     <Container maxWidth="md" sx={{ py: 4 }}>
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
-          Settings
+          Einstellungen
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          Manage your preferences and account settings
+          Verwalte deine Präferenzen und Kontoeinstellungen
         </Typography>
       </Box>
 
@@ -41,8 +41,8 @@ const SettingsPage: React.FC = () => {
               <NotificationsIcon />
             </ListItemIcon>
             <ListItemText
-              primary="Email Notifications"
-              secondary="Receive email notifications for workflow executions"
+              primary="E-Mail-Benachrichtigungen"
+              secondary="E-Mail-Benachrichtigungen für Workflow-Ausführungen erhalten"
             />
             <Switch defaultChecked />
           </ListItem>
@@ -52,8 +52,8 @@ const SettingsPage: React.FC = () => {
               <DarkModeIcon />
             </ListItemIcon>
             <ListItemText
-              primary="Dark Mode"
-              secondary="Use dark theme (Coming soon)"
+              primary="Dunkler Modus"
+              secondary="Dunkles Design verwenden (Demnächst verfügbar)"
             />
             <Switch disabled />
           </ListItem>
@@ -63,8 +63,8 @@ const SettingsPage: React.FC = () => {
               <LanguageIcon />
             </ListItemIcon>
             <ListItemText
-              primary="Language"
-              secondary="English (US)"
+              primary="Sprache"
+              secondary="Deutsch"
             />
           </ListItem>
           <Divider />
@@ -73,8 +73,8 @@ const SettingsPage: React.FC = () => {
               <SecurityIcon />
             </ListItemIcon>
             <ListItemText
-              primary="Two-Factor Authentication"
-              secondary="Add an extra layer of security (Coming soon)"
+              primary="Zwei-Faktor-Authentifizierung"
+              secondary="Zusätzliche Sicherheitsebene hinzufügen (Demnächst verfügbar)"
             />
           <Switch disabled />
         </ListItem>
@@ -86,7 +86,7 @@ const SettingsPage: React.FC = () => {
           <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
             <InfoIcon sx={{ mr: 1, color: 'primary.main' }} />
             <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              About TaskFlow Platform
+              Über TaskFlow Plattform
             </Typography>
           </Box>
           <Divider sx={{ mb: 2 }} />
@@ -95,10 +95,10 @@ const SettingsPage: React.FC = () => {
               <strong>Version:</strong> 1.0.0
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-              <strong>Developer:</strong> Martin Pfeffer
+              <strong>Entwickler:</strong> Martin Pfeffer
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-              <strong>License:</strong> MIT License
+              <strong>Lizenz:</strong> MIT-Lizenz
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
               <strong>Copyright:</strong> © 2026 Martin Pfeffer

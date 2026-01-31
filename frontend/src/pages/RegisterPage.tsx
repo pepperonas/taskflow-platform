@@ -42,10 +42,10 @@ const RegisterPage: React.FC = () => {
       >
         <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
           <Typography component="h1" variant="h4" align="center" gutterBottom>
-            TaskFlow Platform
+            TaskFlow Plattform
           </Typography>
           <Typography variant="h6" align="center" color="textSecondary" gutterBottom>
-            Create an account
+            Konto erstellen
           </Typography>
 
           {error && (
@@ -59,14 +59,14 @@ const RegisterPage: React.FC = () => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="First Name"
+                  label="Vorname"
                   {...register('firstName')}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="Last Name"
+                  label="Nachname"
                   {...register('lastName')}
                 />
               </Grid>
@@ -75,11 +75,11 @@ const RegisterPage: React.FC = () => {
               margin="normal"
               required
               fullWidth
-              label="Username"
+              label="Benutzername"
               autoComplete="username"
               {...register('username', {
-                required: 'Username is required',
-                minLength: { value: 3, message: 'Username must be at least 3 characters' },
+                required: 'Benutzername erforderlich',
+                minLength: { value: 3, message: 'Benutzername muss mindestens 3 Zeichen haben' },
               })}
               error={!!errors.username}
               helperText={errors.username?.message}
@@ -88,11 +88,11 @@ const RegisterPage: React.FC = () => {
               margin="normal"
               required
               fullWidth
-              label="Email Address"
+              label="E-Mail-Adresse"
               autoComplete="email"
               {...register('email', {
-                required: 'Email is required',
-                pattern: { value: /^\S+@\S+$/i, message: 'Invalid email address' },
+                required: 'E-Mail erforderlich',
+                pattern: { value: /^\S+@\S+$/i, message: 'Ungültige E-Mail-Adresse' },
               })}
               error={!!errors.email}
               helperText={errors.email?.message}
@@ -101,12 +101,12 @@ const RegisterPage: React.FC = () => {
               margin="normal"
               required
               fullWidth
-              label="Password"
+              label="Passwort"
               type="password"
               autoComplete="new-password"
               {...register('password', {
-                required: 'Password is required',
-                minLength: { value: 6, message: 'Password must be at least 6 characters' },
+                required: 'Passwort erforderlich',
+                minLength: { value: 6, message: 'Passwort muss mindestens 6 Zeichen haben' },
               })}
               error={!!errors.password}
               helperText={errors.password?.message}
@@ -118,11 +118,11 @@ const RegisterPage: React.FC = () => {
               sx={{ mt: 3, mb: 2 }}
               disabled={loading}
             >
-              {loading ? 'Creating account...' : 'Sign Up'}
+              {loading ? 'Konto wird erstellt...' : 'Registrieren'}
             </Button>
             <Box textAlign="center">
               <Link component={RouterLink} to="/login" variant="body2">
-                Already have an account? Sign in
+                Bereits ein Konto? Anmelden
               </Link>
             </Box>
           </Box>

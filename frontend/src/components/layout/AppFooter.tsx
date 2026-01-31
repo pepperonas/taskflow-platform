@@ -23,10 +23,10 @@ const AppFooter: React.FC = () => {
         >
           <Box>
             <Typography variant="body2" color="text.secondary">
-              © 2026 <strong>Martin Pfeffer</strong> | TaskFlow Platform
+              © 2026 <strong>Martin Pfeffer</strong> | TaskFlow Plattform
             </Typography>
             <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
-              Licensed under <strong>MIT License</strong>
+              Lizenziert unter <strong>MIT-Lizenz</strong>
             </Typography>
           </Box>
           <Stack direction="row" spacing={3} alignItems="center">

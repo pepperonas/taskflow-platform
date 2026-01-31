@@ -43,10 +43,10 @@ axiosInstance.interceptors.response.use(
       return Promise.reject(error);
     }
     
-    // Check if we're in a "grace period" after login (first 5 seconds)
+    // Check if we're in a "grace period" after login (first 30 seconds)
     const loginTime = sessionStorage.getItem('loginTime');
     const now = Date.now();
-    const isGracePeriod = loginTime && (now - parseInt(loginTime)) < 5000;
+    const isGracePeriod = loginTime && (now - parseInt(loginTime)) < 30000;
     
     // Handle authentication errors (401 Unauthorized)
     if (error.response?.status === 401) {

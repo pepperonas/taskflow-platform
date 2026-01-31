@@ -26,10 +26,10 @@ const TasksPage: React.FC = () => {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
-          Tasks
+          Aufgaben
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          Manage all your tasks in one place
+          Verwalte alle deine Aufgaben an einem Ort
         </Typography>
       </Box>
 

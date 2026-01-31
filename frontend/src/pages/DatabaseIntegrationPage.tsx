@@ -36,25 +36,25 @@ LIMIT 10;`);
 
   const examples = [
     {
-      title: 'Select Tasks',
+      title: 'Aufgaben auswählen',
       query: `SELECT id, title, status, created_at 
 FROM tasks 
 WHERE status = 'OPEN' 
 ORDER BY created_at DESC 
 LIMIT 10;`,
-      description: 'Fetch open tasks',
+      description: 'Offene Aufgaben abrufen',
     },
     {
-      title: 'Count Workflows',
+      title: 'Workflows zählen',
       query: `SELECT 
   COUNT(*) as total,
   COUNT(CASE WHEN status = 'ACTIVE' THEN 1 END) as active,
   COUNT(CASE WHEN status = 'DRAFT' THEN 1 END) as draft
 FROM workflows;`,
-      description: 'Get workflow statistics',
+      description: 'Workflow-Statistiken abrufen',
     },
     {
-      title: 'Join Query',
+      title: 'Join-Abfrage',
       query: `SELECT 
   t.id,
   t.title,
@@ -65,7 +65,7 @@ FROM workflows;`,
 FROM tasks t
 LEFT JOIN users u ON t.assignee_id = u.id
 WHERE t.status = 'IN_PROGRESS';`,
-      description: 'Join tasks with assigned users',
+      description: 'Aufgaben mit zugewiesenen Benutzern verknüpfen',
     },
   ];
 
@@ -117,22 +117,22 @@ WHERE t.status = 'IN_PROGRESS';`,
       <Box sx={{ mb: 4 }}>
         <Chip
           icon={<DatabaseIcon />}
-          label="Database Integration"
+          label="Datenbank-Integration"
           sx={{ mb: 2, bgcolor: '#43e97b', color: 'white' }}
         />
         <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
-          Database Node
+          Datenbank-Node
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-          Execute SQL queries against your PostgreSQL database. Read and write data directly from your workflows.
-          Perfect for data synchronization, reporting, and complex data operations.
+          Führe SQL-Abfragen gegen deine PostgreSQL-Datenbank aus. Lese und schreibe Daten direkt aus deinen Workflows.
+          Perfekt für Datensynchronisation, Berichte und komplexe Datenoperationen.
         </Typography>
         <Button
           variant="contained"
           onClick={() => navigate('/workflows/new')}
           sx={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' }}
         >
-          Create Database Workflow
+          Datenbank-Workflow erstellen
         </Button>
       </Box>
 
@@ -141,10 +141,10 @@ WHERE t.status = 'IN_PROGRESS';`,
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, height: '100%' }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              SQL Query Editor
+              SQL-Abfrage-Editor
             </Typography>
             <Alert severity="info" sx={{ mb: 2, fontSize: '12px' }}>
-              Available variables: <code>{'{{ $trigger.field }}'}</code>, <code>{'{{ $vars.name }}'}</code>
+              Verfügbare Variablen: <code>{'{{ $trigger.field }}'}</code>, <code>{'{{ $vars.name }}'}</code>
             </Alert>
             <TextField
               fullWidth
@@ -168,7 +168,7 @@ WHERE t.status = 'IN_PROGRESS';`,
               disabled={loading}
               sx={{ background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)' }}
             >
-              Execute Query
+              Abfrage ausführen
             </Button>
           </Paper>
         </Grid>
@@ -177,13 +177,13 @@ WHERE t.status = 'IN_PROGRESS';`,
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, height: '100%' }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Query Results
+              Abfrageergebnisse
             </Typography>
             {loading && (
               <Box sx={{ textAlign: 'center', py: 4 }}>
                 <CircularProgress />
                 <Typography variant="body2" sx={{ mt: 2 }}>
-                  Executing query...
+                  Führe Abfrage aus...
                 </Typography>
               </Box>
             )}
@@ -195,11 +195,11 @@ WHERE t.status = 'IN_PROGRESS';`,
             {result && (
               <>
                 <Alert severity="success" icon={<CheckIcon />} sx={{ mb: 2 }}>
-                  Query executed successfully! ({result.executionTime})
+                  Abfrage erfolgreich ausgeführt! ({result.executionTime})
                 </Alert>
                 <Box sx={{ mb: 2 }}>
                   <Typography variant="caption" color="text.secondary">
-                    Rows returned: {result.rowCount}
+                    Zurückgegebene Zeilen: {result.rowCount}
                   </Typography>
                 </Box>
                 <Box
@@ -228,7 +228,7 @@ WHERE t.status = 'IN_PROGRESS';`,
               >
                 <DatabaseIcon sx={{ fontSize: 64, opacity: 0.3, mb: 2 }} />
                 <Typography variant="body2">
-                  Enter a SQL query and click "Execute Query" to see results
+                  Gib eine SQL-Abfrage ein und klicke "Abfrage ausführen" um Ergebnisse zu sehen
                 </Typography>
               </Box>
             )}
@@ -239,7 +239,7 @@ WHERE t.status = 'IN_PROGRESS';`,
         <Grid item xs={12}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Example Queries
+              Beispiel-Abfragen
             </Typography>
             <Grid container spacing={2}>
               {examples.map((example, idx) => (
@@ -279,7 +279,7 @@ WHERE t.status = 'IN_PROGRESS';`,
                         disabled={loading}
                         fullWidth
                       >
-                        Try This Query
+                        Abfrage testen
                       </Button>
                     </CardContent>
                   </Card>
@@ -293,14 +293,14 @@ WHERE t.status = 'IN_PROGRESS';`,
         <Grid item xs={12}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Features
+              Funktionen
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
                   <CheckIcon color="success" sx={{ fontSize: 40, mb: 1 }} />
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                    Full SQL Support
+                    Volle SQL-Unterstützung
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
                     SELECT, INSERT, UPDATE, DELETE
@@ -311,10 +311,10 @@ WHERE t.status = 'IN_PROGRESS';`,
                 <Box sx={{ textAlign: 'center' }}>
                   <CheckIcon color="success" sx={{ fontSize: 40, mb: 1 }} />
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                    Parameterized Queries
+                    Parametrisierte Abfragen
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    Safe variable interpolation
+                    Sichere Variablen-Interpolation
                   </Typography>
                 </Box>
               </Grid>
@@ -322,10 +322,10 @@ WHERE t.status = 'IN_PROGRESS';`,
                 <Box sx={{ textAlign: 'center' }}>
                   <CheckIcon color="success" sx={{ fontSize: 40, mb: 1 }} />
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                    Transaction Support
+                    Transaktions-Support
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    Rollback on errors
+                    Rollback bei Fehlern
                   </Typography>
                 </Box>
               </Grid>
@@ -336,15 +336,15 @@ WHERE t.status = 'IN_PROGRESS';`,
                     Connection Pooling
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    Optimized performance
+                    Optimierte Leistung
                   </Typography>
                 </Box>
               </Grid>
             </Grid>
             <Alert severity="warning" icon={<WarningIcon />} sx={{ mt: 3 }}>
               <Typography variant="caption">
-                <strong>Security:</strong> All queries are executed with read-only permissions by default. 
-                Write operations require explicit configuration in workflow settings.
+                <strong>Sicherheit:</strong> Alle Abfragen werden standardmäßig mit Leseberechtigung ausgeführt. 
+                Schreiboperationen erfordern explizite Konfiguration in den Workflow-Einstellungen.
               </Typography>
             </Alert>
           </Paper>

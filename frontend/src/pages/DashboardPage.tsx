@@ -163,10 +163,10 @@ const DashboardPage: React.FC = () => {
 
   // Task status distribution for pie chart
   const taskStatusData = [
-    { name: 'Completed', value: completedTasks, color: '#43e97b' },
-    { name: 'In Progress', value: inProgressTasks, color: '#f093fb' },
-    { name: 'Open', value: openTasks, color: '#fa709a' },
-    { name: 'Archived', value: archivedTasks, color: '#9ca3af' },
+    { name: 'Abgeschlossen', value: completedTasks, color: '#43e97b' },
+    { name: 'In Bearbeitung', value: inProgressTasks, color: '#f093fb' },
+    { name: 'Offen', value: openTasks, color: '#fa709a' },
+    { name: 'Archiviert', value: archivedTasks, color: '#9ca3af' },
   ].filter(item => item.value > 0);
 
   // Task priority distribution
@@ -179,9 +179,9 @@ const DashboardPage: React.FC = () => {
 
   // Execution status distribution
   const executionStatusData = [
-    { name: 'Completed', value: completedExecutions, color: '#43e97b' },
-    { name: 'Failed', value: failedExecutions, color: '#ef4444' },
-    { name: 'Running', value: runningExecutions, color: '#f093fb' },
+    { name: 'Erfolgreich', value: completedExecutions, color: '#43e97b' },
+    { name: 'Fehlgeschlagen', value: failedExecutions, color: '#ef4444' },
+    { name: 'Laufend', value: runningExecutions, color: '#f093fb' },
   ].filter(item => item.value > 0);
 
   // Tasks created over time (last 7 days)
@@ -204,28 +204,28 @@ const DashboardPage: React.FC = () => {
 
   const stats = [
     {
-      title: 'Total Tasks',
+      title: 'Aufgaben gesamt',
       value: tasks.length,
       icon: <TaskIcon sx={{ fontSize: 40 }} />,
       color: '#667eea',
       link: '/tasks',
     },
     {
-      title: 'Active Workflows',
+      title: 'Aktive Workflows',
       value: activeWorkflows,
       icon: <WorkflowIcon sx={{ fontSize: 40 }} />,
       color: '#764ba2',
       link: '/workflows',
     },
     {
-      title: 'Completed Executions',
+      title: 'Erfolgreiche Ausführungen',
       value: completedExecutions,
       icon: <CheckCircleIcon sx={{ fontSize: 40 }} />,
       color: '#43e97b',
       link: '/workflows',
     },
     {
-      title: 'Credentials',
+      title: 'Zugangsdaten',
       value: credentialsCount,
       icon: <KeyIcon sx={{ fontSize: 40 }} />,
       color: '#fa709a',
@@ -236,25 +236,25 @@ const DashboardPage: React.FC = () => {
 
   const quickActions = [
     {
-      title: 'Create Workflow',
+      title: 'Workflow erstellen',
       icon: <WorkflowIcon />,
       color: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       onClick: () => navigate('/workflows/new'),
     },
     {
-      title: 'Database Integration',
+      title: 'Datenbank-Integration',
       icon: <DatabaseIcon />,
       color: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
       onClick: () => navigate('/integrations/database'),
     },
     {
-      title: 'Code Execution',
+      title: 'Code-Ausführung',
       icon: <CodeIcon />,
       color: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
       onClick: () => navigate('/integrations/code'),
     },
     {
-      title: 'Email Integration',
+      title: 'E-Mail-Integration',
       icon: <EmailIcon />,
       color: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
       onClick: () => navigate('/integrations/email'),
@@ -268,10 +268,10 @@ const DashboardPage: React.FC = () => {
       {/* Welcome Section */}
       <Box sx={{ mb: 4 }}>
         <Typography variant="h4" sx={{ fontWeight: 700, mb: 1 }}>
-          Welcome back, {user?.username}! 👋
+          Willkommen zurück, {user?.username}! 👋
         </Typography>
         <Typography variant="body1" color="text.secondary">
-          Here's an overview of your TaskFlow platform
+          Hier ist eine Übersicht deiner TaskFlow-Plattform
         </Typography>
       </Box>
 
@@ -315,7 +315,7 @@ const DashboardPage: React.FC = () => {
       {/* Quick Actions */}
       <Paper sx={{ p: 3, mb: 4 }}>
         <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-          Quick Actions
+          Schnellaktionen
         </Typography>
         <Grid container spacing={2}>
           {quickActions.map((action, idx) => (
@@ -347,7 +347,7 @@ const DashboardPage: React.FC = () => {
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, height: '100%' }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Task Status Distribution
+              Aufgaben nach Status
             </Typography>
             {taskStatusData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
@@ -372,7 +372,7 @@ const DashboardPage: React.FC = () => {
             ) : (
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
                 <Typography variant="body2" color="text.secondary">
-                  No tasks yet
+                  Noch keine Aufgaben
                 </Typography>
               </Box>
             )}
@@ -383,7 +383,7 @@ const DashboardPage: React.FC = () => {
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, height: '100%' }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Task Priority Distribution
+              Aufgaben nach Priorität
             </Typography>
             {priorityData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
@@ -398,7 +398,7 @@ const DashboardPage: React.FC = () => {
             ) : (
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
                 <Typography variant="body2" color="text.secondary">
-                  No tasks yet
+                  Noch keine Aufgaben
                 </Typography>
               </Box>
             )}
@@ -409,7 +409,7 @@ const DashboardPage: React.FC = () => {
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, height: '100%' }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Tasks Created (Last 7 Days)
+              Erstellte Aufgaben (Letzte 7 Tage)
             </Typography>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={tasksOverTime}>
@@ -418,7 +418,7 @@ const DashboardPage: React.FC = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Line type="monotone" dataKey="tasks" stroke="#667eea" strokeWidth={2} name="Tasks Created" />
+                <Line type="monotone" dataKey="tasks" stroke="#667eea" strokeWidth={2} name="Erstellte Aufgaben" />
               </LineChart>
             </ResponsiveContainer>
           </Paper>
@@ -428,7 +428,7 @@ const DashboardPage: React.FC = () => {
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, height: '100%' }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Workflow Execution Status
+              Workflow-Ausführungen
             </Typography>
             {executionStatusData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
@@ -453,7 +453,7 @@ const DashboardPage: React.FC = () => {
             ) : (
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 300 }}>
                 <Typography variant="body2" color="text.secondary">
-                  No executions yet
+                  Noch keine Ausführungen
                 </Typography>
               </Box>
             )}
@@ -467,9 +467,9 @@ const DashboardPage: React.FC = () => {
           <Paper sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                Workflows Overview
+                Workflows-Übersicht
               </Typography>
-              <Chip label={`${workflows.length} total`} size="small" />
+              <Chip label={`${workflows.length} gesamt`} size="small" />
             </Box>
             {workflowsLoading ? (
               <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
@@ -478,7 +478,7 @@ const DashboardPage: React.FC = () => {
             ) : workflows.length === 0 ? (
               <Box sx={{ textAlign: 'center', p: 3 }}>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  No workflows yet
+                  Noch keine Workflows
                 </Typography>
                 <Button
                   variant="contained"
@@ -486,17 +486,17 @@ const DashboardPage: React.FC = () => {
                   onClick={() => navigate('/workflows/new')}
                   sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
                 >
-                  Create Workflow
+                  Workflow erstellen
                 </Button>
               </Box>
             ) : (
               <Box>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
                   <Typography variant="body2" color="text.secondary">
-                    Active: <strong>{activeWorkflows}</strong>
+                    Aktiv: <strong>{activeWorkflows}</strong>
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Draft: <strong>{draftWorkflows}</strong>
+                    Entwurf: <strong>{draftWorkflows}</strong>
                   </Typography>
                 </Box>
                 <Button
@@ -506,7 +506,7 @@ const DashboardPage: React.FC = () => {
                   onClick={() => navigate('/workflows')}
                   sx={{ mt: 2 }}
                 >
-                  View All Workflows
+                  Alle Workflows anzeigen
                 </Button>
               </Box>
             )}
@@ -517,14 +517,14 @@ const DashboardPage: React.FC = () => {
           <Paper sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
               <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                Recent Executions
+                Letzte Ausführungen
               </Typography>
-              <Chip label={`${executions.length} shown`} size="small" />
+              <Chip label={`${executions.length} angezeigt`} size="small" />
             </Box>
             {executions.length === 0 ? (
               <Box sx={{ textAlign: 'center', p: 3 }}>
                 <Typography variant="body2" color="text.secondary">
-                  No executions yet. Execute a workflow to see results here.
+                  Noch keine Ausführungen. Führe einen Workflow aus, um Ergebnisse zu sehen.
                 </Typography>
               </Box>
             ) : (
@@ -558,7 +558,7 @@ const DashboardPage: React.FC = () => {
                   onClick={() => navigate('/workflows')}
                   sx={{ mt: 2 }}
                 >
-                  View All Executions
+                  Alle Ausführungen anzeigen
                 </Button>
               </Box>
             )}
@@ -570,15 +570,15 @@ const DashboardPage: React.FC = () => {
       <Paper sx={{ p: 3 }}>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
-            Recent Tasks
+            Letzte Aufgaben
           </Typography>
-          <Chip label={`${tasks.length} total`} size="small" />
+          <Chip label={`${tasks.length} gesamt`} size="small" />
         </Box>
         <TaskList tasks={tasks.slice(0, 10)} loading={tasksLoading} error={tasksError} />
         {tasks.length > 10 && (
           <Box sx={{ mt: 2, textAlign: 'center' }}>
             <Button variant="outlined" onClick={() => navigate('/tasks')}>
-              View All Tasks
+              Alle Aufgaben anzeigen
             </Button>
           </Box>
         )}

@@ -73,28 +73,28 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   const menuItems = [
     {
-      section: 'Main',
+      section: 'Hauptmenü',
       items: [
-        { text: 'Showcase', icon: <AutoAwesomeIcon />, path: '/showcase', badge: 'NEW' },
+        { text: 'Übersicht', icon: <AutoAwesomeIcon />, path: '/showcase', badge: 'NEU' },
         { text: 'Dashboard', icon: <DashboardIcon />, path: '/dashboard' },
         { text: 'Workflows', icon: <WorkflowIcon />, path: '/workflows' },
-        { text: 'Tasks', icon: <TaskIcon />, path: '/tasks' },
+        { text: 'Aufgaben', icon: <TaskIcon />, path: '/tasks' },
       ]
     },
     {
-      section: 'Integrations',
+      section: 'Integrationen',
       items: [
-        { text: 'HTTP Requests', icon: <HttpIcon />, path: '/integrations/http' },
-        { text: 'Code Executor', icon: <CodeIcon />, path: '/integrations/code' },
-        { text: 'Database', icon: <DatabaseIcon />, path: '/integrations/database' },
-        { text: 'Email', icon: <EmailIcon />, path: '/integrations/email' },
-        { text: 'Credentials', icon: <CredentialsIcon />, path: '/credentials' },
+        { text: 'HTTP-Anfragen', icon: <HttpIcon />, path: '/integrations/http' },
+        { text: 'Code-Ausführung', icon: <CodeIcon />, path: '/integrations/code' },
+        { text: 'Datenbank', icon: <DatabaseIcon />, path: '/integrations/database' },
+        { text: 'E-Mail', icon: <EmailIcon />, path: '/integrations/email' },
+        { text: 'Zugangsdaten', icon: <CredentialsIcon />, path: '/credentials' },
       ]
     },
     {
       section: 'System',
       items: [
-        { text: 'Settings', icon: <SettingsIcon />, path: '/settings' },
+        { text: 'Einstellungen', icon: <SettingsIcon />, path: '/settings' },
       ]
     }
   ];
@@ -118,7 +118,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               TaskFlow
             </Typography>
             <Typography variant="caption" sx={{ opacity: 0.9 }}>
-              Workflow Automation Platform
+              Workflow-Automatisierungsplattform
             </Typography>
           </Box>
         </Box>
@@ -253,7 +253,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           </Typography>
           <Chip
             icon={<RocketIcon />}
-            label="Live Demo"
+            label="Live-Demo"
             color="primary"
             size="small"
             sx={{ fontWeight: 600 }}
@@ -325,12 +325,12 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       >
         <MenuItem onClick={() => { navigate('/settings'); handleUserMenuClose(); }}>
           <ListItemIcon><SettingsIcon fontSize="small" /></ListItemIcon>
-          Settings
+          Einstellungen
         </MenuItem>
         <Divider />
         <MenuItem onClick={handleLogout}>
           <ListItemIcon><LogoutIcon fontSize="small" /></ListItemIcon>
-          Logout
+          Abmelden
         </MenuItem>
       </Menu>
     </Box>

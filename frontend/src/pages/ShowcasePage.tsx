@@ -483,12 +483,19 @@ return result;`,
             onChange={(_, newValue) => setTabValue(newValue)}
             variant="scrollable"
             scrollButtons="auto"
-            sx={{ borderBottom: 1, borderColor: 'divider' }}
+            sx={{ 
+              borderBottom: 1, 
+              borderColor: 'divider',
+              '& .MuiTab-root': {
+                minWidth: 120,
+                fontWeight: 600,
+              }
+            }}
           >
             <Tab label="Features" />
             <Tab label="Interactive Demos" />
             <Tab label="Use Cases" />
-            <Tab label="Technologies" />
+            <Tab label="Technologies & Architecture" />
           </Tabs>
 
           {/* Tab 1: Features */}

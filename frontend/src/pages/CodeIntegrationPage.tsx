@@ -36,7 +36,7 @@ return result;`);
 
   const examples = [
     {
-      title: 'Data Transformation',
+      title: 'Datentransformation',
       code: `const data = $trigger.users || [];
 
 return data.map(user => ({
@@ -44,10 +44,10 @@ return data.map(user => ({
   fullName: \`\${user.firstName || ''} \${user.lastName || ''}\`.trim(),
   email: (user.email || '').toLowerCase()
 }));`,
-      description: 'Transform array of user objects',
+      description: 'Array von Benutzerobjekten transformieren',
     },
     {
-      title: 'Conditional Logic',
+      title: 'Bedingte Logik',
       code: `const score = $trigger.score || 0;
 
 if (score >= 90) {
@@ -59,10 +59,10 @@ if (score >= 90) {
 } else {
   return { grade: 'F', passed: false };
 }`,
-      description: 'Calculate grade from score',
+      description: 'Note aus Punktzahl berechnen',
     },
     {
-      title: 'Date Manipulation',
+      title: 'Datumsverarbeitung',
       code: `const now = new Date();
 const tomorrow = new Date(now);
 tomorrow.setDate(tomorrow.getDate() + 1);
@@ -70,9 +70,9 @@ tomorrow.setDate(tomorrow.getDate() + 1);
 return {
   today: now.toISOString(),
   tomorrow: tomorrow.toISOString(),
-  dayOfWeek: now.toLocaleDateString('en-US', { weekday: 'long' })
+  dayOfWeek: now.toLocaleDateString('de-DE', { weekday: 'long' })
 };`,
-      description: 'Work with dates and times',
+      description: 'Mit Datum und Uhrzeit arbeiten',
     },
   ];
 
@@ -145,22 +145,22 @@ ${formattedResult}`);
       <Box sx={{ mb: 4 }}>
         <Chip
           icon={<CodeIcon />}
-          label="Code Executor"
+          label="Code-Ausführung"
           sx={{ mb: 2, bgcolor: 'primary.main', color: 'white' }}
         />
         <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
-          JavaScript Code Node
+          JavaScript Code-Node
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-          Execute custom JavaScript code in a secure sandboxed environment. Perfect for data transformation,
-          conditional logic, and custom business rules.
+          Führe eigenen JavaScript-Code in einer sicheren Sandbox-Umgebung aus. Perfekt für Datentransformation,
+          bedingte Logik und individuelle Geschäftsregeln.
         </Typography>
         <Button
           variant="contained"
           onClick={() => navigate('/workflows/new')}
           sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
         >
-          Create Code Workflow
+          Code-Workflow erstellen
         </Button>
       </Box>
 
@@ -169,10 +169,10 @@ ${formattedResult}`);
         <Grid item xs={12} md={7}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-              Try It Out
+              Ausprobieren
             </Typography>
             <Alert severity="info" sx={{ mb: 2, fontSize: '12px' }}>
-              Available variables: <code>$trigger</code> (trigger data), <code>$vars</code> (workflow variables), <code>$context</code> (execution context)
+              Verfügbare Variablen: <code>$trigger</code> (Trigger-Daten), <code>$vars</code> (Workflow-Variablen), <code>$context</code> (Ausführungskontext)
             </Alert>
             <TextField
               fullWidth
@@ -197,14 +197,14 @@ ${formattedResult}`);
               onClick={handleExecuteCode}
               disabled={loading}
             >
-              {loading ? 'Executing...' : 'Execute Code'}
+              {loading ? 'Wird ausgeführt...' : 'Code ausführen'}
             </Button>
           </Paper>
 
           {error && (
             <Paper sx={{ p: 3, mt: 3, bgcolor: '#fee2e2' }}>
               <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: '#dc2626' }}>
-                Execution Error
+                Ausführungsfehler
               </Typography>
               <Box
                 sx={{
@@ -225,7 +225,7 @@ ${formattedResult}`);
           {result && (
             <Paper sx={{ p: 3, mt: 3 }}>
               <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-                Execution Result
+                Ausführungsergebnis
               </Typography>
               <Box
                 sx={{
@@ -248,7 +248,7 @@ ${formattedResult}`);
         <Grid item xs={12} md={5}>
           <Paper sx={{ p: 3, mb: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-              Quick Examples
+              Schnellbeispiele
             </Typography>
             {examples.map((example, idx) => (
               <Box key={idx} sx={{ mb: 2 }}>
@@ -260,7 +260,7 @@ ${formattedResult}`);
                     size="small"
                     onClick={() => handleRunDemo(example.code)}
                   >
-                    Load
+                    Laden
                   </Button>
                 </Box>
                 <Typography variant="caption" color="text.secondary">
@@ -273,16 +273,16 @@ ${formattedResult}`);
 
           <Paper sx={{ p: 3, mb: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
-              Security Features
+              Sicherheitsfunktionen
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'start', mb: 2 }}>
               <CheckIcon color="success" sx={{ mr: 1, mt: 0.5 }} />
               <Box>
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  Sandboxed Execution
+                  Sandbox-Ausführung
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  Runs in isolated GraalVM context
+                  Läuft in isoliertem GraalVM-Kontext
                 </Typography>
               </Box>
             </Box>
@@ -290,10 +290,10 @@ ${formattedResult}`);
               <CheckIcon color="success" sx={{ mr: 1, mt: 0.5 }} />
               <Box>
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  No File System Access
+                  Kein Dateisystemzugriff
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  Cannot read or write files
+                  Kann keine Dateien lesen oder schreiben
                 </Typography>
               </Box>
             </Box>
@@ -301,10 +301,10 @@ ${formattedResult}`);
               <CheckIcon color="success" sx={{ mr: 1, mt: 0.5 }} />
               <Box>
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  No Network Access
+                  Kein Netzwerkzugriff
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  Cannot make external HTTP requests
+                  Kann keine externen HTTP-Anfragen stellen
                 </Typography>
               </Box>
             </Box>
@@ -312,10 +312,10 @@ ${formattedResult}`);
               <CheckIcon color="success" sx={{ mr: 1, mt: 0.5 }} />
               <Box>
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  Code Validation
+                  Code-Validierung
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  Blocks dangerous patterns (eval, require, etc.)
+                  Blockiert gefährliche Muster (eval, require, usw.)
                 </Typography>
               </Box>
             </Box>
@@ -323,10 +323,10 @@ ${formattedResult}`);
               <CheckIcon color="success" sx={{ mr: 1, mt: 0.5 }} />
               <Box>
                 <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                  Execution Timeout
+                  Ausführungs-Timeout
                 </Typography>
                 <Typography variant="caption" color="text.secondary">
-                  Maximum 5 seconds per execution
+                  Maximal 5 Sekunden pro Ausführung
                 </Typography>
               </Box>
             </Box>
@@ -334,7 +334,7 @@ ${formattedResult}`);
 
           <Alert severity="warning" icon={<WarningIcon />}>
             <Typography variant="caption">
-              <strong>Security:</strong> All code executes in a secure, isolated environment with strict resource limits. Dangerous operations are blocked and logged.
+              <strong>Sicherheit:</strong> Jeglicher Code wird in einer sicheren, isolierten Umgebung mit strengen Ressourcenlimits ausgeführt. Gefährliche Operationen werden blockiert und protokolliert.
             </Typography>
           </Alert>
         </Grid>

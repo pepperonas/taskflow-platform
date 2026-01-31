@@ -44,10 +44,10 @@ const LoginPage: React.FC = () => {
       >
         <Paper elevation={3} sx={{ p: 4, width: '100%' }}>
           <Typography component="h1" variant="h4" align="center" gutterBottom>
-            TaskFlow Platform
+            TaskFlow Plattform
           </Typography>
           <Typography variant="h6" align="center" color="textSecondary" gutterBottom>
-            Sign in
+            Anmelden
           </Typography>
 
           {error && (
@@ -62,10 +62,10 @@ const LoginPage: React.FC = () => {
               required
               fullWidth
               id="username"
-              label="Username"
+              label="Benutzername"
               autoComplete="username"
               autoFocus
-              {...register('username', { required: 'Username is required' })}
+              {...register('username', { required: 'Benutzername erforderlich' })}
               error={!!errors.username}
               helperText={errors.username?.message}
             />
@@ -73,11 +73,11 @@ const LoginPage: React.FC = () => {
               margin="normal"
               required
               fullWidth
-              label="Password"
+              label="Passwort"
               type="password"
               id="password"
               autoComplete="current-password"
-              {...register('password', { required: 'Password is required' })}
+              {...register('password', { required: 'Passwort erforderlich' })}
               error={!!errors.password}
               helperText={errors.password?.message}
             />
@@ -88,11 +88,11 @@ const LoginPage: React.FC = () => {
               sx={{ mt: 3, mb: 2 }}
               disabled={loading}
             >
-              {loading ? 'Signing in...' : 'Sign In'}
+              {loading ? 'Anmeldung...' : 'Anmelden'}
             </Button>
             <Box textAlign="center">
               <Link component={RouterLink} to="/register" variant="body2">
-                Don't have an account? Sign Up
+                Noch kein Konto? Registrieren
               </Link>
             </Box>
           </Box>

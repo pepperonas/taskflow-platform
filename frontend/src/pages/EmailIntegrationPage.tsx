@@ -36,51 +36,51 @@ const EmailIntegrationPage: React.FC = () => {
 
   const templates = [
     {
-      title: 'Task Completion',
-      subject: 'Task {{ $trigger.task.name }} Completed',
-      body: `Hello {{ $trigger.user.name }},
+      title: 'Aufgabe abgeschlossen',
+      subject: 'Aufgabe {{ $trigger.task.name }} abgeschlossen',
+      body: `Hallo {{ $trigger.user.name }},
 
-Your task "{{ $trigger.task.name }}" has been completed.
+Deine Aufgabe "{{ $trigger.task.name }}" wurde abgeschlossen.
 
 Status: {{ $trigger.task.status }}
-Completed at: {{ $trigger.task.completedAt }}
+Abgeschlossen am: {{ $trigger.task.completedAt }}
 
-View task: {{ $trigger.task.url }}
+Aufgabe ansehen: {{ $trigger.task.url }}
 
-Best regards,
-TaskFlow Platform`,
-      description: 'Notify users when a task is completed',
+Mit freundlichen Grüßen,
+TaskFlow Plattform`,
+      description: 'Benutzer benachrichtigen, wenn eine Aufgabe abgeschlossen ist',
     },
     {
-      title: 'Workflow Alert',
-      subject: 'Workflow Execution Alert',
-      body: `Alert: {{ $trigger.workflow.name }}
+      title: 'Workflow-Warnung',
+      subject: 'Workflow-Ausführungswarnung',
+      body: `Warnung: {{ $trigger.workflow.name }}
 
-The workflow "{{ $trigger.workflow.name }}" has encountered an issue.
+Der Workflow "{{ $trigger.workflow.name }}" ist auf ein Problem gestoßen.
 
-Error: {{ $trigger.error.message }}
-Time: {{ $now() }}
+Fehler: {{ $trigger.error.message }}
+Zeit: {{ $now() }}
 
-Please review the workflow execution.
+Bitte überprüfe die Workflow-Ausführung.
 
-TaskFlow Platform`,
-      description: 'Send alerts for workflow errors',
+TaskFlow Plattform`,
+      description: 'Warnungen bei Workflow-Fehlern senden',
     },
     {
-      title: 'Welcome Email',
-      subject: 'Welcome to TaskFlow Platform',
-      body: `Hello {{ $trigger.user.name }},
+      title: 'Willkommens-E-Mail',
+      subject: 'Willkommen bei TaskFlow Plattform',
+      body: `Hallo {{ $trigger.user.name }},
 
-Welcome to TaskFlow Platform! We're excited to have you on board.
+Willkommen bei TaskFlow Plattform! Wir freuen uns, dich an Bord zu haben.
 
-Your account has been successfully created.
-Email: {{ $trigger.user.email }}
+Dein Konto wurde erfolgreich erstellt.
+E-Mail: {{ $trigger.user.email }}
 
-Get started by creating your first workflow.
+Starte mit der Erstellung deines ersten Workflows.
 
-Best regards,
+Mit freundlichen Grüßen,
 TaskFlow Team`,
-      description: 'Welcome new users',
+      description: 'Neue Benutzer begrüßen',
     },
   ];
 
@@ -163,22 +163,22 @@ TaskFlow Team`,
       <Box sx={{ mb: 4 }}>
         <Chip
           icon={<EmailIcon />}
-          label="Email Notifications"
+          label="E-Mail-Benachrichtigungen"
           sx={{ mb: 2, bgcolor: '#fa709a', color: 'white' }}
         />
         <Typography variant="h4" sx={{ fontWeight: 700, mb: 2 }}>
-          Email Node
+          E-Mail-Node
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-          Send automated emails with dynamic templates. Perfect for notifications, alerts, and user communications.
-          Supports HTML templates, attachments, and variable interpolation.
+          Sende automatisierte E-Mails mit dynamischen Vorlagen. Perfekt für Benachrichtigungen, Warnungen und Benutzerkommunikation.
+          Unterstützt HTML-Vorlagen, Anhänge und Variablen-Interpolation.
         </Typography>
         <Button
           variant="contained"
           onClick={() => navigate('/workflows/new')}
           sx={{ background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }}
         >
-          Create Email Workflow
+          E-Mail-Workflow erstellen
         </Button>
       </Box>
 
@@ -187,21 +187,21 @@ TaskFlow Team`,
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, height: '100%' }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Compose Email
+              E-Mail erstellen
             </Typography>
             <Alert severity="info" sx={{ mb: 2, fontSize: '12px' }}>
-              Use <code>{'{{ $trigger.field }}'}</code> or <code>{'{{ $vars.name }}'}</code> for dynamic content
+              Verwende <code>{'{{ $trigger.field }}'}</code> oder <code>{'{{ $vars.name }}'}</code> für dynamische Inhalte
             </Alert>
             <TextField
               fullWidth
-              label="To"
+              label="An"
               value={formData.to}
               onChange={(e) => setFormData({ ...formData, to: e.target.value })}
               sx={{ mb: 2 }}
             />
             <TextField
               fullWidth
-              label="Subject"
+              label="Betreff"
               value={formData.subject}
               onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
               sx={{ mb: 2 }}
@@ -210,7 +210,7 @@ TaskFlow Team`,
               fullWidth
               multiline
               rows={10}
-              label="Body"
+              label="Inhalt"
               value={formData.body}
               onChange={(e) => setFormData({ ...formData, body: e.target.value })}
               sx={{
@@ -232,7 +232,7 @@ TaskFlow Team`,
               disabled={loading}
               sx={{ background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)' }}
             >
-              Send Test Email
+              Test-E-Mail senden
             </Button>
           </Paper>
         </Grid>
@@ -241,13 +241,13 @@ TaskFlow Team`,
         <Grid item xs={12} md={6}>
           <Paper sx={{ p: 3, height: '100%' }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Send Result
+              Sende-Ergebnis
             </Typography>
             {loading && (
               <Box sx={{ textAlign: 'center', py: 4 }}>
                 <CircularProgress />
                 <Typography variant="body2" sx={{ mt: 2 }}>
-                  Sending email...
+                  E-Mail wird gesendet...
                 </Typography>
               </Box>
             )}
@@ -259,7 +259,7 @@ TaskFlow Team`,
             {result && (
               <>
                 <Alert severity="success" icon={<CheckIcon />} sx={{ mb: 2 }}>
-                  Email sent successfully!
+                  E-Mail erfolgreich gesendet!
                 </Alert>
                 <Box
                   sx={{
@@ -286,7 +286,7 @@ TaskFlow Team`,
               >
                 <EmailIcon sx={{ fontSize: 64, opacity: 0.3, mb: 2 }} />
                 <Typography variant="body2">
-                  Compose an email and click "Send Test Email" to see the result
+                  Erstelle eine E-Mail und klicke "Test-E-Mail senden" um das Ergebnis zu sehen
                 </Typography>
               </Box>
             )}
@@ -297,7 +297,7 @@ TaskFlow Team`,
         <Grid item xs={12}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Email Templates
+              E-Mail-Vorlagen
             </Typography>
             <Grid container spacing={2}>
               {templates.map((template, idx) => (
@@ -332,7 +332,7 @@ TaskFlow Team`,
                         onClick={() => handleUseTemplate(template)}
                         fullWidth
                       >
-                        Use Template
+                        Vorlage verwenden
                       </Button>
                     </CardContent>
                   </Card>
@@ -346,17 +346,17 @@ TaskFlow Team`,
         <Grid item xs={12}>
           <Paper sx={{ p: 3 }}>
             <Typography variant="h6" sx={{ fontWeight: 600, mb: 3 }}>
-              Features
+              Funktionen
             </Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6} md={3}>
                 <Box sx={{ textAlign: 'center' }}>
                   <CheckIcon color="success" sx={{ fontSize: 40, mb: 1 }} />
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                    HTML Support
+                    HTML-Unterstützung
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    Rich HTML email templates
+                    Reichhaltige HTML-E-Mail-Vorlagen
                   </Typography>
                 </Box>
               </Grid>
@@ -364,10 +364,10 @@ TaskFlow Team`,
                 <Box sx={{ textAlign: 'center' }}>
                   <CheckIcon color="success" sx={{ fontSize: 40, mb: 1 }} />
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                    Variable Interpolation
+                    Variablen-Interpolation
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    Dynamic content with {'{{ }}'} syntax
+                    Dynamische Inhalte mit {'{{ }}'} Syntax
                   </Typography>
                 </Box>
               </Grid>
@@ -375,10 +375,10 @@ TaskFlow Team`,
                 <Box sx={{ textAlign: 'center' }}>
                   <CheckIcon color="success" sx={{ fontSize: 40, mb: 1 }} />
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                    Attachments
+                    Anhänge
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    Attach files from workflow data
+                    Dateien aus Workflow-Daten anhängen
                   </Typography>
                 </Box>
               </Grid>
@@ -386,10 +386,10 @@ TaskFlow Team`,
                 <Box sx={{ textAlign: 'center' }}>
                   <CheckIcon color="success" sx={{ fontSize: 40, mb: 1 }} />
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
-                    SMTP Configuration
+                    SMTP-Konfiguration
                   </Typography>
                   <Typography variant="caption" color="text.secondary">
-                    Use your own SMTP server
+                    Eigenen SMTP-Server verwenden
                   </Typography>
                 </Box>
               </Grid>

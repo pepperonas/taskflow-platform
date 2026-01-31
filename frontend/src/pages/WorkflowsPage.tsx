@@ -63,7 +63,7 @@ const WorkflowsPage: React.FC = () => {
       setLoading(false);
     } catch (err: any) {
       console.error('Error fetching workflows:', err);
-      setError(err.response?.data?.message || 'Failed to load workflows');
+      setError(err.response?.data?.message || 'Workflows konnten nicht geladen werden');
       setLoading(false);
     }
   };
@@ -76,14 +76,14 @@ const WorkflowsPage: React.FC = () => {
 
       setSnackbar({
         open: true,
-        message: 'Workflow executed successfully!',
+        message: 'Workflow erfolgreich ausgeführt!',
         severity: 'success',
       });
     } catch (err: any) {
       console.error('Error executing workflow:', err);
       setSnackbar({
         open: true,
-        message: err.response?.data?.message || 'Failed to execute workflow',
+        message: err.response?.data?.message || 'Workflow konnte nicht ausgeführt werden',
         severity: 'error',
       });
     }
@@ -104,7 +104,7 @@ const WorkflowsPage: React.FC = () => {
 
       setSnackbar({
         open: true,
-        message: 'Workflow deleted successfully',
+        message: 'Workflow erfolgreich gelöscht',
         severity: 'success',
       });
 
@@ -116,7 +116,7 @@ const WorkflowsPage: React.FC = () => {
       console.error('Error deleting workflow:', err);
       setSnackbar({
         open: true,
-        message: err.response?.data?.message || 'Failed to delete workflow',
+        message: err.response?.data?.message || 'Workflow konnte nicht gelöscht werden',
         severity: 'error',
       });
     } finally {
@@ -149,7 +149,7 @@ const WorkflowsPage: React.FC = () => {
           Workflows
         </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-          Create and manage automated workflows with visual editor
+          Erstelle und verwalte automatisierte Workflows mit dem visuellen Editor
         </Typography>
         <Button
           variant="contained"
@@ -157,14 +157,14 @@ const WorkflowsPage: React.FC = () => {
           onClick={() => navigate('/workflows/new')}
           sx={{ background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
         >
-          Create Workflow
+          Workflow erstellen
         </Button>
       </Box>
 
       <Paper sx={{ p: 3 }}>
         <Box sx={{ mb: 3 }}>
           <Typography variant="h6" sx={{ fontWeight: 600 }}>
-            Your Workflows
+            Deine Workflows
           </Typography>
         </Box>
 
@@ -183,10 +183,10 @@ const WorkflowsPage: React.FC = () => {
         {!loading && !error && workflows.length === 0 && (
           <Box textAlign="center" p={4}>
             <Typography variant="body1" color="textSecondary" gutterBottom>
-              No workflows yet. Create your first automated workflow!
+              Noch keine Workflows. Erstelle deinen ersten automatisierten Workflow!
             </Typography>
             <Typography variant="body2" color="textSecondary" sx={{ mt: 2 }}>
-              💡 The workflow execution engine is ready. Frontend builder coming soon!
+              💡 Die Workflow-Engine ist bereit. Der visuelle Builder ist einsatzbereit!
             </Typography>
           </Box>
         )}
@@ -208,7 +208,7 @@ const WorkflowsPage: React.FC = () => {
                         navigate(`/workflows/${workflow.id}/edit`);
                       }}
                     >
-                      Edit
+                      Bearbeiten
                     </Button>
                     <Button
                       variant="outlined"
@@ -216,7 +216,7 @@ const WorkflowsPage: React.FC = () => {
                       startIcon={<PlayIcon />}
                       onClick={(e) => handleExecuteWorkflow(workflow.id, e)}
                     >
-                      Execute
+                      Ausführen
                     </Button>
                     <IconButton
                       edge="end"
@@ -235,7 +235,7 @@ const WorkflowsPage: React.FC = () => {
                     secondary={
                       <Box sx={{ mt: 1 }}>
                         <Typography variant="body2" color="text.secondary" gutterBottom>
-                          {workflow.description || 'No description'}
+                          {workflow.description || 'Keine Beschreibung'}
                         </Typography>
                         <Chip
                           label={workflow.status}
@@ -244,7 +244,7 @@ const WorkflowsPage: React.FC = () => {
                           sx={{ mr: 1 }}
                         />
                         <Typography variant="caption" color="text.secondary">
-                          Created: {new Date(workflow.createdAt).toLocaleDateString()}
+                          Erstellt: {new Date(workflow.createdAt).toLocaleDateString('de-DE')}
                         </Typography>
                       </Box>
                     }
@@ -264,17 +264,17 @@ const WorkflowsPage: React.FC = () => {
         aria-describedby="delete-dialog-description"
       >
         <DialogTitle id="delete-dialog-title">
-          Delete Workflow
+          Workflow löschen
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="delete-dialog-description">
-            Are you sure you want to delete the workflow "{workflowToDelete?.name}"? 
-            This action cannot be undone.
+            Bist du sicher, dass du den Workflow "{workflowToDelete?.name}" löschen möchtest? 
+            Diese Aktion kann nicht rückgängig gemacht werden.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleDeleteCancel} disabled={deleting}>
-            Cancel
+            Abbrechen
           </Button>
           <Button
             onClick={handleDeleteConfirm}
@@ -283,7 +283,7 @@ const WorkflowsPage: React.FC = () => {
             disabled={deleting}
             startIcon={deleting ? <CircularProgress size={16} /> : <DeleteIcon />}
           >
-            {deleting ? 'Deleting...' : 'Delete'}
+            {deleting ? 'Wird gelöscht...' : 'Löschen'}
           </Button>
         </DialogActions>
       </Dialog>
