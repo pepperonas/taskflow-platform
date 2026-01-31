@@ -70,48 +70,48 @@ const ShowcasePage: React.FC = () => {
   const features = [
     {
       icon: <WorkflowIcon sx={{ fontSize: 40 }} />,
-      title: 'Visual Workflow Builder',
-      description: 'Drag-and-drop workflow editor with real-time execution',
+      title: 'Visueller Workflow-Builder',
+      description: 'Drag-and-Drop Workflow-Editor mit Echtzeit-Ausführung',
       color: '#667eea',
       path: '/workflows/new',
       demo: 'workflow',
     },
     {
       icon: <HttpIcon sx={{ fontSize: 40 }} />,
-      title: 'HTTP Request Node',
-      description: 'Call any REST API with custom headers and authentication',
+      title: 'HTTP-Request-Node',
+      description: 'Beliebige REST-APIs mit benutzerdefinierten Headern und Authentifizierung aufrufen',
       color: '#f093fb',
       path: '/integrations/http',
       demo: 'http',
     },
     {
       icon: <CodeIcon sx={{ fontSize: 40 }} />,
-      title: 'JavaScript Code Executor',
-      description: 'Run custom JavaScript in a sandboxed environment',
+      title: 'JavaScript Code-Ausführung',
+      description: 'Eigenen JavaScript-Code in einer Sandbox-Umgebung ausführen',
       color: '#4facfe',
       path: '/integrations/code',
       demo: 'code',
     },
     {
       icon: <DatabaseIcon sx={{ fontSize: 40 }} />,
-      title: 'Database Integration',
-      description: 'Execute SQL queries and manage data',
+      title: 'Datenbank-Integration',
+      description: 'SQL-Abfragen ausführen und Daten verwalten',
       color: '#43e97b',
       path: '/integrations/database',
       demo: 'database',
     },
     {
       icon: <EmailIcon sx={{ fontSize: 40 }} />,
-      title: 'Email Notifications',
-      description: 'Send automated emails with templates',
+      title: 'E-Mail-Benachrichtigungen',
+      description: 'Automatisierte E-Mails mit Vorlagen senden',
       color: '#fa709a',
       path: '/integrations/email',
       demo: 'email',
     },
     {
       icon: <CredentialsIcon sx={{ fontSize: 40 }} />,
-      title: 'Secure Credentials',
-      description: 'AES-256 encrypted credential storage',
+      title: 'Sichere Zugangsdaten',
+      description: 'AES-256 verschlüsselte Credential-Speicherung',
       color: '#30cfd0',
       path: '/credentials',
       demo: 'credentials',
@@ -119,45 +119,45 @@ const ShowcasePage: React.FC = () => {
   ];
 
   const stats = [
-    { label: 'Node Types', value: '8+', icon: <ExtensionIcon /> },
-    { label: 'Execution Speed', value: '<100ms', icon: <SpeedIcon /> },
-    { label: 'Security', value: 'AES-256', icon: <SecurityIcon /> },
-    { label: 'Integrations', value: 'Unlimited', icon: <BoltIcon /> },
+    { label: 'Node-Typen', value: '8+', icon: <ExtensionIcon /> },
+    { label: 'Ausführungszeit', value: '<100ms', icon: <SpeedIcon /> },
+    { label: 'Sicherheit', value: 'AES-256', icon: <SecurityIcon /> },
+    { label: 'Integrationen', value: 'Unbegrenzt', icon: <BoltIcon /> },
   ];
 
   const useCases = [
     {
-      title: 'API Integration Workflow',
-      description: 'Fetch data from external APIs, transform it, and create tasks automatically',
-      steps: ['HTTP Request Node', 'Code Node (Transform)', 'Create Task Node'],
+      title: 'API-Integrations-Workflow',
+      description: 'Daten von externen APIs abrufen, transformieren und automatisch Tasks erstellen',
+      steps: ['HTTP-Request-Node', 'Code-Node (Transformation)', 'Task-Erstellen-Node'],
     },
     {
-      title: 'Automated Email Reports',
-      description: 'Query database, generate report, and email to stakeholders',
-      steps: ['Database Query', 'Code Node (Format)', 'Email Node'],
+      title: 'Automatisierte E-Mail-Berichte',
+      description: 'Datenbank abfragen, Bericht generieren und an Stakeholder per E-Mail senden',
+      steps: ['Datenbank-Abfrage', 'Code-Node (Formatierung)', 'E-Mail-Node'],
     },
     {
-      title: 'Multi-step Approval Process',
-      description: 'Create task, wait for approval, execute action based on decision',
-      steps: ['Create Task', 'Condition Node', 'HTTP Request / Email'],
+      title: 'Mehrstufiger Genehmigungsprozess',
+      description: 'Task erstellen, auf Genehmigung warten, Aktion basierend auf Entscheidung ausführen',
+      steps: ['Task erstellen', 'Bedingungs-Node', 'HTTP-Request / E-Mail'],
     },
   ];
 
   const demoWorkflows = {
     workflow: {
-      title: 'Build a Workflow',
-      description: 'Create complex automation workflows with our visual editor',
+      title: 'Workflow erstellen',
+      description: 'Komplexe Automatisierungs-Workflows mit unserem visuellen Editor erstellen',
       steps: [
-        'Add a Trigger node to start your workflow',
-        'Connect HTTP Request node to call external APIs',
-        'Use Code node to transform the response',
-        'Add Create Task node to store results',
-        'Execute and see live results',
+        'Trigger-Node hinzufügen, um den Workflow zu starten',
+        'HTTP-Request-Node verbinden, um externe APIs aufzurufen',
+        'Code-Node verwenden, um die Antwort zu transformieren',
+        'Task-Erstellen-Node hinzufügen, um Ergebnisse zu speichern',
+        'Ausführen und Live-Ergebnisse sehen',
       ],
     },
     http: {
-      title: 'HTTP Request Demo',
-      description: 'Call any REST API with authentication and custom headers',
+      title: 'HTTP-Request Demo',
+      description: 'Beliebige REST-APIs mit Authentifizierung und benutzerdefinierten Headern aufrufen',
       code: `{
   "method": "GET",
   "url": "https://api.github.com/users/github",
@@ -167,49 +167,49 @@ const ShowcasePage: React.FC = () => {
 }`,
     },
     code: {
-      title: 'JavaScript Executor Demo',
-      description: 'Run custom JavaScript with access to workflow context',
-      code: `// Access trigger data
+      title: 'JavaScript-Ausführung Demo',
+      description: 'Eigenen JavaScript-Code mit Zugriff auf den Workflow-Kontext ausführen',
+      code: `// Trigger-Daten abrufen
 const userData = $trigger.data;
 
-// Transform data
+// Daten transformieren
 const result = {
   fullName: \`\${userData.firstName} \${userData.lastName}\`,
   email: userData.email.toLowerCase(),
   createdAt: $now()
 };
 
-// Return result
+// Ergebnis zurückgeben
 return result;`,
     },
   };
 
   const techStack = {
     backend: [
-      { name: 'Java 17', description: 'Modern Java with latest features' },
-      { name: 'Spring Boot 3.2.1', description: 'Enterprise-grade framework' },
-      { name: 'Apache Kafka', description: 'Event-driven messaging' },
-      { name: 'PostgreSQL 15', description: 'Reliable relational database' },
-      { name: 'Spring Data JPA', description: 'Data access layer' },
-      { name: 'Spring Security', description: 'JWT authentication & authorization' },
-      { name: 'Liquibase', description: 'Database migrations' },
-      { name: 'OpenAPI 3.0', description: 'API documentation' },
+      { name: 'Java 17', description: 'Modernes Java mit neuesten Features' },
+      { name: 'Spring Boot 3.2.1', description: 'Enterprise-Framework' },
+      { name: 'Apache Kafka', description: 'Event-getriebenes Messaging' },
+      { name: 'PostgreSQL 15', description: 'Zuverlässige relationale Datenbank' },
+      { name: 'Spring Data JPA', description: 'Datenzugriffsschicht' },
+      { name: 'Spring Security', description: 'JWT-Authentifizierung & -Autorisierung' },
+      { name: 'Liquibase', description: 'Datenbank-Migrationen' },
+      { name: 'OpenAPI 3.0', description: 'API-Dokumentation' },
     ],
     frontend: [
-      { name: 'React 18', description: 'Modern UI library' },
-      { name: 'TypeScript 5.3', description: 'Type-safe JavaScript' },
-      { name: 'Redux Toolkit', description: 'State management' },
-      { name: 'Material-UI (MUI)', description: 'Component library' },
-      { name: 'React Flow', description: 'Workflow visualization' },
-      { name: 'Axios', description: 'HTTP client' },
-      { name: 'Recharts', description: 'Data visualization' },
+      { name: 'React 18', description: 'Moderne UI-Bibliothek' },
+      { name: 'TypeScript 5.3', description: 'Typsicheres JavaScript' },
+      { name: 'Redux Toolkit', description: 'State-Management' },
+      { name: 'Material-UI (MUI)', description: 'Komponenten-Bibliothek' },
+      { name: 'React Flow', description: 'Workflow-Visualisierung' },
+      { name: 'Axios', description: 'HTTP-Client' },
+      { name: 'Recharts', description: 'Daten-Visualisierung' },
     ],
     devops: [
-      { name: 'Docker', description: 'Containerization' },
-      { name: 'Docker Compose', description: 'Multi-container orchestration' },
-      { name: 'Nginx', description: 'Reverse proxy & load balancing' },
-      { name: 'GitHub Actions', description: 'CI/CD pipeline' },
-      { name: 'Maven', description: 'Build management' },
+      { name: 'Docker', description: 'Containerisierung' },
+      { name: 'Docker Compose', description: 'Multi-Container-Orchestrierung' },
+      { name: 'Nginx', description: 'Reverse Proxy & Load Balancing' },
+      { name: 'GitHub Actions', description: 'CI/CD-Pipeline' },
+      { name: 'Maven', description: 'Build-Management' },
     ],
   };
 
@@ -220,7 +220,7 @@ return result;`,
         <Box sx={{ textAlign: 'center', mb: 6 }}>
           <Chip
             icon={<AutoAwesomeIcon />}
-            label="Interactive Showcase"
+            label="Interaktive Übersicht"
             sx={{
               mb: 2,
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
@@ -239,10 +239,10 @@ return result;`,
               WebkitTextFillColor: 'transparent',
             }}
           >
-            TaskFlow Platform
+            TaskFlow Plattform
           </Typography>
           <Typography variant="h5" sx={{ color: 'text.secondary', mb: 4, maxWidth: 800, mx: 'auto' }}>
-            Next-generation workflow automation platform with visual editor, code execution, and powerful integrations
+            Workflow-Automatisierungsplattform der nächsten Generation mit visuellem Editor, Code-Ausführung und leistungsstarken Integrationen
           </Typography>
           <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
             <Button
@@ -256,7 +256,7 @@ return result;`,
                 py: 1.5,
               }}
             >
-              Try Workflow Editor
+              Workflow-Editor testen
             </Button>
             <Button
               variant="outlined"
@@ -264,7 +264,7 @@ return result;`,
               onClick={() => setTabValue(1)}
               sx={{ px: 4, py: 1.5 }}
             >
-              View Demos
+              Demos ansehen
             </Button>
             <Button
               variant="outlined"
@@ -275,7 +275,7 @@ return result;`,
               rel="noopener noreferrer"
               sx={{ px: 4, py: 1.5 }}
             >
-              Backend API
+              Backend-API
             </Button>
             <Button
               variant="outlined"
@@ -294,27 +294,27 @@ return result;`,
         {/* Project Overview */}
         <Paper sx={{ p: 4, mb: 4, background: 'linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%)' }}>
           <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, textAlign: 'center' }}>
-            About TaskFlow Platform
+            Über TaskFlow Plattform
           </Typography>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
               <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'primary.main' }}>
-                What is TaskFlow?
+                Was ist TaskFlow?
               </Typography>
               <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-                TaskFlow is a modern, event-driven task management and workflow automation platform. 
-                It combines the power of visual workflow editing with code execution, database integration, 
-                and API connectivity to create a comprehensive automation solution.
+                TaskFlow ist eine moderne, event-getriebene Aufgabenverwaltungs- und Workflow-Automatisierungsplattform. 
+                Sie kombiniert die Stärke des visuellen Workflow-Editors mit Code-Ausführung, Datenbank-Integration 
+                und API-Anbindung zu einer umfassenden Automatisierungslösung.
               </Typography>
               <Typography variant="body1" color="text.secondary">
-                Built with enterprise-grade technologies, TaskFlow provides a scalable, secure, and 
-                user-friendly platform for automating business processes, managing tasks, and integrating 
-                with external systems.
+                Mit Enterprise-Technologien gebaut, bietet TaskFlow eine skalierbare, sichere und 
+                benutzerfreundliche Plattform zur Automatisierung von Geschäftsprozessen, Aufgabenverwaltung 
+                und Integration mit externen Systemen.
               </Typography>
             </Grid>
             <Grid item xs={12} md={6}>
               <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'primary.main' }}>
-                Key Capabilities
+                Hauptfunktionen
               </Typography>
               <List>
                 <ListItem>
@@ -322,8 +322,8 @@ return result;`,
                     <WorkflowIcon color="primary" />
                   </ListItemIcon>
                   <ListItemText 
-                    primary="Visual Workflow Builder"
-                    secondary="Drag-and-drop interface for creating complex automation workflows"
+                    primary="Visueller Workflow-Builder"
+                    secondary="Drag-and-Drop-Oberfläche zum Erstellen komplexer Automatisierungs-Workflows"
                   />
                 </ListItem>
                 <ListItem>
@@ -331,8 +331,8 @@ return result;`,
                     <CodeIcon color="primary" />
                   </ListItemIcon>
                   <ListItemText 
-                    primary="Code Execution"
-                    secondary="Run JavaScript code in a secure, sandboxed environment"
+                    primary="Code-Ausführung"
+                    secondary="JavaScript-Code in einer sicheren Sandbox-Umgebung ausführen"
                   />
                 </ListItem>
                 <ListItem>
@@ -340,8 +340,8 @@ return result;`,
                     <DatabaseIcon color="primary" />
                   </ListItemIcon>
                   <ListItemText 
-                    primary="Database Integration"
-                    secondary="Execute SQL queries with built-in security protection"
+                    primary="Datenbank-Integration"
+                    secondary="SQL-Abfragen mit integriertem Sicherheitsschutz ausführen"
                   />
                 </ListItem>
                 <ListItem>
@@ -349,8 +349,8 @@ return result;`,
                     <EmailIcon color="primary" />
                   </ListItemIcon>
                   <ListItemText 
-                    primary="Email Automation"
-                    secondary="Send automated emails with HTML templates"
+                    primary="E-Mail-Automatisierung"
+                    secondary="Automatisierte E-Mails mit HTML-Vorlagen senden"
                   />
                 </ListItem>
               </List>
@@ -376,12 +376,12 @@ return result;`,
                 <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
                   <ApiIcon sx={{ fontSize: 40, mr: 2 }} />
                   <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                    Backend API
+                    Backend-API
                   </Typography>
                 </Box>
                 <Typography variant="body1" sx={{ mb: 3, opacity: 0.9 }}>
-                  Access the RESTful API endpoints for tasks, workflows, credentials, and more.
-                  All endpoints are secured with JWT authentication.
+                  Zugriff auf die RESTful-API-Endpunkte für Tasks, Workflows, Credentials und mehr.
+                  Alle Endpunkte sind mit JWT-Authentifizierung gesichert.
                 </Typography>
                 <Button
                   variant="contained"
@@ -395,7 +395,7 @@ return result;`,
                     '&:hover': { bgcolor: 'grey.100' },
                   }}
                 >
-                  Explore API
+                  API erkunden
                 </Button>
               </CardContent>
             </Card>
@@ -420,8 +420,8 @@ return result;`,
                   </Typography>
                 </Box>
                 <Typography variant="body1" sx={{ mb: 3, opacity: 0.9 }}>
-                  Interactive API documentation with OpenAPI 3.0. Test endpoints directly 
-                  from your browser with built-in authentication support.
+                  Interaktive API-Dokumentation mit OpenAPI 3.0. Endpunkte direkt 
+                  im Browser mit integrierter Authentifizierungsunterstützung testen.
                 </Typography>
                 <Button
                   variant="contained"
@@ -435,7 +435,7 @@ return result;`,
                     '&:hover': { bgcolor: 'grey.100' },
                   }}
                 >
-                  Open Swagger UI
+                  Swagger UI öffnen
                 </Button>
               </CardContent>
             </Card>
@@ -492,10 +492,10 @@ return result;`,
               }
             }}
           >
-            <Tab label="Features" />
-            <Tab label="Interactive Demos" />
-            <Tab label="Use Cases" />
-            <Tab label="Technologies & Architecture" />
+            <Tab label="Funktionen" />
+            <Tab label="Interaktive Demos" />
+            <Tab label="Anwendungsfälle" />
+            <Tab label="Technologien & Architektur" />
           </Tabs>
 
           {/* Tab 1: Features */}
@@ -542,7 +542,7 @@ return result;`,
                         endIcon={<PlayIcon />}
                         sx={{ color: feature.color }}
                       >
-                        Try Now
+                        Jetzt testen
                       </Button>
                     </CardContent>
                   </Card>
@@ -558,10 +558,10 @@ return result;`,
                 <Paper sx={{ p: 3, height: '100%' }}>
                   <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
                     <HttpIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
-                    HTTP Request Demo
+                    HTTP-Request Demo
                   </Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                    Call any REST API with authentication and custom headers
+                    Beliebige REST-APIs mit Authentifizierung und benutzerdefinierten Headern aufrufen
                   </Typography>
                   <Box
                     sx={{
@@ -582,7 +582,7 @@ return result;`,
                     fullWidth
                     onClick={() => navigate('/workflows/new')}
                   >
-                    Create HTTP Request Workflow
+                    HTTP-Request-Workflow erstellen
                   </Button>
                 </Paper>
               </Grid>
@@ -591,10 +591,10 @@ return result;`,
                 <Paper sx={{ p: 3, height: '100%' }}>
                   <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
                     <CodeIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
-                    JavaScript Executor Demo
+                    JavaScript-Ausführung Demo
                   </Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                    Run custom JavaScript with access to workflow context
+                    Eigenen JavaScript-Code mit Zugriff auf den Workflow-Kontext ausführen
                   </Typography>
                   <Box
                     sx={{
@@ -615,14 +615,14 @@ return result;`,
                     fullWidth
                     onClick={() => navigate('/workflows/new')}
                   >
-                    Create Code Workflow
+                    Code-Workflow erstellen
                   </Button>
                 </Paper>
               </Grid>
 
               <Grid item xs={12}>
                 <Alert severity="info">
-                  <strong>Try it yourself!</strong> Click on any "Create Workflow" button to open the visual workflow editor and start building your automation.
+                  <strong>Probiere es selbst aus!</strong> Klicke auf einen "Workflow erstellen"-Button, um den visuellen Workflow-Editor zu öffnen und deine Automatisierung zu erstellen.
                 </Alert>
               </Grid>
             </Grid>
@@ -643,7 +643,7 @@ return result;`,
                       </Typography>
                       <Divider sx={{ my: 2 }} />
                       <Typography variant="caption" sx={{ fontWeight: 600, color: 'primary.main' }}>
-                        WORKFLOW STEPS:
+                        WORKFLOW-SCHRITTE:
                       </Typography>
                       <Stepper orientation="vertical" sx={{ mt: 1 }}>
                         {useCase.steps.map((step, stepIdx) => (
@@ -1082,7 +1082,7 @@ return result;`,
         {/* Quick Start Guide */}
         <Paper sx={{ p: 4, background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', color: 'white' }}>
           <Typography variant="h5" sx={{ fontWeight: 700, mb: 3, textAlign: 'center' }}>
-            Get Started in 3 Simple Steps
+            In 3 einfachen Schritten starten
           </Typography>
           <Grid container spacing={3}>
             <Grid item xs={12} md={4}>
@@ -1090,9 +1090,9 @@ return result;`,
                 <Avatar sx={{ width: 64, height: 64, bgcolor: 'rgba(255,255,255,0.2)', mx: 'auto', mb: 2 }}>
                   <Typography variant="h4">1</Typography>
                 </Avatar>
-                <Typography variant="h6" sx={{ mb: 1 }}>Create Workflow</Typography>
+                <Typography variant="h6" sx={{ mb: 1 }}>Workflow erstellen</Typography>
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                  Open the visual editor and drag nodes onto the canvas
+                  Öffne den visuellen Editor und ziehe Nodes auf die Arbeitsfläche
                 </Typography>
               </Box>
             </Grid>
@@ -1101,9 +1101,9 @@ return result;`,
                 <Avatar sx={{ width: 64, height: 64, bgcolor: 'rgba(255,255,255,0.2)', mx: 'auto', mb: 2 }}>
                   <Typography variant="h4">2</Typography>
                 </Avatar>
-                <Typography variant="h6" sx={{ mb: 1 }}>Configure Nodes</Typography>
+                <Typography variant="h6" sx={{ mb: 1 }}>Nodes konfigurieren</Typography>
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                  Set up HTTP requests, code logic, and task creation
+                  HTTP-Requests, Code-Logik und Task-Erstellung einrichten
                 </Typography>
               </Box>
             </Grid>
@@ -1112,9 +1112,9 @@ return result;`,
                 <Avatar sx={{ width: 64, height: 64, bgcolor: 'rgba(255,255,255,0.2)', mx: 'auto', mb: 2 }}>
                   <Typography variant="h4">3</Typography>
                 </Avatar>
-                <Typography variant="h6" sx={{ mb: 1 }}>Execute & Monitor</Typography>
+                <Typography variant="h6" sx={{ mb: 1 }}>Ausführen & Überwachen</Typography>
                 <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                  Run your workflow and see real-time execution results
+                  Workflow ausführen und Echtzeit-Ergebnisse sehen
                 </Typography>
               </Box>
             </Grid>
@@ -1133,7 +1133,7 @@ return result;`,
                 mr: 2,
               }}
             >
-              Start Building Now
+              Jetzt loslegen
             </Button>
             <Button
               variant="outlined"
@@ -1150,7 +1150,7 @@ return result;`,
                 py: 1.5,
               }}
             >
-              View on GitHub
+              Auf GitHub ansehen
             </Button>
           </Box>
         </Paper>
