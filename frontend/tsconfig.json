@@ -15,7 +15,17 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "src",
-    "types": ["node"]
+    "types": ["node", "jest"]
   },
-  "include": ["src", "src/shims-vue.d.ts"]
+  "include": ["src", "src/shims-vue.d.ts"],
+  "exclude": [
+    "node_modules",
+    "**/__tests__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.spec.ts",
+    "**/*.spec.tsx",
+    "src/setupTests.ts",
+    "src/testSetupBeforeEnv.ts"
+  ]
 }
