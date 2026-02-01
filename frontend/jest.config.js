@@ -3,14 +3,6 @@ module.exports = {
   testEnvironment: 'jsdom',
   // Ensure Jest globals (describe, it, expect, jest) are available
   injectGlobals: true,
-  // Globals available in test files
-  globals: {
-    'ts-jest': {
-      tsconfig: {
-        jsx: 'react-jsx',
-      },
-    },
-  },
   // Setup files that run BEFORE test environment
   setupFiles: ['<rootDir>/src/testSetupBeforeEnv.ts'],
   // Setup files that run AFTER test environment (for DOM matchers etc.)
@@ -20,7 +12,9 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   transform: {
-    '^.+\\.(ts|tsx)$': 'ts-jest',
+    '^.+\\.(ts|tsx)$': ['ts-jest', {
+      tsconfig: '<rootDir>/tsconfig.test.json',
+    }],
     '^.+\\.(js|jsx)$': 'babel-jest',
   },
   // Transform axios and other ES modules
