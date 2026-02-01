@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
     if (login.fulfilled.match(result)) {
       // Wait longer to ensure token is stored, axios interceptor is ready, and Redux state is updated
       setTimeout(() => {
-        navigate('/dashboard', { replace: true });
+        navigate('/showcase', { replace: true });
       }, 500);
     }
   };
