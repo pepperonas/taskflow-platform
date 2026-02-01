@@ -45,6 +45,11 @@ import {
   Storage as StorageIcon,
   Lock as LockIcon,
   Web as WebIcon,
+  Science as TestIcon,
+  BugReport as BugIcon,
+  Verified as VerifiedIcon,
+  Timeline as TimelineIcon,
+  Memory as MemoryIcon,
 } from '@mui/icons-material';
 
 interface TabPanelProps {
@@ -495,6 +500,7 @@ return result;`,
             <Tab label="Funktionen" />
             <Tab label="Interaktive Demos" />
             <Tab label="Anwendungsfälle" />
+            <Tab label="Tests & CI/CD" />
             <Tab label="Technologien & Architektur" />
           </Tabs>
 
@@ -665,8 +671,281 @@ return result;`,
             </Grid>
           </TabPanel>
 
-          {/* Tab 4: Technologies & Architecture */}
+          {/* Tab 4: Tests & CI/CD */}
           <TabPanel value={tabValue} index={3}>
+            {/* GitHub Actions Badge */}
+            <Box sx={{ textAlign: 'center', mb: 4 }}>
+              <Link
+                href="https://github.com/pepperonas/taskflow-platform/actions/workflows/tests.yml"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  src="https://github.com/pepperonas/taskflow-platform/actions/workflows/tests.yml/badge.svg"
+                  alt="Tests"
+                  style={{ height: 28 }}
+                />
+              </Link>
+              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                Automatisierte Tests werden bei jedem Push auf GitHub ausgeführt
+              </Typography>
+            </Box>
+
+            {/* Test Overview */}
+            <Grid container spacing={4} sx={{ mb: 4 }}>
+              {/* Backend Tests */}
+              <Grid item xs={12} md={4}>
+                <Paper
+                  sx={{
+                    p: 3,
+                    height: '100%',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    color: 'white',
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <TestIcon sx={{ fontSize: 40, mr: 2 }} />
+                    <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                      Backend Tests
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" sx={{ mb: 3, opacity: 0.9 }}>
+                    Unit- und Controller-Tests für die Java/Spring Boot Anwendung
+                  </Typography>
+                  <List sx={{ '& .MuiListItemIcon-root': { color: 'white', minWidth: 36 } }}>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="JUnit 5" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>Test-Framework</span>} />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="Mockito" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>Mock-Framework</span>} />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="Spring Test" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>MockMvc für Controller</span>} />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="Testcontainers" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>PostgreSQL Container</span>} />
+                    </ListItem>
+                  </List>
+                </Paper>
+              </Grid>
+
+              {/* Frontend Tests */}
+              <Grid item xs={12} md={4}>
+                <Paper
+                  sx={{
+                    p: 3,
+                    height: '100%',
+                    background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                    color: 'white',
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <MemoryIcon sx={{ fontSize: 40, mr: 2 }} />
+                    <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                      Frontend Tests
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" sx={{ mb: 3, opacity: 0.9 }}>
+                    Component- und Unit-Tests für die React/TypeScript Anwendung
+                  </Typography>
+                  <List sx={{ '& .MuiListItemIcon-root': { color: 'white', minWidth: 36 } }}>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="Jest" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>Test-Runner</span>} />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="React Testing Library" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>Component-Tests</span>} />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="Redux Slice Tests" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>State-Management</span>} />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="Coverage Reports" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>Code-Abdeckung</span>} />
+                    </ListItem>
+                  </List>
+                </Paper>
+              </Grid>
+
+              {/* E2E Tests */}
+              <Grid item xs={12} md={4}>
+                <Paper
+                  sx={{
+                    p: 3,
+                    height: '100%',
+                    background: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+                    color: 'white',
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                    <BugIcon sx={{ fontSize: 40, mr: 2 }} />
+                    <Typography variant="h5" sx={{ fontWeight: 700 }}>
+                      E2E Tests
+                    </Typography>
+                  </Box>
+                  <Typography variant="body2" sx={{ mb: 3, opacity: 0.9 }}>
+                    End-to-End Tests simulieren echte Benutzerinteraktionen
+                  </Typography>
+                  <List sx={{ '& .MuiListItemIcon-root': { color: 'white', minWidth: 36 } }}>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="Playwright" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>Browser-Automatisierung</span>} />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="Login/Logout Flow" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>Authentifizierung</span>} />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="Task CRUD" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>Aufgaben-Verwaltung</span>} />
+                    </ListItem>
+                    <ListItem sx={{ px: 0 }}>
+                      <ListItemIcon><CheckIcon /></ListItemIcon>
+                      <ListItemText primary="Workflow Editor" secondary={<span style={{ color: 'rgba(255,255,255,0.7)' }}>Visual Editor Tests</span>} />
+                    </ListItem>
+                  </List>
+                </Paper>
+              </Grid>
+            </Grid>
+
+            {/* CI/CD Pipeline */}
+            <Paper sx={{ p: 4, background: 'linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%)' }}>
+              <Typography variant="h5" sx={{ fontWeight: 700, mb: 1, textAlign: 'center' }}>
+                <TimelineIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+                CI/CD Pipeline mit GitHub Actions
+              </Typography>
+              <Typography variant="body1" color="text.secondary" sx={{ mb: 4, textAlign: 'center', maxWidth: 800, mx: 'auto' }}>
+                Automatisierte Tests und Deployments gewährleisten konstante Code-Qualität
+              </Typography>
+
+              {/* Pipeline Steps */}
+              <Stepper orientation="vertical" sx={{ maxWidth: 700, mx: 'auto' }}>
+                <Step active completed>
+                  <StepLabel
+                    StepIconComponent={() => (
+                      <Avatar sx={{ bgcolor: 'primary.main', width: 36, height: 36 }}>
+                        <GitHubIcon sx={{ fontSize: 20 }} />
+                      </Avatar>
+                    )}
+                  >
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                      Code Push / Pull Request
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Entwickler pusht Code zu GitHub oder erstellt einen Pull Request
+                    </Typography>
+                  </StepLabel>
+                </Step>
+                <Step active completed>
+                  <StepLabel
+                    StepIconComponent={() => (
+                      <Avatar sx={{ bgcolor: '#667eea', width: 36, height: 36 }}>
+                        <TestIcon sx={{ fontSize: 20 }} />
+                      </Avatar>
+                    )}
+                  >
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                      Backend Tests (JUnit 5 + Mockito)
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Unit-Tests für Controller, Services und DTOs mit PostgreSQL-Testcontainer
+                    </Typography>
+                  </StepLabel>
+                </Step>
+                <Step active completed>
+                  <StepLabel
+                    StepIconComponent={() => (
+                      <Avatar sx={{ bgcolor: '#43e97b', width: 36, height: 36 }}>
+                        <MemoryIcon sx={{ fontSize: 20 }} />
+                      </Avatar>
+                    )}
+                  >
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                      Frontend Tests (Jest + React Testing Library)
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Component-Tests, Redux-Slice-Tests und Coverage-Report-Generierung
+                    </Typography>
+                  </StepLabel>
+                </Step>
+                <Step active completed>
+                  <StepLabel
+                    StepIconComponent={() => (
+                      <Avatar sx={{ bgcolor: '#fa709a', width: 36, height: 36 }}>
+                        <BugIcon sx={{ fontSize: 20 }} />
+                      </Avatar>
+                    )}
+                  >
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                      E2E Tests (Playwright)
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Browser-Automatisierung testet echte Benutzer-Flows mit PostgreSQL und Kafka
+                    </Typography>
+                  </StepLabel>
+                </Step>
+                <Step active completed>
+                  <StepLabel
+                    StepIconComponent={() => (
+                      <Avatar sx={{ bgcolor: 'success.main', width: 36, height: 36 }}>
+                        <VerifiedIcon sx={{ fontSize: 20 }} />
+                      </Avatar>
+                    )}
+                  >
+                    <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                      Build erfolgreich
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Alle Tests bestanden - Code kann deployed werden
+                    </Typography>
+                  </StepLabel>
+                </Step>
+              </Stepper>
+
+              {/* Test Commands */}
+              <Box sx={{ mt: 4, p: 3, bgcolor: '#1e1e1e', borderRadius: 2 }}>
+                <Typography variant="subtitle2" sx={{ color: '#4fc3f7', mb: 2 }}>
+                  Tests lokal ausführen:
+                </Typography>
+                <Box sx={{ fontFamily: 'monospace', fontSize: '13px', color: '#d4d4d4' }}>
+                  <Typography sx={{ color: '#608b4e', mb: 1 }}># Backend Tests</Typography>
+                  <Typography sx={{ mb: 2 }}>cd backend && mvn test</Typography>
+                  <Typography sx={{ color: '#608b4e', mb: 1 }}># Frontend Tests</Typography>
+                  <Typography sx={{ mb: 2 }}>cd frontend && npm test</Typography>
+                  <Typography sx={{ color: '#608b4e', mb: 1 }}># E2E Tests</Typography>
+                  <Typography>cd frontend && npx playwright test</Typography>
+                </Box>
+              </Box>
+
+              {/* GitHub Link */}
+              <Box sx={{ textAlign: 'center', mt: 4 }}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  startIcon={<GitHubIcon />}
+                  href="https://github.com/pepperonas/taskflow-platform/actions"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    px: 4,
+                    py: 1.5,
+                  }}
+                >
+                  GitHub Actions ansehen
+                </Button>
+              </Box>
+            </Paper>
+          </TabPanel>
+
+          {/* Tab 5: Technologies & Architecture */}
+          <TabPanel value={tabValue} index={4}>
             {/* Technologies Section */}
             <Grid container spacing={4} sx={{ mb: 4 }}>
               {/* Backend Technologies */}
