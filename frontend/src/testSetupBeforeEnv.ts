@@ -43,9 +43,5 @@ Object.defineProperty(global, 'sessionStorage', {
   writable: true,
 });
 
-// Ensure Jest globals are defined (they should be, but this is a safety net)
-if (typeof global.jest === 'undefined') {
-  // This should never happen in a proper Jest environment
-  // If it does, something is wrong with the test setup
-  console.warn('Jest globals not found - this file should only run in Jest');
-}
+// Note: Jest globals (jest, describe, etc.) are injected by Jest after this file runs
+// This file only sets up storage mocks that are needed before module loading
