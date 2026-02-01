@@ -172,7 +172,7 @@ Response:
       "nodes": 1
     }
   },
-  "version": "1.0.0",
+  "version": "1.1.0",
   "system": {
     "uptime": "2d 5h 30m",
     "memory": {

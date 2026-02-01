@@ -14,7 +14,7 @@
 
     <groupId>io.celox.taskflow</groupId>
     <artifactId>taskflow-parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
 
     <name>TaskFlow Platform</name>

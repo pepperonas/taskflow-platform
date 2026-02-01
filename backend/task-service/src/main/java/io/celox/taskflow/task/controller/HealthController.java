@@ -65,7 +65,7 @@ public class HealthController {
         health.put("components", components);
         
         // Version info
-        health.put("version", buildProperties.map(BuildProperties::getVersion).orElse("1.0.0"));
+        health.put("version", buildProperties.map(BuildProperties::getVersion).orElse("1.1.0"));
         health.put("name", "TaskFlow Platform");
         
         // System metrics

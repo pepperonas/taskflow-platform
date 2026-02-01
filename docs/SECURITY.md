@@ -133,5 +133,5 @@ If you discover a security vulnerability, please:
 
 ---
 
-**Last Updated**: January 2026  
-**Version**: 1.0
+**Last Updated**: February 2026  
+**Version**: 1.1
