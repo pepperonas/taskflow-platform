@@ -216,26 +216,25 @@ return result;`,
     ],
   };
 
+  // Tab configuration with icons and colors
+  const tabConfig = [
+    { label: 'Funktionen', icon: <ExtensionIcon />, color: '#667eea' },
+    { label: 'Interaktive Demos', icon: <PlayIcon />, color: '#43e97b' },
+    { label: 'Anwendungsfälle', icon: <WorkflowIcon />, color: '#f093fb' },
+    { label: 'Tests & CI/CD', icon: <TestIcon />, color: '#fa709a' },
+    { label: 'Technologie', icon: <CloudIcon />, color: '#4facfe' },
+  ];
+
   return (
     <Box sx={{ py: 4 }}>
       <Container maxWidth="xl">
-        {/* Hero Section */}
-        <Box sx={{ textAlign: 'center', mb: 6 }}>
-          <Chip
-            icon={<AutoAwesomeIcon />}
-            label="Interaktive Übersicht"
-            sx={{
-              mb: 2,
-              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              color: 'white',
-              fontWeight: 600,
-            }}
-          />
+        {/* Compact Hero Section */}
+        <Box sx={{ textAlign: 'center', mb: 4 }}>
           <Typography
-            variant="h2"
+            variant="h3"
             sx={{
               fontWeight: 800,
-              mb: 2,
+              mb: 1,
               background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               backgroundClip: 'text',
               WebkitBackgroundClip: 'text',
@@ -244,10 +243,10 @@ return result;`,
           >
             TaskFlow Plattform
           </Typography>
-          <Typography variant="h5" sx={{ color: 'text.secondary', mb: 4, maxWidth: 800, mx: 'auto' }}>
-            Workflow-Automatisierungsplattform der nächsten Generation mit visuellem Editor, Code-Ausführung und leistungsstarken Integrationen
+          <Typography variant="h6" sx={{ color: 'text.secondary', mb: 3, maxWidth: 700, mx: 'auto' }}>
+            Workflow-Automatisierung mit visuellem Editor, Code-Ausführung und leistungsstarken Integrationen
           </Typography>
-          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap', mb: 4 }}>
             <Button
               variant="contained"
               size="large"
@@ -255,255 +254,180 @@ return result;`,
               onClick={() => navigate('/workflows/new')}
               sx={{
                 background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                px: 4,
-                py: 1.5,
+                px: 3,
+                py: 1,
               }}
             >
-              Workflow-Editor testen
-            </Button>
-            <Button
-              variant="outlined"
-              size="large"
-              onClick={() => setTabValue(1)}
-              sx={{ px: 4, py: 1.5 }}
-            >
-              Demos ansehen
+              Workflow-Editor
             </Button>
             <Button
               variant="outlined"
               size="large"
               startIcon={<ApiIcon />}
-              href="https://taskflow.celox.io/api"
+              href="https://taskflow.celox.io/swagger-ui.html"
               target="_blank"
               rel="noopener noreferrer"
-              sx={{ px: 4, py: 1.5 }}
+              sx={{ px: 3, py: 1 }}
             >
-              Backend-API
+              API Docs
             </Button>
             <Button
               variant="outlined"
               size="large"
-              startIcon={<DocsIcon />}
-              href="https://taskflow.celox.io/swagger-ui.html"
+              startIcon={<GitHubIcon />}
+              href="https://github.com/pepperonas/taskflow-platform"
               target="_blank"
               rel="noopener noreferrer"
-              sx={{ px: 4, py: 1.5 }}
+              sx={{ px: 3, py: 1 }}
             >
-              Swagger UI
+              GitHub
             </Button>
           </Box>
         </Box>
 
-        {/* Project Overview */}
-        <Paper sx={{ p: 4, mb: 4, background: 'linear-gradient(135deg, #f5f7fa 0%, #ffffff 100%)' }}>
-          <Typography variant="h4" sx={{ fontWeight: 700, mb: 3, textAlign: 'center' }}>
-            Über TaskFlow Plattform
-          </Typography>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'primary.main' }}>
-                Was ist TaskFlow?
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 2 }}>
-                TaskFlow ist eine moderne, event-getriebene Aufgabenverwaltungs- und Workflow-Automatisierungsplattform. 
-                Sie kombiniert die Stärke des visuellen Workflow-Editors mit Code-Ausführung, Datenbank-Integration 
-                und API-Anbindung zu einer umfassenden Automatisierungslösung.
-              </Typography>
-              <Typography variant="body1" color="text.secondary">
-                Mit Enterprise-Technologien gebaut, bietet TaskFlow eine skalierbare, sichere und 
-                benutzerfreundliche Plattform zur Automatisierung von Geschäftsprozessen, Aufgabenverwaltung 
-                und Integration mit externen Systemen.
-              </Typography>
+        {/* PROMINENT NAVIGATION TABS */}
+        <Paper 
+          elevation={8}
+          sx={{ 
+            mb: 4, 
+            borderRadius: 3,
+            overflow: 'hidden',
+            background: 'linear-gradient(135deg, #1e293b 0%, #334155 100%)',
+          }}
+        >
+          {/* Tab Navigation as large clickable cards */}
+          <Box sx={{ p: 2 }}>
+            <Grid container spacing={2}>
+              {tabConfig.map((tab, index) => (
+                <Grid item xs={6} sm={4} md={2.4} key={index}>
+                  <Paper
+                    onClick={() => setTabValue(index)}
+                    sx={{
+                      p: 2,
+                      textAlign: 'center',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s ease',
+                      background: tabValue === index 
+                        ? `linear-gradient(135deg, ${tab.color} 0%, ${tab.color}cc 100%)`
+                        : 'rgba(255,255,255,0.05)',
+                      border: tabValue === index 
+                        ? `2px solid ${tab.color}`
+                        : '2px solid transparent',
+                      borderRadius: 2,
+                      '&:hover': {
+                        background: tabValue === index 
+                          ? `linear-gradient(135deg, ${tab.color} 0%, ${tab.color}cc 100%)`
+                          : 'rgba(255,255,255,0.1)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: `0 8px 24px ${tab.color}40`,
+                      },
+                    }}
+                  >
+                    <Box 
+                      sx={{ 
+                        color: tabValue === index ? 'white' : tab.color,
+                        mb: 1,
+                        '& svg': { fontSize: 32 }
+                      }}
+                    >
+                      {tab.icon}
+                    </Box>
+                    <Typography 
+                      variant="body2" 
+                      sx={{ 
+                        fontWeight: 700,
+                        color: tabValue === index ? 'white' : 'rgba(255,255,255,0.9)',
+                        fontSize: { xs: '0.75rem', sm: '0.875rem' },
+                      }}
+                    >
+                      {tab.label}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              ))}
             </Grid>
-            <Grid item xs={12} md={6}>
-              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: 'primary.main' }}>
-                Hauptfunktionen
-              </Typography>
-              <List>
-                <ListItem>
-                  <ListItemIcon>
-                    <WorkflowIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Visueller Workflow-Builder"
-                    secondary="Drag-and-Drop-Oberfläche zum Erstellen komplexer Automatisierungs-Workflows"
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <CodeIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Code-Ausführung"
-                    secondary="JavaScript-Code in einer sicheren Sandbox-Umgebung ausführen"
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <DatabaseIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="Datenbank-Integration"
-                    secondary="SQL-Abfragen mit integriertem Sicherheitsschutz ausführen"
-                  />
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>
-                    <EmailIcon color="primary" />
-                  </ListItemIcon>
-                  <ListItemText 
-                    primary="E-Mail-Automatisierung"
-                    secondary="Automatisierte E-Mails mit HTML-Vorlagen senden"
-                  />
-                </ListItem>
-              </List>
-            </Grid>
-          </Grid>
-        </Paper>
+          </Box>
 
-        {/* API & Documentation Links */}
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} md={6}>
-            <Card
-              sx={{
-                height: '100%',
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-                color: 'white',
-                transition: 'transform 0.3s',
-                '&:hover': {
-                  transform: 'translateY(-4px)',
-                },
-              }}
-            >
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <ApiIcon sx={{ fontSize: 40, mr: 2 }} />
-                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                    Backend-API
-                  </Typography>
-                </Box>
-                <Typography variant="body1" sx={{ mb: 3, opacity: 0.9 }}>
-                  Zugriff auf die RESTful-API-Endpunkte für Tasks, Workflows, Credentials und mehr.
-                  Alle Endpunkte sind mit JWT-Authentifizierung gesichert.
-                </Typography>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  href="https://taskflow.celox.io/api"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{
-                    bgcolor: 'white',
-                    color: 'primary.main',
-                    '&:hover': { bgcolor: 'grey.100' },
-                  }}
-                >
-                  API erkunden
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <Card
-              sx={{
-                height: '100%',
-                background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-                color: 'white',
-                transition: 'transform 0.3s',
-                '&:hover': {
-                  transform: 'translateY(-4px)',
-                },
-              }}
-            >
-              <CardContent>
-                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                  <DocsIcon sx={{ fontSize: 40, mr: 2 }} />
-                  <Typography variant="h5" sx={{ fontWeight: 700 }}>
-                    Swagger UI
-                  </Typography>
-                </Box>
-                <Typography variant="body1" sx={{ mb: 3, opacity: 0.9 }}>
-                  Interaktive API-Dokumentation mit OpenAPI 3.0. Endpunkte direkt 
-                  im Browser mit integrierter Authentifizierungsunterstützung testen.
-                </Typography>
-                <Button
-                  variant="contained"
-                  fullWidth
-                  href="https://taskflow.celox.io/swagger-ui.html"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{
-                    bgcolor: 'white',
-                    color: 'primary.main',
-                    '&:hover': { bgcolor: 'grey.100' },
-                  }}
-                >
-                  Swagger UI öffnen
-                </Button>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-
-        {/* Stats */}
-        <Grid container spacing={3} sx={{ mb: 6 }}>
-          {stats.map((stat) => (
-            <Grid item xs={12} sm={6} md={3} key={stat.label}>
-              <Paper
-                sx={{
-                  p: 3,
-                  textAlign: 'center',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%)',
-                  border: '1px solid #e5e7eb',
-                }}
-              >
-                <Avatar
-                  sx={{
-                    width: 56,
-                    height: 56,
-                    bgcolor: 'primary.main',
-                    mx: 'auto',
-                    mb: 2,
-                  }}
-                >
-                  {stat.icon}
-                </Avatar>
-                <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
-                  {stat.value}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {stat.label}
-                </Typography>
-              </Paper>
-            </Grid>
-          ))}
-        </Grid>
-
-        {/* Tabs */}
-        <Paper sx={{ mb: 4 }}>
+          {/* Alternative: Also show small tabs for accessibility */}
           <Tabs
             value={tabValue}
             onChange={(_, newValue) => setTabValue(newValue)}
             variant="scrollable"
             scrollButtons="auto"
             sx={{ 
-              borderBottom: 1, 
-              borderColor: 'divider',
+              bgcolor: 'rgba(0,0,0,0.2)',
               '& .MuiTab-root': {
-                minWidth: 120,
+                minWidth: 100,
                 fontWeight: 600,
-              }
+                color: 'rgba(255,255,255,0.7)',
+                '&.Mui-selected': {
+                  color: 'white',
+                },
+              },
+              '& .MuiTabs-indicator': {
+                backgroundColor: tabConfig[tabValue]?.color || '#667eea',
+                height: 3,
+              },
             }}
           >
-            <Tab label="Funktionen" />
-            <Tab label="Interaktive Demos" />
-            <Tab label="Anwendungsfälle" />
-            <Tab label="Tests & CI/CD" />
-            <Tab label="Technologien & Architektur" />
+            {tabConfig.map((tab, index) => (
+              <Tab 
+                key={index}
+                label={tab.label} 
+                icon={tab.icon}
+                iconPosition="start"
+                sx={{ 
+                  '& .MuiSvgIcon-root': { 
+                    fontSize: 18, 
+                    mr: 0.5,
+                    color: tabValue === index ? tab.color : 'inherit',
+                  } 
+                }}
+              />
+            ))}
           </Tabs>
+        </Paper>
+
+        {/* Tab Content Container */}
+        <Paper sx={{ mb: 4 }}>
 
           {/* Tab 1: Features */}
           <TabPanel value={tabValue} index={0}>
+            {/* Stats Row */}
+            <Grid container spacing={2} sx={{ mb: 4 }}>
+              {stats.map((stat) => (
+                <Grid item xs={6} sm={3} key={stat.label}>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      textAlign: 'center',
+                      background: 'linear-gradient(135deg, #667eea10 0%, #764ba210 100%)',
+                      border: '1px solid #667eea30',
+                    }}
+                  >
+                    <Avatar
+                      sx={{
+                        width: 40,
+                        height: 40,
+                        bgcolor: 'primary.main',
+                        mx: 'auto',
+                        mb: 1,
+                      }}
+                    >
+                      {stat.icon}
+                    </Avatar>
+                    <Typography variant="h5" sx={{ fontWeight: 700, mb: 0.5 }}>
+                      {stat.value}
+                    </Typography>
+                    <Typography variant="caption" color="text.secondary">
+                      {stat.label}
+                    </Typography>
+                  </Paper>
+                </Grid>
+              ))}
+            </Grid>
+
+            {/* Feature Cards */}
             <Grid container spacing={3}>
               {features.map((feature, idx) => (
                 <Grid item xs={12} sm={6} md={4} key={idx}>
@@ -552,6 +476,68 @@ return result;`,
                   </Card>
                 </Grid>
               ))}
+            </Grid>
+
+            {/* API Links */}
+            <Grid container spacing={3} sx={{ mt: 3 }}>
+              <Grid item xs={12} md={6}>
+                <Card
+                  sx={{
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    color: 'white',
+                  }}
+                >
+                  <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Box>
+                      <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                        <ApiIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+                        Backend-API
+                      </Typography>
+                      <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                        RESTful API mit JWT-Authentifizierung
+                      </Typography>
+                    </Box>
+                    <Button
+                      variant="contained"
+                      href="https://taskflow.celox.io/swagger-ui.html"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{ bgcolor: 'white', color: 'primary.main', '&:hover': { bgcolor: 'grey.100' } }}
+                    >
+                      Swagger UI
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item xs={12} md={6}>
+                <Card
+                  sx={{
+                    background: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                    color: 'white',
+                  }}
+                >
+                  <CardContent sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Box>
+                      <Typography variant="h6" sx={{ fontWeight: 700 }}>
+                        <GitHubIcon sx={{ verticalAlign: 'middle', mr: 1 }} />
+                        Open Source
+                      </Typography>
+                      <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                        Vollständiger Quellcode auf GitHub
+                      </Typography>
+                    </Box>
+                    <Button
+                      variant="contained"
+                      href="https://github.com/pepperonas/taskflow-platform"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{ bgcolor: 'white', color: 'primary.main', '&:hover': { bgcolor: 'grey.100' } }}
+                    >
+                      Repository
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
           </TabPanel>
 
