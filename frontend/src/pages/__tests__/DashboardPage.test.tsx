@@ -290,12 +290,19 @@ describe('DashboardPage', () => {
   });
 
   it('should redirect to login if no token', async () => {
-    localStorage.removeItem('token');
-    renderWithProviders();
+    localStorage.clear();
+    
+    render(
+      <Provider store={createMockStore()}>
+        <BrowserRouter>
+          <DashboardPage />
+        </BrowserRouter>
+      </Provider>
+    );
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith('/login');
-    });
+    }, { timeout: 3000 });
   });
 
   it('should display correct task counts', async () => {

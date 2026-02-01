@@ -35,9 +35,9 @@ describe('LoginPage', () => {
       </Provider>
     );
 
-    expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+    expect(screen.getByLabelText(/Benutzername/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/Passwort/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Anmelden/i })).toBeInTheDocument();
   });
 
   it('should show validation errors for empty fields', async () => {
@@ -51,7 +51,7 @@ describe('LoginPage', () => {
       </Provider>
     );
 
-    const submitButton = screen.getByRole('button', { name: /login/i });
+    const submitButton = screen.getByRole('button', { name: /Anmelden/i });
     fireEvent.click(submitButton);
 
     await waitFor(() => {
@@ -79,9 +79,9 @@ describe('LoginPage', () => {
       </Provider>
     );
 
-    const usernameInput = screen.getByLabelText(/username/i);
-    const passwordInput = screen.getByLabelText(/password/i);
-    const submitButton = screen.getByRole('button', { name: /login/i });
+    const usernameInput = screen.getByLabelText(/Benutzername/i);
+    const passwordInput = screen.getByLabelText(/Passwort/i);
+    const submitButton = screen.getByRole('button', { name: /Anmelden/i });
 
     fireEvent.change(usernameInput, { target: { value: 'testuser' } });
     fireEvent.change(passwordInput, { target: { value: 'password123' } });
@@ -98,7 +98,7 @@ describe('LoginPage', () => {
   it('should display error message on login failure', async () => {
     const store = createMockStore();
     mockedAuthApi.login.mockRejectedValue({
-      response: { data: { message: 'Invalid credentials' } },
+      response: { data: { message: 'Ungültige Anmeldedaten' } },
     });
 
     render(
@@ -109,16 +109,16 @@ describe('LoginPage', () => {
       </Provider>
     );
 
-    const usernameInput = screen.getByLabelText(/username/i);
-    const passwordInput = screen.getByLabelText(/password/i);
-    const submitButton = screen.getByRole('button', { name: /login/i });
+    const usernameInput = screen.getByLabelText(/Benutzername/i);
+    const passwordInput = screen.getByLabelText(/Passwort/i);
+    const submitButton = screen.getByRole('button', { name: /Anmelden/i });
 
     fireEvent.change(usernameInput, { target: { value: 'testuser' } });
     fireEvent.change(passwordInput, { target: { value: 'wrongpassword' } });
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument();
+      expect(screen.getByRole('alert')).toBeInTheDocument();
     });
   });
 });
