@@ -1,6 +1,21 @@
 import axios from 'axios';
 
-const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:8082/api';
+// In production, use relative URL (nginx proxies /api to backend)
+// In development, use localhost with explicit port
+const getApiUrl = () => {
+  if (process.env.REACT_APP_API_URL) {
+    return process.env.REACT_APP_API_URL;
+  }
+  // Check if we're in production (served from a domain, not localhost dev server)
+  if (typeof window !== 'undefined' && 
+      window.location.hostname !== 'localhost' && 
+      window.location.hostname !== '127.0.0.1') {
+    return '/api';
+  }
+  return 'http://localhost:8082/api';
+};
+
+const API_URL = getApiUrl();
 
 const axiosInstance = axios.create({
   baseURL: API_URL,
