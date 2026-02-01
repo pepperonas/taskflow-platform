@@ -8,7 +8,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: process.env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:8090',
+    baseURL: process.env.PLAYWRIGHT_TEST_BASE_URL || 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
   },
@@ -28,10 +28,12 @@ export default defineConfig({
     },
   ],
 
-  webServer: {
-    command: 'npm start',
-    url: 'http://localhost:8090',
-    reuseExistingServer: !process.env.CI,
+  // In CI, the server is started externally via 'serve -s build'
+  // Locally, use 'npx serve -s build -l 3000' to serve the built app
+  webServer: process.env.CI ? undefined : {
+    command: 'npx serve -s build -l 3000',
+    url: 'http://localhost:3000',
+    reuseExistingServer: true,
     timeout: 120 * 1000,
   },
 });

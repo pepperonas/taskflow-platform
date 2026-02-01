@@ -1,5 +1,6 @@
 const { VueLoaderPlugin } = require('vue-loader');
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   webpack: {
@@ -7,18 +8,30 @@ module.exports = {
       // Add .vue extension to resolve
       webpackConfig.resolve.extensions.push('.vue');
 
-      // Exclude test files from webpack compilation - use null-loader pattern
-      // This replaces test files with empty modules
-      webpackConfig.module.rules.unshift({
-        test: /\.(test|spec)\.(ts|tsx|js|jsx)$/,
-        use: 'null-loader',
-      });
-
-      // Exclude __tests__ directories
-      webpackConfig.module.rules.unshift({
-        test: /[\\/]__tests__[\\/].*\.(ts|tsx|js|jsx)$/,
-        use: 'null-loader',
-      });
+      // Completely exclude test files from webpack compilation
+      // by modifying the oneOf rules to exclude test patterns
+      if (webpackConfig.module.rules) {
+        webpackConfig.module.rules.forEach((rule) => {
+          if (rule.oneOf) {
+            // Add exclusion pattern to all oneOf rules
+            rule.oneOf.forEach((oneOfRule) => {
+              if (oneOfRule.test && !oneOfRule.exclude) {
+                oneOfRule.exclude = [];
+              }
+              if (oneOfRule.exclude && Array.isArray(oneOfRule.exclude)) {
+                oneOfRule.exclude.push(/__tests__/);
+                oneOfRule.exclude.push(/\.(test|spec)\.(ts|tsx|js|jsx)$/);
+              } else if (oneOfRule.exclude) {
+                oneOfRule.exclude = [
+                  oneOfRule.exclude,
+                  /__tests__/,
+                  /\.(test|spec)\.(ts|tsx|js|jsx)$/,
+                ];
+              }
+            });
+          }
+        });
+      }
 
       // Add vue-loader rule BEFORE the oneOf rule
       webpackConfig.module.rules.unshift({
@@ -42,6 +55,17 @@ module.exports = {
       webpackConfig.resolve.alias = {
         ...webpackConfig.resolve.alias,
         vue: 'vue/dist/vue.esm-bundler.js',
+      };
+
+      // Ignore test files in watch mode
+      webpackConfig.watchOptions = {
+        ...webpackConfig.watchOptions,
+        ignored: [
+          '**/node_modules/**',
+          '**/__tests__/**',
+          '**/*.test.*',
+          '**/*.spec.*',
+        ],
       };
 
       return webpackConfig;

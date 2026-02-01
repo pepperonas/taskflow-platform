@@ -203,16 +203,16 @@ jobs:
           cd frontend
           npm run build
       
-      - name: Start frontend
+      - name: Start frontend (serve static build)
         run: |
           cd frontend
-          npm start &
+          npx serve -s build -l 3000 &
       
       - name: Wait for services
         run: |
           # Wait for backend - use health endpoint (no auth required)
           timeout 120 bash -c 'until curl -sf http://localhost:8080/api/v1/health 2>/dev/null || curl -sf http://localhost:8080/actuator/health 2>/dev/null; do sleep 2; done'
-          # Wait for frontend on port 3000 (npm start default)
+          # Wait for frontend on port 3000
           timeout 120 bash -c 'until curl -sf http://localhost:3000 2>/dev/null; do sleep 2; done'
       
       - name: Run E2E tests
