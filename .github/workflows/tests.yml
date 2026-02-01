@@ -217,8 +217,8 @@ jobs:
       
       - name: Run E2E tests
         run: |
-          cd frontend
-          npx playwright test
+          cd frontend/e2e
+          npx playwright test --config=playwright.config.ts
         env:
           PLAYWRIGHT_TEST_BASE_URL: http://localhost:3000
       

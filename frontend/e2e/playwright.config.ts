@@ -29,11 +29,12 @@ export default defineConfig({
   ],
 
   // In CI, the server is started externally via 'serve -s build'
-  // Locally, use 'npx serve -s build -l 3000' to serve the built app
+  // Locally, run from frontend/e2e: npx playwright test
   webServer: process.env.CI ? undefined : {
-    command: 'npx serve -s build -l 3000',
+    command: 'npx serve -s ../build -l 3000',
     url: 'http://localhost:3000',
     reuseExistingServer: true,
     timeout: 120 * 1000,
+    cwd: __dirname,
   },
 });
