@@ -73,6 +73,7 @@
     "@craco/craco": "^7.1.0",
     "@playwright/test": "^1.40.1",
     "@vue/compiler-sfc": "^3.5.27",
+    "ignore-loader": "^0.1.2",
     "vue-loader": "^17.4.2"
   }
 }

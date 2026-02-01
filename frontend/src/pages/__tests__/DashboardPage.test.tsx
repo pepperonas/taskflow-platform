@@ -1,4 +1,3 @@
-import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import React from 'react';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
@@ -8,12 +7,16 @@ import DashboardPage from '../DashboardPage';
 import authReducer from '../../store/slices/authSlice';
 import tasksReducer from '../../store/slices/tasksSlice';
 
+// Mock functions must be prefixed with 'mock' to be hoisted correctly
+const mockGet = jest.fn();
+const mockPost = jest.fn();
+
 // Mock axios
 jest.mock('../../api/axios', () => ({
   __esModule: true,
   default: {
-    get: jest.fn(),
-    post: jest.fn(),
+    get: mockGet,
+    post: mockPost,
   },
 }));
 
@@ -40,8 +43,6 @@ jest.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useNavigate: () => mockNavigate,
 }));
-
-const axiosInstance = require('../../api/axios').default;
 
 const mockTasks = [
   {
@@ -148,7 +149,7 @@ describe('DashboardPage', () => {
     localStorage.setItem('token', 'mock-token');
     
     // Setup default mock responses
-    axiosInstance.get.mockImplementation((url: string) => {
+    mockGet.mockImplementation((url: string) => {
       if (url === '/v1/workflows') {
         return Promise.resolve({ data: mockWorkflows });
       }
@@ -332,7 +333,7 @@ describe('DashboardPage', () => {
   });
 
   it('should show loading state for credentials', async () => {
-    axiosInstance.get.mockImplementation((url: string) => {
+    mockGet.mockImplementation((url: string) => {
       if (url === '/v1/credentials') {
         return new Promise(() => {}); // Never resolves
       }
@@ -348,7 +349,7 @@ describe('DashboardPage', () => {
   });
 
   it('should handle API errors gracefully', async () => {
-    axiosInstance.get.mockRejectedValue(new Error('API Error'));
+    mockGet.mockRejectedValue(new Error('API Error'));
 
     // Should not throw and should render
     renderWithProviders();
@@ -363,7 +364,7 @@ describe('DashboardPage with empty data', () => {
   beforeEach(() => {
     localStorage.setItem('token', 'mock-token');
     
-    axiosInstance.get.mockImplementation((url: string) => {
+    mockGet.mockImplementation((url: string) => {
       if (url === '/v1/workflows') {
         return Promise.resolve({ data: [] });
       }

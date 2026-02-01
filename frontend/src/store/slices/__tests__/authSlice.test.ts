@@ -1,4 +1,3 @@
-import { jest, describe, it, expect, beforeEach } from '@jest/globals';
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer, { login, register, logout } from '../authSlice';
 import { authApi } from '../../../api/authApi';
