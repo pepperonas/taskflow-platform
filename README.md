@@ -8,6 +8,7 @@
 
 *A professional showcase demonstrating full-stack development skills with enterprise-grade security*
 
+[![Tests](https://github.com/pepperonas/taskflow-platform/actions/workflows/tests.yml/badge.svg)](https://github.com/pepperonas/taskflow-platform/actions/workflows/tests.yml)
 [![Java](https://img.shields.io/badge/Java-17-orange)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.1-brightgreen)](https://spring.io/projects/spring-boot)
 [![React](https://img.shields.io/badge/React-18.2-blue)](https://reactjs.org/)
@@ -146,6 +147,17 @@ docker-compose up -d
 
 ## 🧪 Testing
 
+Das Projekt enthält eine umfassende Test-Suite mit automatisierter CI/CD-Pipeline.
+
+### Continuous Integration
+
+[![Tests](https://github.com/pepperonas/taskflow-platform/actions/workflows/tests.yml/badge.svg)](https://github.com/pepperonas/taskflow-platform/actions/workflows/tests.yml)
+
+Die GitHub Actions Pipeline führt bei jedem Push automatisch aus:
+- **Backend Tests** (JUnit 5, Mockito)
+- **Frontend Tests** (Jest, React Testing Library)
+- **E2E Tests** (Playwright)
+
 ### Backend Tests
 
 ```bash
@@ -153,12 +165,34 @@ cd backend
 mvn test
 ```
 
+**Enthält:**
+- Unit Tests für Controller, Services und DTOs
+- Integration Tests mit Testcontainers
+- Security Tests (Rate Limiting, Input Validation)
+
 ### Frontend Tests
 
 ```bash
 cd frontend
 npm test
 ```
+
+**Enthält:**
+- Component Tests (React Testing Library)
+- Redux Slice Tests
+- Error Boundary Tests
+
+### E2E Tests
+
+```bash
+cd frontend/e2e
+npx playwright test
+```
+
+**Testet:**
+- Login/Logout Flow
+- Task CRUD Operations
+- Workflow Editor
 
 ### Integration Tests with Testcontainers
 
