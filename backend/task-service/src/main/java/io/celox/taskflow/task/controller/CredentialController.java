@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class CredentialController {
     private final CredentialService credentialService;
 
     @PostMapping
-    public ResponseEntity<CredentialDto> createCredential(@RequestBody CreateCredentialDto request) {
+    public ResponseEntity<CredentialDto> createCredential(@Valid @RequestBody CreateCredentialDto request) {
         UUID ownerId = extractUserIdFromToken();
         log.info("Creating credential: {} for user: {}", request.getName(), ownerId);
 

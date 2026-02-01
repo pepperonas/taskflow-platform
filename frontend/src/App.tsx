@@ -19,6 +19,7 @@ import DatabaseIntegrationPage from './pages/DatabaseIntegrationPage';
 import EmailIntegrationPage from './pages/EmailIntegrationPage';
 import SettingsPage from './pages/SettingsPage';
 import PrivateRoute from './components/common/PrivateRoute';
+import ErrorBoundary from './components/common/ErrorBoundary';
 
 const theme = createTheme({
   palette: {
@@ -50,11 +51,12 @@ const theme = createTheme({
 
 function App() {
   return (
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <BrowserRouter>
-          <Routes>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <BrowserRouter>
+            <Routes>
             {/* Public routes */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
@@ -187,12 +189,13 @@ function App() {
               }
             />
 
-            {/* Redirect root to showcase */}
-            <Route path="/" element={<Navigate to="/showcase" replace />} />
-          </Routes>
-        </BrowserRouter>
-      </ThemeProvider>
-    </Provider>
+              {/* Redirect root to showcase */}
+              <Route path="/" element={<Navigate to="/showcase" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
+      </Provider>
+    </ErrorBoundary>
   );
 }
 

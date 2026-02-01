@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class EmailController {
         @ApiResponse(responseCode = "200", description = "Email sent successfully"),
         @ApiResponse(responseCode = "400", description = "Invalid email request")
     })
-    public ResponseEntity<EmailResponse> sendEmail(@RequestBody EmailRequest request) {
+    public ResponseEntity<EmailResponse> sendEmail(@Valid @RequestBody EmailRequest request) {
         log.info("=== EMAIL CONTROLLER: POST /api/v1/email/send called ===");
         log.info("=== EMAIL CONTROLLER: Received email send request ===");
         log.info("Request: to={}, subject={}, from={}", request.getTo(), request.getSubject(), request.getFrom());

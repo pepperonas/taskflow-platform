@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -35,7 +36,7 @@ public class CodeController {
         @ApiResponse(responseCode = "200", description = "Code executed successfully"),
         @ApiResponse(responseCode = "400", description = "Invalid code or security violation")
     })
-    public ResponseEntity<CodeExecutionResponse> executeCode(@RequestBody CodeExecutionRequest request) {
+    public ResponseEntity<CodeExecutionResponse> executeCode(@Valid @RequestBody CodeExecutionRequest request) {
         long startTime = System.currentTimeMillis();
         String userId = getCurrentUserId();
 

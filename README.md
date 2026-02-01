@@ -4,7 +4,9 @@
 
 <img src="https://raw.githubusercontent.com/pepperonas/taskflow-platform/main/frontend/public/taskflow-logo.png" alt="TaskFlow Platform" width="600"/>
 
-**Modern Event-Driven Task Management System**
+**Modern Event-Driven Workflow Automation Platform**
+
+*A professional showcase demonstrating full-stack development skills with enterprise-grade security*
 
 [![Java](https://img.shields.io/badge/Java-17-orange)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.1-brightgreen)](https://spring.io/projects/spring-boot)
@@ -20,12 +22,26 @@
 
 </div>
 
+## 🎯 Was demonstriert dieses Projekt?
+
+Dieses Projekt zeigt professionelle Software-Entwicklung mit modernen Technologien und Best Practices:
+
+| Bereich | Skills |
+|---------|--------|
+| **Backend** | Event-Driven Architecture, Clean Code, Security by Design |
+| **Frontend** | React 18, TypeScript, State Management, Error Handling |
+| **DevOps** | Docker, CI/CD, Nginx, Health Checks |
+| **Security** | JWT, Rate Limiting, SQL Injection Protection, Input Validation |
+| **Testing** | Unit Tests, Integration Tests, E2E Tests |
+
+📖 **Detaillierte Skills-Dokumentation**: [docs/SHOWCASE.md](docs/SHOWCASE.md)
+
 ## 🚀 Features
 
 - ✅ **Event-Driven Architecture** with Apache Kafka
 - 🔄 **Real-time Updates** via WebSocket
 - 🔐 **JWT Authentication** with Spring Security
-- 🛡️ **SQL Injection Protection** with comprehensive security measures
+- 🛡️ **Multi-Layer Security** (Rate Limiting, Input Validation, SQL Protection)
 - 📊 **RESTful API** with OpenAPI documentation
 - 🎨 **Modern UI** with Material-UI
 - 🐳 **Containerized** with Docker & Docker Compose
@@ -36,6 +52,8 @@
 - 💻 **JavaScript Code Execution** with GraalVM sandboxing
 - 📊 **Interactive Dashboard** with charts and analytics
 - 🎨 **Showcase Page** with project overview and technologies
+- 🏥 **Health Check Endpoints** for monitoring
+- ⚠️ **Error Boundaries** for graceful error handling
 
 ## 📋 Tech Stack
 
@@ -225,6 +243,7 @@ docker-compose up -d
 
 ## 📖 Documentation
 
+- [**Showcase / Skills Overview**](docs/SHOWCASE.md) ⭐
 - [Workflow Editor Guide](docs/WORKFLOW_EDITOR_GUIDE.md)
 - [Workflow Editor Technical](docs/WORKFLOW_EDITOR_TECHNICAL.md)
 - [Testing Guide](docs/TESTING.md)
@@ -274,10 +293,21 @@ Tasks emit events (created, updated, completed, deleted) to Kafka topics. The No
 
 The TaskFlow Platform includes comprehensive security measures:
 
-- **SQL Injection Protection**: Multi-layer validation, keyword blocking, and pattern detection
-- **JWT Authentication**: Secure token-based authentication
-- **Query Restrictions**: Only SELECT and WITH queries allowed in Database Integration
-- **Security Alert Logging**: All suspicious activity is logged and monitored
+| Feature | Description |
+|---------|-------------|
+| **Rate Limiting** | 5-20 req/min per endpoint (Login, Code, DB, Email) |
+| **JWT Authentication** | Secure token-based authentication with expiration |
+| **Input Validation** | Bean Validation for all DTOs (@Valid, @NotBlank, @Email) |
+| **SQL Injection Protection** | Keyword blocking, pattern detection, query type restrictions |
+| **Code Sandboxing** | GraalVM with restricted permissions, timeout protection |
+| **Security Logging** | All suspicious activity is logged and monitored |
+| **Error Handling** | No stack traces in production, graceful degradation |
+
+### Health Check
+
+```bash
+curl https://taskflow.celox.io/api/v1/health
+```
 
 For detailed security documentation, see [docs/SECURITY.md](docs/SECURITY.md).
 
