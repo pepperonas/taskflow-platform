@@ -7,16 +7,17 @@ module.exports = {
       // Add .vue extension to resolve
       webpackConfig.resolve.extensions.push('.vue');
 
-      // Exclude test files from webpack compilation
+      // Exclude test files from webpack compilation - use null-loader pattern
+      // This replaces test files with empty modules
       webpackConfig.module.rules.unshift({
         test: /\.(test|spec)\.(ts|tsx|js|jsx)$/,
-        loader: 'ignore-loader',
+        use: 'null-loader',
       });
 
-      // Also exclude __tests__ directories
+      // Exclude __tests__ directories
       webpackConfig.module.rules.unshift({
-        test: /[\\/]__tests__[\\/]/,
-        loader: 'ignore-loader',
+        test: /[\\/]__tests__[\\/].*\.(ts|tsx|js|jsx)$/,
+        use: 'null-loader',
       });
 
       // Add vue-loader rule BEFORE the oneOf rule

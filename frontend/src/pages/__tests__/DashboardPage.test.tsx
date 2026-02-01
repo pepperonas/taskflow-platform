@@ -7,18 +7,22 @@ import DashboardPage from '../DashboardPage';
 import authReducer from '../../store/slices/authSlice';
 import tasksReducer from '../../store/slices/tasksSlice';
 
-// Mock functions must be prefixed with 'mock' to be hoisted correctly
-const mockGet = jest.fn();
-const mockPost = jest.fn();
+// Mock axios - define mock functions inside the factory
+jest.mock('../../api/axios', () => {
+  const mockAxios = {
+    get: jest.fn(),
+    post: jest.fn(),
+  };
+  return {
+    __esModule: true,
+    default: mockAxios,
+  };
+});
 
-// Mock axios
-jest.mock('../../api/axios', () => ({
-  __esModule: true,
-  default: {
-    get: mockGet,
-    post: mockPost,
-  },
-}));
+// Import the mocked module to access mock functions
+import axiosInstance from '../../api/axios';
+const mockGet = axiosInstance.get as jest.Mock;
+const mockPost = axiosInstance.post as jest.Mock;
 
 // Mock recharts to avoid canvas issues in tests
 jest.mock('recharts', () => ({

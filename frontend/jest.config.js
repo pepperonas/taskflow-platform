@@ -1,7 +1,16 @@
 module.exports = {
+  // Use jsdom test environment for React tests
   testEnvironment: 'jsdom',
   // Ensure Jest globals (describe, it, expect, jest) are available
   injectGlobals: true,
+  // Globals available in test files
+  globals: {
+    'ts-jest': {
+      tsconfig: {
+        jsx: 'react-jsx',
+      },
+    },
+  },
   // Setup files that run BEFORE test environment
   setupFiles: ['<rootDir>/src/testSetupBeforeEnv.ts'],
   // Setup files that run AFTER test environment (for DOM matchers etc.)
@@ -11,11 +20,7 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   transform: {
-    '^.+\\.(ts|tsx)$': ['ts-jest', {
-      tsconfig: {
-        jsx: 'react-jsx',
-      },
-    }],
+    '^.+\\.(ts|tsx)$': 'ts-jest',
     '^.+\\.(js|jsx)$': 'babel-jest',
   },
   // Transform axios and other ES modules
@@ -25,6 +30,11 @@ module.exports = {
   testMatch: [
     '**/__tests__/**/*.(ts|tsx|js)',
     '**/*.(test|spec).(ts|tsx|js)',
+  ],
+  // Ignore E2E test directory
+  testPathIgnorePatterns: [
+    '/node_modules/',
+    '/e2e/',
   ],
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',

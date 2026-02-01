@@ -67,9 +67,9 @@ const tasksSlice = createSlice({
       })
       .addCase(fetchTasks.rejected, (state, action) => {
         console.error('Failed to fetch tasks:', action.error);
-        console.error('Error message:', action.error.message);
+        console.error('Error message:', action.error?.message);
         state.loading = false;
-        state.error = action.error.message || 'Failed to fetch tasks';
+        state.error = action.error?.message || 'Failed to fetch tasks';
       })
       .addCase(createTask.fulfilled, (state, action) => {
         state.tasks.push(action.payload);
