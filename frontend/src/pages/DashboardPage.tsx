@@ -13,7 +13,6 @@ import {
   Fab,
   Chip,
   CircularProgress,
-  Alert,
   Divider,
 } from '@mui/material';
 import {
@@ -21,12 +20,10 @@ import {
   AccountTree as WorkflowIcon,
   Task as TaskIcon,
   CheckCircle as CheckCircleIcon,
-  Schedule as ScheduleIcon,
   Code as CodeIcon,
   Storage as DatabaseIcon,
   Email as EmailIcon,
   Key as KeyIcon,
-  TrendingUp as TrendingUpIcon,
   PlayArrow as PlayIcon,
 } from '@mui/icons-material';
 import {
@@ -260,8 +257,6 @@ const DashboardPage: React.FC = () => {
       onClick: () => navigate('/integrations/email'),
     },
   ];
-
-  const COLORS = ['#667eea', '#764ba2', '#43e97b', '#fa709a', '#f093fb', '#4facfe'];
 
   return (
     <Container maxWidth="xl" sx={{ py: 4 }}>

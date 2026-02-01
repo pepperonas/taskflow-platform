@@ -43,7 +43,6 @@ import {
   GitHub as GitHubIcon,
   Cloud as CloudIcon,
   Storage as StorageIcon,
-  Lock as LockIcon,
   Web as WebIcon,
   Science as TestIcon,
   BugReport as BugIcon,
@@ -70,7 +69,6 @@ function TabPanel(props: TabPanelProps) {
 const ShowcasePage: React.FC = () => {
   const navigate = useNavigate();
   const [tabValue, setTabValue] = useState(0);
-  const [activeDemo, setActiveDemo] = useState<string | null>(null);
 
   const features = [
     {

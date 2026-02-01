@@ -13,10 +13,8 @@ import {
   Chip,
   Alert,
   CircularProgress,
-  Divider,
 } from '@mui/material';
 import { 
-  PlayArrow as PlayIcon, 
   Email as EmailIcon, 
   Check as CheckIcon,
   Send as SendIcon 

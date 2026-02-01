@@ -2,6 +2,7 @@ package io.celox.taskflow.task.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.celox.taskflow.task.config.JwtTokenProvider;
+import io.celox.taskflow.task.domain.TaskCategory;
 import io.celox.taskflow.task.domain.TaskPriority;
 import io.celox.taskflow.task.domain.TaskStatus;
 import io.celox.taskflow.task.dto.CreateTaskDto;
@@ -108,6 +109,7 @@ class TaskControllerTest {
                 .title("New Task")
                 .description("Task Description")
                 .priority(TaskPriority.HIGH)
+                .category(TaskCategory.WORK)
                 .build();
 
         UUID taskId = UUID.randomUUID();
@@ -117,6 +119,7 @@ class TaskControllerTest {
                 .description("Task Description")
                 .status(TaskStatus.OPEN)
                 .priority(TaskPriority.HIGH)
+                .category(TaskCategory.WORK)
                 .build();
 
         when(taskService.createTask(any(CreateTaskDto.class))).thenReturn(createdTask);
