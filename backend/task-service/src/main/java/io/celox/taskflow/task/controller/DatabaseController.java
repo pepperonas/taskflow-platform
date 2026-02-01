@@ -3,6 +3,9 @@ package io.celox.taskflow.task.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +44,7 @@ public class DatabaseController {
     @PostMapping("/query")
     @Operation(summary = "Execute a SQL query")
     @ApiResponse(responseCode = "200", description = "Query executed successfully")
-    public ResponseEntity<QueryResult> executeQuery(@RequestBody QueryRequest request) {
+    public ResponseEntity<QueryResult> executeQuery(@Valid @RequestBody QueryRequest request) {
         long startTime = System.currentTimeMillis();
         String userId = getCurrentUserId();
         
@@ -233,6 +236,8 @@ public class DatabaseController {
 
     @Data
     public static class QueryRequest {
+        @NotBlank(message = "Query is required")
+        @Size(min = 1, max = 10000, message = "Query must be between 1 and 10000 characters")
         private String query;
     }
 

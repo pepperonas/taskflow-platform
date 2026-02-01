@@ -7,6 +7,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * DTO for creating workflows.
+ * All fields are validated to prevent abuse and ensure data integrity.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,9 +24,12 @@ public class CreateWorkflowDto {
     @Size(max = 1000, message = "Description must not exceed 1000 characters")
     private String description;
 
+    @Size(max = 500000, message = "Workflow nodes JSON must not exceed 500KB")
     private String nodesJson;
 
+    @Size(max = 100000, message = "Workflow edges JSON must not exceed 100KB")
     private String edgesJson;
 
+    @Size(max = 50000, message = "Workflow triggers JSON must not exceed 50KB")
     private String triggersJson;
 }

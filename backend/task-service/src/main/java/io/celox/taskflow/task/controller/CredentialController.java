@@ -3,7 +3,9 @@ package io.celox.taskflow.task.controller;
 import io.celox.taskflow.task.domain.Credential;
 import io.celox.taskflow.task.dto.CreateCredentialDto;
 import io.celox.taskflow.task.dto.CredentialDto;
+import io.celox.taskflow.task.dto.UserDto;
 import io.celox.taskflow.task.service.CredentialService;
+import io.celox.taskflow.task.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import java.util.stream.Collectors;
 public class CredentialController {
 
     private final CredentialService credentialService;
+    private final UserService userService;
 
     @PostMapping
     public ResponseEntity<CredentialDto> createCredential(@Valid @RequestBody CreateCredentialDto request) {
@@ -71,7 +74,8 @@ public class CredentialController {
     }
 
     /**
-     * Extract user ID from JWT token
+     * Extract user ID from JWT token.
+     * The token contains the username, so we need to look up the user to get the UUID.
      */
     private UUID extractUserIdFromToken() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -79,11 +83,22 @@ public class CredentialController {
             throw new IllegalStateException("User not authenticated");
         }
 
+        String username = authentication.getName();
+        
+        // First try to parse as UUID (in case it's already a UUID)
         try {
-            return UUID.fromString(authentication.getName());
+            return UUID.fromString(username);
         } catch (IllegalArgumentException e) {
-            log.error("Invalid user ID in token: {}", authentication.getName());
-            throw new IllegalStateException("Invalid user ID in token");
+            // Not a UUID, so it's a username - look up the user
+            log.debug("Looking up user by username: {}", username);
+        }
+        
+        try {
+            UserDto user = userService.getUserByUsername(username);
+            return user.getId();
+        } catch (Exception e) {
+            log.error("Failed to find user by username: {}", username, e);
+            throw new IllegalStateException("User not found: " + username);
         }
     }
 

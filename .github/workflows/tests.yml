@@ -39,12 +39,47 @@ jobs:
       - name: Run unit tests
         run: |
           cd backend
-          mvn test -Dspring.datasource.url=jdbc:postgresql://localhost:5432/testdb
+          mvn test -Dspring.profiles.active=test
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
+          SPRING_DATASOURCE_USERNAME: test
+          SPRING_DATASOURCE_PASSWORD: test
+          APP_JWT_SECRET: test-jwt-secret-key-for-github-actions-must-be-at-least-64-characters-long
+          APP_JWT_EXPIRATION: 86400000
+          KAFKA_BOOTSTRAP_SERVERS: localhost:9092
       
       - name: Run integration tests
         run: |
           cd backend
-          mvn verify -Dspring.datasource.url=jdbc:postgresql://localhost:5432/testdb
+          mvn verify -Dspring.profiles.active=test -DskipUnitTests
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
+          SPRING_DATASOURCE_USERNAME: test
+          SPRING_DATASOURCE_PASSWORD: test
+          APP_JWT_SECRET: test-jwt-secret-key-for-github-actions-must-be-at-least-64-characters-long
+          APP_JWT_EXPIRATION: 86400000
+          KAFKA_BOOTSTRAP_SERVERS: localhost:9092
+      
+      - name: Generate test report
+        if: always()
+        run: |
+          cd backend
+          echo "## Backend Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -d "task-service/target/surefire-reports" ]; then
+            TESTS=$(find task-service/target/surefire-reports -name "*.xml" -exec grep -h "tests=" {} \; | head -1)
+            echo "Unit tests completed" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-results
+          path: |
+            backend/task-service/target/surefire-reports/
+            backend/task-service/target/failsafe-reports/
+          retention-days: 7
 
   frontend-tests:
     name: Frontend Tests
@@ -68,7 +103,27 @@ jobs:
       - name: Run unit tests
         run: |
           cd frontend
-          npm test -- --watchAll=false --coverage
+          npm test -- --watchAll=false --coverage --coverageReporters=text --coverageReporters=lcov
+        env:
+          CI: true
+      
+      - name: Generate test summary
+        if: always()
+        run: |
+          cd frontend
+          echo "## Frontend Test Results" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "coverage/lcov-report/index.html" ]; then
+            echo "Coverage report generated" >> $GITHUB_STEP_SUMMARY
+          fi
+      
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frontend-coverage
+          path: frontend/coverage/
+          retention-days: 7
       
       - name: Build frontend
         run: |

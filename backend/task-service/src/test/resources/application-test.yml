@@ -1,0 +1,59 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: task-service-test
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:testdb}
+    username: ${DB_USER:test}
+    password: ${DB_PASSWORD:test}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: false
+
+  liquibase:
+    enabled: false
+
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
+
+  mail:
+    host: localhost
+    port: 25
+    username: test
+    password: test
+
+app:
+  jwt:
+    secret: ${APP_JWT_SECRET:test-jwt-secret-key-for-unit-tests-must-be-at-least-64-characters-long-for-hs512}
+    expiration: ${APP_JWT_EXPIRATION:86400000}
+
+security:
+  encryption:
+    key: test-32-character-secret-key!!
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+logging:
+  level:
+    io.celox.taskflow: WARN
+    org.springframework: WARN
+    org.hibernate: WARN
