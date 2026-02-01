@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Testcontainers
 @Transactional
+@ActiveProfiles("test")
 class TaskIntegrationTest {
 
     @Container
@@ -107,6 +109,7 @@ class TaskIntegrationTest {
         // Given
         CreateTaskDto createDto = CreateTaskDto.builder()
                 .title("Task to Delete")
+                .priority(TaskPriority.MEDIUM)
                 .build();
 
         TaskDto createdTask = taskService.createTask(createDto);
@@ -147,10 +150,12 @@ class TaskIntegrationTest {
         // Given
         CreateTaskDto task1 = CreateTaskDto.builder()
                 .title("Open Task")
+                .priority(TaskPriority.LOW)
                 .build();
 
         CreateTaskDto task2 = CreateTaskDto.builder()
                 .title("Another Open Task")
+                .priority(TaskPriority.LOW)
                 .build();
 
         TaskDto created1 = taskService.createTask(task1);

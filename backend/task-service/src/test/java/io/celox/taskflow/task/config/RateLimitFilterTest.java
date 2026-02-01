@@ -132,7 +132,7 @@ class RateLimitFilterTest {
         when(request.getRequestURI()).thenReturn("/api/v1/auth/login");
         when(request.getMethod()).thenReturn("POST");
         when(request.getHeader("X-Forwarded-For")).thenReturn("203.0.113.1, 10.0.0.1");
-        when(request.getRemoteAddr()).thenReturn("127.0.0.1");
+        // Note: getRemoteAddr() is not stubbed because X-Forwarded-For takes precedence
 
         // When
         rateLimitFilter.doFilter(request, response, filterChain);

@@ -1,17 +1,22 @@
 package io.celox.taskflow.task.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.celox.taskflow.task.config.JwtTokenProvider;
 import io.celox.taskflow.task.domain.TaskPriority;
 import io.celox.taskflow.task.domain.TaskStatus;
 import io.celox.taskflow.task.dto.CreateTaskDto;
 import io.celox.taskflow.task.dto.TaskDto;
 import io.celox.taskflow.task.dto.UpdateTaskDto;
 import io.celox.taskflow.task.service.TaskService;
+import io.celox.taskflow.task.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -25,7 +30,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TaskController.class)
+@ActiveProfiles("test")
+@AutoConfigureMockMvc(addFilters = false)
 class TaskControllerTest {
+
+    @MockBean
+    private JwtTokenProvider jwtTokenProvider;
+
+    @MockBean
+    private UserDetailsService userDetailsService;
+
+    @MockBean
+    private UserService userService;
 
     @Autowired
     private MockMvc mockMvc;

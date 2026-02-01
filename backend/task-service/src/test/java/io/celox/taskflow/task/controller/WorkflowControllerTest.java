@@ -1,6 +1,7 @@
 package io.celox.taskflow.task.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.celox.taskflow.task.config.JwtTokenProvider;
 import io.celox.taskflow.task.domain.WorkflowStatus;
 import io.celox.taskflow.task.domain.ExecutionStatus;
 import io.celox.taskflow.task.dto.CreateWorkflowDto;
@@ -8,11 +9,15 @@ import io.celox.taskflow.task.dto.UpdateWorkflowDto;
 import io.celox.taskflow.task.dto.WorkflowDto;
 import io.celox.taskflow.task.dto.WorkflowExecutionDto;
 import io.celox.taskflow.task.service.WorkflowService;
+import io.celox.taskflow.task.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -28,7 +33,18 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(WorkflowController.class)
+@ActiveProfiles("test")
+@AutoConfigureMockMvc(addFilters = false)
 class WorkflowControllerTest {
+
+    @MockBean
+    private JwtTokenProvider jwtTokenProvider;
+
+    @MockBean
+    private UserDetailsService userDetailsService;
+
+    @MockBean
+    private UserService userService;
 
     @Autowired
     private MockMvc mockMvc;

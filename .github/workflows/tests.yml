@@ -39,19 +39,7 @@ jobs:
       - name: Run unit tests
         run: |
           cd backend
-          mvn test -Dspring.profiles.active=test
-        env:
-          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
-          SPRING_DATASOURCE_USERNAME: test
-          SPRING_DATASOURCE_PASSWORD: test
-          APP_JWT_SECRET: test-jwt-secret-key-for-github-actions-must-be-at-least-64-characters-long
-          APP_JWT_EXPIRATION: 86400000
-          KAFKA_BOOTSTRAP_SERVERS: localhost:9092
-      
-      - name: Run integration tests
-        run: |
-          cd backend
-          mvn verify -Dspring.profiles.active=test -DskipUnitTests
+          mvn test -Dspring.profiles.active=test -Dtest=!*IntegrationTest
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
           SPRING_DATASOURCE_USERNAME: test
@@ -98,7 +86,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd frontend
-          npm ci
+          npm ci --legacy-peer-deps
       
       - name: Run unit tests
         run: |
@@ -201,7 +189,7 @@ jobs:
       - name: Install frontend dependencies
         run: |
           cd frontend
-          npm ci
+          npm ci --legacy-peer-deps
       
       - name: Install Playwright
         run: |

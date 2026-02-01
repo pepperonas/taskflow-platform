@@ -41,6 +41,8 @@ app:
   jwt:
     secret: ${APP_JWT_SECRET:test-jwt-secret-key-for-unit-tests-must-be-at-least-64-characters-long-for-hs512}
     expiration: ${APP_JWT_EXPIRATION:86400000}
+  rate-limiting:
+    enabled: false
 
 security:
   encryption:
