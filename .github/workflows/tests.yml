@@ -39,7 +39,7 @@ jobs:
       - name: Run unit tests
         run: |
           cd backend
-          mvn test -Dspring.profiles.active=test -Dtest=!*IntegrationTest
+          mvn test -Dspring.profiles.active=test -Dtest=!*IntegrationTest -Dsurefire.failIfNoSpecifiedTests=false
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/testdb
           SPRING_DATASOURCE_USERNAME: test
