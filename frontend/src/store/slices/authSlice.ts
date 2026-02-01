@@ -2,6 +2,26 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { authApi } from '../../api/authApi';
 import { User, LoginDto, RegisterDto, AuthResponse } from '../../types';
 
+// Safe localStorage access (handles SSR and test environments)
+const getStorageItem = (key: string): string | null => {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    return localStorage.getItem(key);
+  }
+  return null;
+};
+
+const setStorageItem = (key: string, value: string): void => {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    localStorage.setItem(key, value);
+  }
+};
+
+const removeStorageItem = (key: string): void => {
+  if (typeof window !== 'undefined' && window.localStorage) {
+    localStorage.removeItem(key);
+  }
+};
+
 interface AuthState {
   user: User | null;
   token: string | null;
@@ -10,8 +30,8 @@ interface AuthState {
 }
 
 const initialState: AuthState = {
-  user: JSON.parse(localStorage.getItem('user') || 'null'),
-  token: localStorage.getItem('token'),
+  user: JSON.parse(getStorageItem('user') || 'null'),
+  token: getStorageItem('token'),
   loading: false,
   error: null,
 };
@@ -47,8 +67,8 @@ const authSlice = createSlice({
     logout: (state) => {
       state.user = null;
       state.token = null;
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
+      removeStorageItem('token');
+      removeStorageItem('user');
     },
   },
   extraReducers: (builder) => {
@@ -63,10 +83,12 @@ const authSlice = createSlice({
         state.user = action.payload.user;
         state.token = action.payload.token;
         // Store token and user synchronously before any navigation
-        localStorage.setItem('token', action.payload.token);
-        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        setStorageItem('token', action.payload.token);
+        setStorageItem('user', JSON.stringify(action.payload.user));
         // Store login time to detect timing issues
-        sessionStorage.setItem('loginTime', Date.now().toString());
+        if (typeof window !== 'undefined' && window.sessionStorage) {
+          sessionStorage.setItem('loginTime', Date.now().toString());
+        }
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
@@ -81,8 +103,8 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
-        localStorage.setItem('token', action.payload.token);
-        localStorage.setItem('user', JSON.stringify(action.payload.user));
+        setStorageItem('token', action.payload.token);
+        setStorageItem('user', JSON.stringify(action.payload.user));
       })
       .addCase(register.rejected, (state, action) => {
         state.loading = false;

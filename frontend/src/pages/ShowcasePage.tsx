@@ -18,8 +18,6 @@ import {
   Step,
   StepLabel,
   Alert,
-  Tabs,
-  Tab,
   Divider,
   Link,
 } from '@mui/material';
@@ -344,45 +342,6 @@ return result;`,
               ))}
             </Grid>
           </Box>
-
-          {/* Alternative: Also show small tabs for accessibility */}
-          <Tabs
-            value={tabValue}
-            onChange={(_, newValue) => setTabValue(newValue)}
-            variant="scrollable"
-            scrollButtons="auto"
-            sx={{ 
-              bgcolor: 'rgba(0,0,0,0.2)',
-              '& .MuiTab-root': {
-                minWidth: 100,
-                fontWeight: 600,
-                color: 'rgba(255,255,255,0.7)',
-                '&.Mui-selected': {
-                  color: 'white',
-                },
-              },
-              '& .MuiTabs-indicator': {
-                backgroundColor: tabConfig[tabValue]?.color || '#667eea',
-                height: 3,
-              },
-            }}
-          >
-            {tabConfig.map((tab, index) => (
-              <Tab 
-                key={index}
-                label={tab.label} 
-                icon={tab.icon}
-                iconPosition="start"
-                sx={{ 
-                  '& .MuiSvgIcon-root': { 
-                    fontSize: 18, 
-                    mr: 0.5,
-                    color: tabValue === index ? tab.color : 'inherit',
-                  } 
-                }}
-              />
-            ))}
-          </Tabs>
         </Paper>
 
         {/* Tab Content Container */}

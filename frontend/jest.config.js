@@ -1,5 +1,10 @@
 module.exports = {
   testEnvironment: 'jsdom',
+  // Ensure Jest globals (describe, it, expect, jest) are available
+  injectGlobals: true,
+  // Setup files that run BEFORE test environment
+  setupFiles: ['<rootDir>/src/testSetupBeforeEnv.ts'],
+  // Setup files that run AFTER test environment (for DOM matchers etc.)
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
