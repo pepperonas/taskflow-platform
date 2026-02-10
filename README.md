@@ -123,7 +123,7 @@ cd taskflow-platform
 
 ```bash
 cd infrastructure/docker
-docker-compose up -d
+docker compose up -d
 ```
 
 ### 3. Access the Application
@@ -136,9 +136,9 @@ docker-compose up -d
 - **Swagger UI**: https://taskflow.celox.io/swagger-ui.html
 
 **Local Development**:
-- **Frontend**: http://localhost:8090
-- **Backend API**: http://localhost:8080/api
-- **Swagger UI**: http://localhost:8080/swagger-ui.html
+- **Frontend**: http://localhost:8091
+- **Backend API**: http://localhost:8082/api
+- **Swagger UI**: http://localhost:8082/swagger-ui.html
 
 ### Default Credentials
 
@@ -205,7 +205,7 @@ mvn verify
 
 **Live Demo**: [https://taskflow.celox.io/swagger-ui.html](https://taskflow.celox.io/swagger-ui.html)
 
-**Local Development**: http://localhost:8080/swagger-ui.html
+**Local Development**: http://localhost:8082/swagger-ui.html
 
 ### Main Endpoints
 
@@ -246,7 +246,7 @@ The application is deployed and running at **[https://taskflow.celox.io](https:/
 **Infrastructure**:
 - ✅ HTTPS with Let's Encrypt SSL
 - ✅ Nginx Reverse Proxy
-- ✅ Docker Compose Orchestration
+- ✅ Docker Compose Orchestration (named project: `taskflow`)
 - ✅ PostgreSQL 15 Database
 - ✅ Apache Kafka Event Streaming
 - ✅ Automated Certificate Renewal
@@ -272,7 +272,7 @@ docker build -t taskflow/frontend:latest .
 
 ```bash
 cd infrastructure/docker
-docker-compose up -d
+docker compose up -d
 ```
 
 ## 📖 Documentation
