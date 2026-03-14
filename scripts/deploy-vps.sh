@@ -6,13 +6,12 @@ echo "🚀 TaskFlow Platform - VPS Deployment Script"
 echo "=============================================="
 
 # Configuration
-VPS_HOST="69.62.121.168"
-VPS_USER="root"
+VPS_HOST="celox"
 DEPLOY_DIR="/opt/taskflow-platform"
 NGINX_CONF="/etc/nginx/sites-available/taskflow"
 
 echo "📦 Creating deployment directory..."
-ssh ${VPS_USER}@${VPS_HOST} "mkdir -p ${DEPLOY_DIR}"
+ssh ${VPS_HOST} "mkdir -p ${DEPLOY_DIR}"
 
 echo "📤 Uploading files to VPS (excluding large directories)..."
 rsync -avz --progress \
@@ -25,10 +24,10 @@ rsync -avz --progress \
     --exclude='.idea' \
     --exclude='.vscode' \
     --exclude='*.iml' \
-    ./ ${VPS_USER}@${VPS_HOST}:${DEPLOY_DIR}/
+    ./ ${VPS_HOST}:${DEPLOY_DIR}/
 
 echo "🐳 Checking Docker installation on VPS..."
-ssh ${VPS_USER}@${VPS_HOST} << 'EOF'
+ssh ${VPS_HOST} << 'EOF'
 # Check Docker
 if ! command -v docker &> /dev/null; then
     echo "⚠️  Docker not found, installing..."
@@ -50,7 +49,7 @@ fi
 EOF
 
 echo "🔧 Setting up environment variables..."
-ssh ${VPS_USER}@${VPS_HOST} << EOF
+ssh ${VPS_HOST} << EOF
 cd ${DEPLOY_DIR}
 cat > .env << ENVEOF
 # Database
@@ -99,7 +98,7 @@ fi
 EOF
 
 echo "🔍 Checking current port usage and other services..."
-ssh ${VPS_USER}@${VPS_HOST} << 'EOF'
+ssh ${VPS_HOST} << 'EOF'
 echo "📊 Current ports in use:"
 netstat -tlnp 2>/dev/null | grep -E ':(80|443|3001|3002|3003|8080|8081|5432|2181|9092)' || \
 ss -tlnp 2>/dev/null | grep -E ':(80|443|3001|3002|3003|8080|8081|5432|2181|9092)' || \
@@ -122,7 +121,7 @@ echo "✅ Port check complete - proceeding with deployment..."
 EOF
 
 echo "🏗️ Building and starting Docker containers (incremental update)..."
-ssh ${VPS_USER}@${VPS_HOST} << EOF
+ssh ${VPS_HOST} << EOF
 cd ${DEPLOY_DIR}/infrastructure/docker
 
 # Check if containers are already running
@@ -188,7 +187,7 @@ docker-compose -f docker-compose.prod.yml ps
 EOF
 
 echo "🌐 Setting up Nginx configuration..."
-ssh ${VPS_USER}@${VPS_HOST} << EOF
+ssh ${VPS_HOST} << EOF
 # Backup existing nginx config if it exists
 if [ -f ${NGINX_CONF} ]; then
     cp ${NGINX_CONF} ${NGINX_CONF}.backup.\$(date +%Y%m%d_%H%M%S)
@@ -221,7 +220,7 @@ fi
 EOF
 
 echo "🔒 Setting up SSL with Let's Encrypt (if not already configured)..."
-ssh ${VPS_USER}@${VPS_HOST} << 'EOF'
+ssh ${VPS_HOST} << 'EOF'
 if ! [ -d /etc/letsencrypt/live/taskflow.celox.io ]; then
     echo "⚠️  SSL certificate not found. Please run:"
     echo "   certbot --nginx -d taskflow.celox.io"
@@ -239,6 +238,6 @@ echo "   Backend API: https://taskflow.celox.io/api"
 echo "   Swagger UI: https://taskflow.celox.io/swagger-ui.html"
 echo ""
 echo "📊 To view logs:"
-echo "   ssh ${VPS_USER}@${VPS_HOST}"
+echo "   ssh ${VPS_HOST}"
 echo "   cd ${DEPLOY_DIR}/infrastructure/docker"
 echo "   docker-compose -f docker-compose.prod.yml logs -f"
