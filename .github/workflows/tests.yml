@@ -120,7 +120,9 @@ jobs:
 
   e2e-tests:
     name: E2E Tests
-    runs-on: ubuntu-latest
+    # ubuntu-latest is Ubuntu 26.04, which the pinned Playwright (1.58) does
+    # not support ("Playwright does not support chromium on ubuntu26.04-x64").
+    runs-on: ubuntu-24.04
     # A broken suite used to hang for ~47 min (30 s timeouts x 3 browsers x 3 attempts).
     timeout-minutes: 30
     
