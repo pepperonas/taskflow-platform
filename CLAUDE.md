@@ -113,7 +113,7 @@ GitHub Actions (`.github/workflows/tests.yml`) runs on push/PR to main/develop:
 E2E gotchas:
 - The frontend must be built with `REACT_APP_API_URL=http://localhost:8080/api`, otherwise `.env.production` bakes in `https://taskflow.celox.io/api` and the suite talks to production.
 - The UI is German (Benutzername/Passwort/Anmelden); selectors live in `frontend/e2e/tests/helpers.ts` and accept German and English.
-- The backend for E2E runs with `APP_RATE_LIMITING_ENABLED=false`: login is limited to 5/min per IP and the suite logs in once per test.
+- The backend for E2E runs with `--app.rate-limiting.enabled=false`: login is limited to 5/min per IP and the suite logs in once per test.
 - The E2E job is pinned to `ubuntu-24.04`; Playwright 1.58 refuses Ubuntu 26.04 (`ubuntu-latest`).
 - Creating a task needs a reachable Kafka broker: `KafkaTemplate.send` blocks up to 60 s on metadata without one.
 - Local run: start Postgres + Kafka (e.g. `apache/kafka`), the backend jar with the env from the workflow, `REACT_APP_API_URL=http://localhost:8080/api npm run build`, `npx serve -s build -l 3000`, then `cd frontend/e2e && CI=true npx playwright test --project=chromium`.

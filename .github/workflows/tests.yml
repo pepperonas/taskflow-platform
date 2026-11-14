@@ -183,11 +183,10 @@ jobs:
       - name: Start backend
         run: |
           cd backend/task-service
-          java -jar target/*.jar &
-        env:
           # Login is limited to 5/min per IP; the suite logs in once per test
           # (x3 browsers), so the later specs would only see 429s.
-          APP_RATE_LIMITING_ENABLED: "false"
+          java -jar target/*.jar --app.rate-limiting.enabled=false &
+        env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/taskflow
           SPRING_DATASOURCE_USERNAME: taskflow
           SPRING_DATASOURCE_PASSWORD: taskflow
