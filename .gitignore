@@ -45,3 +45,8 @@ coverage/
 *.swp
 *.swo
 *~
+
+# Playwright output
+frontend/test-results/
+frontend/e2e/playwright-report/
+frontend/playwright-report/
