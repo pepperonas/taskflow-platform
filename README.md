@@ -189,6 +189,8 @@ cd frontend/e2e
 npx playwright test
 ```
 
+Voraussetzung: Backend auf :8080 (mit PostgreSQL und Kafka) und ein Frontend-Build, der mit `REACT_APP_API_URL=http://localhost:8080/api` gebaut und auf :3000 ausgeliefert wird (`npx serve -s build -l 3000`) – sonst zeigt der Build auf die Produktions-API.
+
 **Testet:**
 - Login/Logout Flow
 - Task CRUD Operations

@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { USERNAME, PASSWORD, LOGIN_BUTTON, login } from './helpers';
 
 test.describe('Authentication', () => {
   test.beforeEach(async ({ page }) => {
@@ -6,31 +7,26 @@ test.describe('Authentication', () => {
   });
 
   test('should display login form', async ({ page }) => {
-    await expect(page.getByLabel(/username/i)).toBeVisible();
-    await expect(page.getByLabel(/password/i)).toBeVisible();
-    await expect(page.getByRole('button', { name: /login/i })).toBeVisible();
+    await expect(page.getByLabel(USERNAME)).toBeVisible();
+    await expect(page.getByLabel(PASSWORD)).toBeVisible();
+    await expect(page.getByRole('button', { name: LOGIN_BUTTON })).toBeVisible();
   });
 
   test('should login successfully with valid credentials', async ({ page }) => {
-    await page.getByLabel(/username/i).fill('admin');
-    await page.getByLabel(/password/i).fill('admin123');
-    await page.getByRole('button', { name: /login/i }).click();
-
-    // Should redirect to showcase or dashboard
-    await expect(page).toHaveURL(/\/showcase|\/dashboard/);
+    await login(page);
   });
 
   test('should show error with invalid credentials', async ({ page }) => {
-    await page.getByLabel(/username/i).fill('invalid');
-    await page.getByLabel(/password/i).fill('wrongpassword');
-    await page.getByRole('button', { name: /login/i }).click();
+    await page.getByLabel(USERNAME).fill('invalid');
+    await page.getByLabel(PASSWORD).fill('wrongpassword');
+    await page.getByRole('button', { name: LOGIN_BUTTON }).click();
 
-    // Should show error message
-    await expect(page.getByText(/invalid|error|failed/i)).toBeVisible({ timeout: 5000 });
+    await expect(page.getByRole('alert')).toBeVisible({ timeout: 10000 });
+    await expect(page).toHaveURL(/\/login/);
   });
 
   test('should navigate to register page', async ({ page }) => {
-    await page.getByRole('link', { name: /register|sign up/i }).click();
+    await page.getByRole('link', { name: /register|registrieren|sign up/i }).click();
     await expect(page).toHaveURL(/\/register/);
   });
 });

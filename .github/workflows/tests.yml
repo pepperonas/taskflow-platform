@@ -121,6 +121,8 @@ jobs:
   e2e-tests:
     name: E2E Tests
     runs-on: ubuntu-latest
+    # A broken suite used to hang for ~47 min (30 s timeouts x 3 browsers x 3 attempts).
+    timeout-minutes: 30
     
     services:
       postgres:
@@ -198,15 +200,20 @@ jobs:
           cd frontend
           npx playwright install --with-deps
       
+      # frontend/.env.production points at https://taskflow.celox.io/api; without
+      # this override the E2E run would talk to the production backend instead
+      # of the one started above. Shell env wins over .env files in CRA.
       - name: Build frontend
         run: |
           cd frontend
           npm run build
+        env:
+          REACT_APP_API_URL: http://localhost:8080/api
       
       - name: Start frontend (serve static build)
         run: |
           cd frontend
-          npx serve -s build -l 3000 &
+          npx --yes serve -s build -l 3000 &
       
       - name: Wait for services
         run: |
@@ -227,5 +234,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: playwright-report
-          path: frontend/playwright-report/
+          path: frontend/e2e/playwright-report/
           retention-days: 30

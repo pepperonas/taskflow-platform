@@ -108,4 +108,10 @@ JWT auth via `JwtTokenProvider` + `JwtAuthenticationFilter`. Rate limiting in `R
 GitHub Actions (`.github/workflows/tests.yml`) runs on push/PR to main/develop:
 1. Backend unit tests (PostgreSQL service, `mvn test` with test profile)
 2. Frontend tests + build (`npm test`, `npm run build`)
-3. E2E tests (full stack with Playwright)
+3. E2E tests (full stack with Playwright: Postgres + Kafka services, backend jar on :8080, static build on :3000, Chromium/Firefox/WebKit)
+
+E2E gotchas:
+- The frontend must be built with `REACT_APP_API_URL=http://localhost:8080/api`, otherwise `.env.production` bakes in `https://taskflow.celox.io/api` and the suite talks to production.
+- The UI is German (Benutzername/Passwort/Anmelden); selectors live in `frontend/e2e/tests/helpers.ts` and accept German and English.
+- Creating a task needs a reachable Kafka broker: `KafkaTemplate.send` blocks up to 60 s on metadata without one.
+- Local run: start Postgres + Kafka (e.g. `apache/kafka`), the backend jar with the env from the workflow, `REACT_APP_API_URL=http://localhost:8080/api npm run build`, `npx serve -s build -l 3000`, then `cd frontend/e2e && CI=true npx playwright test --project=chromium`.

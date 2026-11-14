@@ -1,0 +1,256 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - banner [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]: Aufgaben
+        - generic [ref=e7]:
+          - img [ref=e8]
+          - generic [ref=e10]: Live-Demo
+    - navigation [ref=e11]:
+      - generic [ref=e13]:
+        - generic [ref=e15] [cursor=pointer]:
+          - img [ref=e16]
+          - generic [ref=e18]:
+            - heading [level=5] [ref=e19]: TaskFlow
+            - text: Workflow-Automatisierungsplattform
+        - separator [ref=e20]
+        - generic [ref=e21]:
+          - generic [ref=e22]:
+            - generic [ref=e23]: Hauptmenü
+            - list [ref=e24]:
+              - listitem [ref=e25]:
+                - button [ref=e26] [cursor=pointer]:
+                  - img [ref=e28]
+                  - generic [ref=e31]: Übersicht
+                  - generic [ref=e33]: NEU
+              - listitem [ref=e34]:
+                - button [ref=e35] [cursor=pointer]:
+                  - img [ref=e37]
+                  - generic [ref=e40]: Dashboard
+              - listitem [ref=e41]:
+                - button [ref=e42] [cursor=pointer]:
+                  - img [ref=e44]
+                  - generic [ref=e47]: Workflows
+              - listitem [ref=e48]:
+                - button [ref=e49] [cursor=pointer]:
+                  - img [ref=e51]
+                  - generic [ref=e54]: Aufgaben
+            - separator [ref=e55]
+          - generic [ref=e56]:
+            - generic [ref=e57]: Integrationen
+            - list [ref=e58]:
+              - listitem [ref=e59]:
+                - button [ref=e60] [cursor=pointer]:
+                  - img [ref=e62]
+                  - generic [ref=e65]: HTTP-Anfragen
+              - listitem [ref=e66]:
+                - button [ref=e67] [cursor=pointer]:
+                  - img [ref=e69]
+                  - generic [ref=e72]: Code-Ausführung
+              - listitem [ref=e73]:
+                - button [ref=e74] [cursor=pointer]:
+                  - img [ref=e76]
+                  - generic [ref=e79]: Datenbank
+              - listitem [ref=e80]:
+                - button [ref=e81] [cursor=pointer]:
+                  - img [ref=e83]
+                  - generic [ref=e86]: E-Mail
+              - listitem [ref=e87]:
+                - button [ref=e88] [cursor=pointer]:
+                  - img [ref=e90]
+                  - generic [ref=e93]: Zugangsdaten
+            - separator [ref=e94]
+          - generic [ref=e95]:
+            - generic [ref=e96]: System
+            - list [ref=e97]:
+              - listitem [ref=e98]:
+                - button [ref=e99] [cursor=pointer]:
+                  - img [ref=e101]
+                  - generic [ref=e104]: Einstellungen
+        - generic [ref=e106] [cursor=pointer]:
+          - generic [ref=e107]: A
+          - generic [ref=e108]:
+            - paragraph [ref=e109]: admin
+            - text: admin@taskflow.io
+    - main [ref=e110]:
+      - generic [ref=e113]:
+        - generic [ref=e114]:
+          - heading [level=4] [ref=e115]: Aufgaben
+          - paragraph [ref=e116]: Verwalte alle deine Aufgaben an einem Ort
+        - list [ref=e117]:
+          - listitem [ref=e118]:
+            - button [ref=e119] [cursor=pointer]:
+              - generic [ref=e120]:
+                - generic [ref=e121]: Setup CI/CD Pipeline
+                - paragraph [ref=e122]:
+                  - generic [ref=e123]:
+                    - generic [ref=e125]: HIGH
+                    - generic [ref=e127]: IN_PROGRESS
+                    - generic [ref=e129]: DEVELOPMENT
+            - button [ref=e131] [cursor=pointer]:
+              - img [ref=e132]
+          - listitem [ref=e134]:
+            - button [ref=e135] [cursor=pointer]:
+              - generic [ref=e136]:
+                - generic [ref=e137]: "Review Pull Request #42"
+                - paragraph [ref=e138]:
+                  - generic [ref=e139]:
+                    - generic [ref=e141]: MEDIUM
+                    - generic [ref=e143]: OPEN
+                    - generic [ref=e145]: CODE_REVIEW
+            - button [ref=e147] [cursor=pointer]:
+              - img [ref=e148]
+          - listitem [ref=e150]:
+            - button [ref=e151] [cursor=pointer]:
+              - generic [ref=e152]:
+                - generic [ref=e153]: Update Project Documentation
+                - paragraph [ref=e154]:
+                  - generic [ref=e155]:
+                    - generic [ref=e157]: LOW
+                    - generic [ref=e159]: OPEN
+                    - generic [ref=e161]: DOCUMENTATION
+            - button [ref=e163] [cursor=pointer]:
+              - img [ref=e164]
+          - listitem [ref=e166]:
+            - button [ref=e167] [cursor=pointer]:
+              - generic [ref=e168]:
+                - generic [ref=e169]: Fix Memory Leak in Worker Service
+                - paragraph [ref=e170]:
+                  - generic [ref=e171]:
+                    - generic [ref=e173]: CRITICAL
+                    - generic [ref=e175]: IN_PROGRESS
+                    - generic [ref=e177]: BUG
+            - button [ref=e179] [cursor=pointer]:
+              - img [ref=e180]
+          - listitem [ref=e182]:
+            - button [ref=e183] [cursor=pointer]:
+              - generic [ref=e184]:
+                - generic [ref=e185]: Deploy to Staging Environment
+                - paragraph [ref=e186]:
+                  - generic [ref=e187]:
+                    - generic [ref=e189]: HIGH
+                    - generic [ref=e191]: COMPLETED
+                    - generic [ref=e193]: DEPLOYMENT
+            - button [ref=e195] [cursor=pointer]:
+              - img [ref=e196]
+          - listitem [ref=e198]:
+            - button [ref=e199] [cursor=pointer]:
+              - generic [ref=e200]:
+                - generic [ref=e201]: Design Database Schema for Workflows
+                - paragraph [ref=e202]:
+                  - generic [ref=e203]:
+                    - generic [ref=e205]: HIGH
+                    - generic [ref=e207]: OPEN
+                    - generic [ref=e209]: DESIGN
+            - button [ref=e211] [cursor=pointer]:
+              - img [ref=e212]
+          - listitem [ref=e214]:
+            - button [ref=e215] [cursor=pointer]:
+              - generic [ref=e216]:
+                - generic [ref=e217]: Team Meeting - Sprint Planning
+                - paragraph [ref=e218]:
+                  - generic [ref=e219]:
+                    - generic [ref=e221]: MEDIUM
+                    - generic [ref=e223]: COMPLETED
+                    - generic [ref=e225]: MEETING
+            - button [ref=e227] [cursor=pointer]:
+              - img [ref=e228]
+          - listitem [ref=e230]:
+            - button [ref=e231] [cursor=pointer]:
+              - generic [ref=e232]:
+                - generic [ref=e233]: Optimize Database Queries
+                - paragraph [ref=e234]:
+                  - generic [ref=e235]:
+                    - generic [ref=e237]: MEDIUM
+                    - generic [ref=e239]: OPEN
+                    - generic [ref=e241]: OPTIMIZATION
+            - button [ref=e243] [cursor=pointer]:
+              - img [ref=e244]
+          - listitem [ref=e246]:
+            - button [ref=e247] [cursor=pointer]:
+              - generic [ref=e248]:
+                - generic [ref=e249]: Security Audit
+                - paragraph [ref=e250]:
+                  - generic [ref=e251]:
+                    - generic [ref=e253]: HIGH
+                    - generic [ref=e255]: OPEN
+                    - generic [ref=e257]: SECURITY
+            - button [ref=e259] [cursor=pointer]:
+              - img [ref=e260]
+          - listitem [ref=e262]:
+            - button [ref=e263] [cursor=pointer]:
+              - generic [ref=e264]:
+                - generic [ref=e265]: Implement Dark Mode
+                - paragraph [ref=e266]:
+                  - generic [ref=e267]:
+                    - generic [ref=e269]: LOW
+                    - generic [ref=e271]: IN_PROGRESS
+                    - generic [ref=e273]: FEATURE
+            - button [ref=e275] [cursor=pointer]:
+              - img [ref=e276]
+        - button [ref=e278] [cursor=pointer]:
+          - img [ref=e279]
+      - generic [ref=e283]:
+        - generic [ref=e284]:
+          - paragraph [ref=e285]:
+            - text: © 2026
+            - strong [ref=e286]: Martin Pfeffer
+            - text: "| TaskFlow Plattform"
+          - generic [ref=e287]:
+            - text: Lizenziert unter
+            - strong [ref=e288]: MIT-Lizenz
+        - generic [ref=e289]:
+          - link [ref=e290] [cursor=pointer]:
+            - /url: https://github.com/pepperonas/taskflow-platform
+            - img [ref=e291]
+            - paragraph [ref=e293]: GitHub
+          - separator [ref=e294]
+          - link [ref=e295] [cursor=pointer]:
+            - /url: https://celox.io
+            - img [ref=e296]
+            - paragraph [ref=e298]: celox.io
+  - dialog "Create New Task" [ref=e301]:
+    - heading "Create New Task" [level=2] [ref=e302]
+    - generic [ref=e303]:
+      - generic [ref=e305]:
+        - generic [ref=e307]:
+          - generic [ref=e308]: Title
+          - generic [ref=e309]:
+            - textbox "Title" [ref=e310]: E2E Task 1794618043536
+            - group:
+              - generic: Title
+        - generic [ref=e312]:
+          - generic [ref=e313]: Description
+          - generic [ref=e314]:
+            - textbox "Description" [ref=e315]: Created by the E2E suite
+            - group:
+              - generic: Description
+        - generic [ref=e317]:
+          - generic: Priority
+          - generic [ref=e318]:
+            - combobox "Priority" [ref=e319] [cursor=pointer]
+            - textbox: MEDIUM
+            - img
+            - group:
+              - generic: Priority
+        - generic [ref=e321]:
+          - generic: Category
+          - generic [ref=e322]:
+            - combobox "Category" [ref=e323] [cursor=pointer]
+            - textbox: PERSONAL
+            - img
+            - group:
+              - generic: Category
+        - generic [ref=e325]:
+          - generic [ref=e326]: Due Date
+          - generic [ref=e327]:
+            - textbox "Due Date" [ref=e328]
+            - group:
+              - generic: Due Date
+      - generic [ref=e329]:
+        - button "Cancel" [ref=e330] [cursor=pointer]: Cancel
+        - button "Create" [active] [ref=e331] [cursor=pointer]: Create
+```
